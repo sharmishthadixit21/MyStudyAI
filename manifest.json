@@ -1,0 +1,21 @@
+{
+  "name": "AuraSpace - Personal Study & Productivity OS",
+  "short_name": "AuraSpace",
+  "description": "Aesthetic study workspace with ambient soundscapes, syllabus mastery, active recall, and virtual pet companion.",
+  "start_url": "/StudyOS.html",
+  "display": "standalone",
+  "background_color": "#0f0c18",
+  "theme_color": "#c084fc",
+  "icons": [
+    {
+      "src": "https://images.unsplash.com/photo-1518655048521-f130df041f66?q=80&w=192&auto=format&fit=crop",
+      "sizes": "192x192",
+      "type": "image/jpeg"
+    },
+    {
+      "src": "https://images.unsplash.com/photo-1518655048521-f130df041f66?q=80&w=512&auto=format&fit=crop",
+      "sizes": "512x512",
+      "type": "image/jpeg"
+    }
+  ]
+}

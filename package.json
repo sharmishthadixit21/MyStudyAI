@@ -1,0 +1,20 @@
+{
+  "name": "auraspace-desktop-os",
+  "version": "2.0.0",
+  "description": "AuraSpace - Aesthetic Personal Study & Productivity Desktop OS",
+  "main": "StudyOS.html",
+  "scripts": {
+    "test": "node tests/test-runner.js",
+    "start": "npx -y serve ."
+  },
+  "keywords": [
+    "study",
+    "productivity",
+    "ambient-soundscapes",
+    "lofi",
+    "gamification",
+    "desktop-os"
+  ],
+  "author": "",
+  "license": "MIT"
+}
