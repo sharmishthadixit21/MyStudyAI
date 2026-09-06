@@ -28,6 +28,9 @@
   <!-- Razorpay Checkout SDK -->
   <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
   
+  <!-- Google Identity Services (Sign in with Google) -->
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  
   <!-- Modern Typography -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -236,34 +239,345 @@
     }
     .widget-pill:hover { background: var(--card-hover); transform: translateY(-1px); }
 
-    /* DASHBOARD HOME */
+    /* DASHBOARD HOME & 2-HUB DESIGN */
     .home-container { text-align: center; padding-top: 10px; }
     .home-title { font-family: 'Playfair Display', serif; font-size: 3.2rem; font-style: italic; margin-bottom: 8px; }
     .home-subtitle { color: var(--text-muted); margin-bottom: 24px; font-weight: 400; letter-spacing: 1px; }
     
-    .home-grid {
+    /* 2-HUB MAIN LANDING GRID */
+    .hubs-grid {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 16px;
-      max-width: 1020px;
-      margin: 0 auto;
-    }
-    @media (max-width: 900px) {
-      .home-grid { grid-template-columns: repeat(2, 1fr); }
-    }
-    @media (max-width: 480px) {
-      .home-grid { grid-template-columns: 1fr; }
+      grid-template-columns: repeat(2, 1fr);
+      gap: 22px;
+      max-width: 1040px;
+      margin: 0 auto 30px auto;
     }
 
-    .home-card {
-      background: var(--card-bg); border: 1px solid var(--card-border);
-      padding: 22px 16px; border-radius: 20px; cursor: pointer;
-      display: flex; flex-direction: column; align-items: center; gap: 10px;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); backdrop-filter: blur(12px);
+    .hub-landing-card {
+      background: var(--card-bg);
+      border: 1.5px solid var(--card-border);
+      border-radius: 26px;
+      padding: 30px 26px;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 270px;
+      backdrop-filter: blur(22px);
+      box-shadow: 0 14px 40px rgba(0, 0, 0, 0.25);
+      transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+      text-align: left;
     }
-    .home-card:hover { transform: translateY(-5px); background: var(--card-hover); border-color: var(--accent-pastel); box-shadow: 0 8px 24px rgba(192,132,252,0.25); }
-    .home-card .icon { font-size: 2.1rem; }
-    .home-card h3 { font-size: 0.95rem; font-weight: 500; }
+
+    .hub-landing-card:hover {
+      transform: translateY(-6px) scale(1.01);
+      border-color: var(--accent-pastel);
+      box-shadow: 0 20px 50px rgba(192, 132, 252, 0.3);
+      background: var(--card-hover);
+    }
+
+    .hub-card-study {
+      background: linear-gradient(145deg, rgba(192, 132, 252, 0.14), rgba(56, 189, 248, 0.08)), var(--card-bg);
+      border-left: 5px solid var(--accent-pastel);
+    }
+    .hub-card-study:hover {
+      border-left-color: #f472b6;
+    }
+
+    .hub-card-personal {
+      background: linear-gradient(145deg, rgba(244, 114, 182, 0.14), rgba(251, 191, 36, 0.08)), var(--card-bg);
+      border-left: 5px solid var(--pink-soft);
+    }
+    .hub-card-personal:hover {
+      border-left-color: var(--gold-accent);
+    }
+
+    .hub-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 0.76rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+
+    .hub-badge-study {
+      background: rgba(192, 132, 252, 0.2);
+      color: var(--accent-pastel);
+      border: 1px solid rgba(192, 132, 252, 0.4);
+    }
+
+    .hub-badge-personal {
+      background: rgba(244, 114, 182, 0.2);
+      color: var(--pink-soft);
+      border: 1px solid rgba(244, 114, 182, 0.4);
+    }
+
+    .hub-icon-wrapper {
+      width: 54px;
+      height: 54px;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.85rem;
+      margin-bottom: 14px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.2);
+    }
+
+    .hub-study-icon-bg {
+      background: linear-gradient(135deg, rgba(192, 132, 252, 0.35), rgba(56, 189, 248, 0.25));
+      border: 1px solid rgba(192, 132, 252, 0.4);
+    }
+
+    .hub-personal-icon-bg {
+      background: linear-gradient(135deg, rgba(244, 114, 182, 0.35), rgba(251, 191, 36, 0.25));
+      border: 1px solid rgba(244, 114, 182, 0.4);
+    }
+
+    .hub-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.85rem;
+      font-weight: 700;
+      margin-bottom: 4px;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .hub-subtitle {
+      color: var(--accent-pastel);
+      font-size: 0.92rem;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+
+    .hub-desc {
+      font-size: 0.86rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+      margin-bottom: 16px;
+    }
+
+    .hub-tags-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 18px;
+    }
+
+    .hub-tag-chip {
+      background: rgba(255, 255, 255, 0.07);
+      border: 1px solid var(--card-border);
+      padding: 4px 9px;
+      border-radius: 12px;
+      font-size: 0.74rem;
+      color: var(--text-muted);
+      white-space: nowrap;
+    }
+
+    .hub-cta-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--text-main);
+      padding-top: 10px;
+      border-top: 1px solid var(--card-border);
+      width: 100%;
+      justify-content: space-between;
+    }
+
+    /* DEDICATED HUB VIEWS & CARDS */
+    .hub-view-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 22px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .hub-view-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.85rem;
+      color: var(--text-main);
+      margin-bottom: 4px;
+    }
+
+    .hub-cards-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: 30px;
+    }
+
+    .feature-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      padding: 22px 18px;
+      border-radius: 20px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      backdrop-filter: blur(14px);
+      position: relative;
+      min-height: 165px;
+      text-align: left;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-5px);
+      background: var(--card-hover);
+      border-color: var(--accent-pastel);
+      box-shadow: 0 10px 28px rgba(192, 132, 252, 0.25);
+    }
+
+    .feature-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 10px;
+    }
+
+    .feature-card-icon {
+      font-size: 2.1rem;
+      line-height: 1;
+    }
+
+    .feature-card-title {
+      font-size: 1.02rem;
+      font-weight: 600;
+      color: var(--text-main);
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .feature-card-desc {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      line-height: 1.45;
+    }
+
+    .feature-card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 14px;
+      padding-top: 10px;
+      border-top: 1px solid rgba(255, 255, 255, 0.07);
+      font-size: 0.78rem;
+      color: var(--accent-pastel);
+      font-weight: 600;
+    }
+
+    /* PREMIUM BADGE */
+    .premium-corner-badge {
+      background: linear-gradient(135deg, #fbbf24, #f59e0b);
+      color: #0f172a;
+      font-size: 0.7rem;
+      font-weight: 800;
+      padding: 3px 8px;
+      border-radius: 20px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      box-shadow: 0 2px 8px rgba(251, 191, 36, 0.4);
+    }
+
+    /* MOBILE & TABLET RESPONSIVENESS */
+    @media (max-width: 1024px) {
+      .hub-cards-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 768px) {
+      body {
+        height: auto;
+        overflow-y: auto;
+        min-height: 100vh;
+      }
+      #main-content {
+        padding: 72px 14px 40px 14px;
+        height: auto;
+        min-height: 100vh;
+      }
+      .top-widgets-container {
+        top: 10px;
+        right: 10px;
+        left: 10px;
+        justify-content: flex-end;
+        gap: 6px;
+      }
+      .widget-pill {
+        padding: 5px 10px;
+        font-size: 0.76rem;
+      }
+      .home-title {
+        font-size: 2.2rem;
+      }
+      .home-subtitle {
+        font-size: 0.8rem;
+        letter-spacing: 0.5px;
+        margin-bottom: 16px;
+      }
+      .hubs-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+      .hub-landing-card {
+        padding: 22px 18px;
+        min-height: auto;
+        border-radius: 22px;
+      }
+      .hub-title {
+        font-size: 1.55rem;
+      }
+      .hub-cards-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+      .feature-card {
+        padding: 18px 16px;
+        min-height: auto;
+      }
+      .section-card {
+        padding: 18px 14px;
+        border-radius: 16px;
+      }
+      .cal-grid {
+        gap: 4px;
+      }
+      .cal-date {
+        height: 48px;
+        min-height: 46px;
+        font-size: 0.9rem;
+        border-radius: 8px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .home-title {
+        font-size: 1.85rem;
+      }
+      .modal-card {
+        padding: 22px 16px;
+        width: 95%;
+      }
+    }
 
     .section-card {
       background: var(--card-bg); border: 1px solid var(--card-border);
@@ -458,25 +772,46 @@
     <div class="modal-card" style="max-width: 460px; text-align: center;">
       <button class="modal-close-btn" onclick="toggleAuthModal(false)">✕</button>
       <span style="font-size: 2.6rem; display: block; margin-bottom: 6px;">✨</span>
-      <h3 style="font-family:'Playfair Display', serif; font-size: 1.65rem; color:var(--accent-pastel); margin-bottom: 6px;">Sign In to AuraSpace</h3>
-      <p style="color:var(--text-muted); font-size: 0.84rem; margin-bottom: 20px;">Connect your profile to save and sync your custom syllabus, test marks, and study partner.</p>
+      <h3 style="font-family:'Playfair Display', serif; font-size: 1.65rem; color:var(--accent-pastel); margin-bottom: 6px;">Sign In to MyStudyAI</h3>
+      <p style="color:var(--text-muted); font-size: 0.84rem; margin-bottom: 16px;">Connect with your Google account or sign in directly as App Owner.</p>
 
-      <!-- 1-Click Fast Google Sign-In -->
-      <button class="btn-primary btn-outline" style="width:100%; padding:12px; margin-bottom:14px; display:flex; align-items:center; justify-content:center; gap:10px; font-weight:600; background:rgba(255,255,255,0.06);" onclick="openGoogleAccountPrompt()">
-        <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/></svg>
-        Continue with Google / Gmail
+      <!-- 1-Click Instant Owner Login Button -->
+      <button class="btn-primary" style="width:100%; padding:12px; margin-bottom:14px; background:linear-gradient(135deg, #c084fc, #ec4899); font-weight:700; gap:8px;" onclick="handleDirectProfileLogin('Sharmishtha Dixit', 'sharmishthadixit21@gmail.com')">
+        👑 1-Click VIP Owner Sign-In (Sharmishtha)
       </button>
 
-      <div style="display:flex; align-items:center; gap:8px; margin: 14px 0; color:var(--text-muted); font-size:0.75rem;">
+      <!-- Google Identity Services Config & One-Tap -->
+      <div id="g_id_onload"
+           data-client_id="725647096442-906qo6pf7u66btkrkn733qms30ck9qid.apps.googleusercontent.com"
+           data-context="signin"
+           data-ux_mode="popup"
+           data-callback="handleGoogleCredentialResponse"
+           data-auto_prompt="false">
+      </div>
+
+      <!-- Official 'Sign in with Google' Button Container -->
+      <div id="google-signin-btn-container" style="display:flex; justify-content:center; margin-bottom:12px; min-height:44px; width:100%;">
+        <div class="g_id_signin"
+             data-type="standard"
+             data-shape="pill"
+             data-theme="filled_blue"
+             data-text="continue_with"
+             data-size="large"
+             data-logo_alignment="left"
+             data-width="360">
+        </div>
+      </div>
+
+      <div style="display:flex; align-items:center; gap:8px; margin: 12px 0; color:var(--text-muted); font-size:0.75rem;">
         <div style="flex:1; height:1px; background:var(--card-border);"></div>
-        <span>OR ENTER DETAILS DIRECTLY</span>
+        <span>OR ENTER STUDENT DETAILS</span>
         <div style="flex:1; height:1px; background:var(--card-border);"></div>
       </div>
 
       <div style="display:flex; flex-direction:column; gap:10px; text-align:left;">
-        <input type="text" id="auth-name-input" placeholder="Your Full Name (e.g. Aryan Sharma)" style="width:100%;">
+        <input type="text" id="auth-name-input" placeholder="Student Full Name (e.g. Aryan Sharma)" style="width:100%;">
         <input type="email" id="auth-email-input" placeholder="Gmail / Email Address" style="width:100%;">
-        <button class="btn-primary" style="width:100%;" onclick="handleDirectProfileLogin()">Set Up Profile & Enter 🚀</button>
+        <button class="btn-primary btn-outline" style="width:100%;" onclick="handleDirectProfileLogin()">Sign In with Name & Email 🚀</button>
       </div>
     </div>
   </div>
@@ -626,6 +961,55 @@
     </div>
   </div>
 
+  <!-- 6.5. AESTHETIC AURASPACE PREMIUM FEATURE INTERCEPTOR MODAL -->
+  <div id="premium-feature-modal" class="modal-overlay">
+    <div class="modal-card" style="max-width: 540px; text-align: center; border: 1.5px solid var(--accent-pastel); box-shadow: 0 20px 60px rgba(192, 132, 252, 0.35);">
+      <button class="modal-close-btn" onclick="togglePremiumFeatureModal(false)">✕</button>
+      
+      <div style="width:70px; height:70px; margin: 0 auto 14px; border-radius:50%; background: linear-gradient(135deg, rgba(251,191,36,0.25), rgba(192,132,252,0.25)); display:flex; align-items:center; justify-content:center; font-size:2.4rem; border:2px solid var(--gold-accent); box-shadow:0 6px 20px rgba(251,191,36,0.35);">
+        👑
+      </div>
+
+      <span class="tag-badge" style="background: rgba(251,191,36,0.18); color: var(--gold-accent); font-weight:700; margin-bottom:8px; display:inline-block;">AURASPACE PRO EXCLUSIVE</span>
+      <h3 style="font-family:'Playfair Display', serif; font-size: 1.75rem; color: var(--text-main); margin-bottom: 6px;" id="premium-feature-modal-title">Unlock Premium Feature</h3>
+      <p style="color: var(--text-muted); font-size: 0.88rem; margin-bottom: 20px;" id="premium-feature-modal-subtitle">
+        Supercharge your focus, memory retention, and study aesthetics with VIP access.
+      </p>
+
+      <div style="background: rgba(255, 255, 255, 0.05); border: 1px solid var(--card-border); border-radius: 18px; padding: 18px 20px; text-align: left; margin-bottom: 22px; display: flex; flex-direction: column; gap: 10px;">
+        <div style="display:flex; align-items:center; gap:10px; font-size:0.86rem; color:var(--text-main);">
+          <span style="color:var(--gold-accent); font-size:1.1rem;">✨</span>
+          <span><strong>Scientific Spaced Recall:</strong> 1-7-15-30 automated revision intervals</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:10px; font-size:0.86rem; color:var(--text-main);">
+          <span style="color:var(--accent-pastel); font-size:1.1rem;">🐼</span>
+          <span><strong>Mythical Study Companions:</strong> Zen Panda, Dragon & Phoenix evolutions</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:10px; font-size:0.86rem; color:var(--text-main);">
+          <span style="color:var(--pink-soft); font-size:1.1rem;">🎯</span>
+          <span><strong>Dreams & Success Wall:</strong> Manifest goals & pin Polaroid corkboards</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:10px; font-size:0.86rem; color:var(--text-main);">
+          <span style="color:#38bdf8; font-size:1.1rem;">📔</span>
+          <span><strong>Private Daily Diary:</strong> Reflection logs with emotional mood trackers</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:10px; font-size:0.86rem; color:var(--text-main);">
+          <span style="color:#34d399; font-size:1.1rem;">🎨</span>
+          <span><strong>4K Aesthetic Atmosphere:</strong> Custom HD wallpaper uploads & lofi rooms</span>
+        </div>
+      </div>
+
+      <div style="display:flex; flex-direction:column; gap:10px;">
+        <button class="btn-primary" style="width:100%; padding: 13px; font-size: 1rem; font-weight:700; background: linear-gradient(135deg, #c084fc, #f472b6); box-shadow: 0 6px 25px rgba(192, 132, 252, 0.45);" onclick="openProModalFromInterceptor()">
+          ⚡ Upgrade Now (From ₹49) 💳
+        </button>
+        <button class="btn-outline" style="width:100%; padding: 10px; font-size: 0.85rem; border-radius: 12px; color: var(--text-muted);" onclick="togglePremiumFeatureModal(false)">
+          Maybe Later ✕
+        </button>
+      </div>
+    </div>
+  </div>
+
   <!-- 7. MYSTUDYAI PRO & PREMIUM SUBSCRIPTIONS MODAL -->
   <div id="pro-modal" class="modal-overlay">
     <div class="modal-card" style="max-width: 640px; text-align:center;">
@@ -640,29 +1024,29 @@
         <div style="padding:14px; background:rgba(255,255,255,0.06); border:1px solid var(--card-border); border-radius:14px; display:flex; flex-direction:column; justify-content:space-between;">
           <div>
             <div style="font-size:0.8rem; color:var(--text-muted);">Monthly Pass</div>
-            <div style="font-size:1.35rem; font-weight:700; color:var(--accent-pastel);">₹99<span style="font-size:0.75rem;">/mo</span></div>
+            <div style="font-size:1.35rem; font-weight:700; color:var(--accent-pastel);">₹49<span style="font-size:0.75rem;">/mo</span></div>
             <p style="font-size:0.72rem; color:var(--text-muted); margin-top:6px;">Zen Panda & Pro Themes</p>
           </div>
-          <button class="btn-primary" style="width:100%; margin-top:12px; padding:7px 10px; font-size:0.78rem;" onclick="initiateRazorpayPayment('Monthly Pass', 99)">Buy ₹99 💳</button>
+          <button class="btn-primary" style="width:100%; margin-top:12px; padding:7px 10px; font-size:0.78rem;" onclick="initiateRazorpayPayment('Monthly Pass', 49)">Buy ₹49 💳</button>
         </div>
         
         <div style="padding:14px; background:linear-gradient(135deg, rgba(192,132,252,0.18), rgba(244,114,182,0.18)); border:1.5px solid var(--accent-pastel); border-radius:14px; position:relative; display:flex; flex-direction:column; justify-content:space-between;">
           <span style="position:absolute; top:-8px; right:8px; font-size:0.65rem; background:var(--accent-pastel); color:#0f172a; font-weight:700; padding:2px 6px; border-radius:10px;">BEST VALUE</span>
           <div>
             <div style="font-size:0.8rem; color:var(--text-muted);">Annual Pass</div>
-            <div style="font-size:1.35rem; font-weight:700; color:var(--gold-accent);">₹699<span style="font-size:0.75rem;">/yr</span></div>
+            <div style="font-size:1.35rem; font-weight:700; color:var(--gold-accent);">₹499<span style="font-size:0.75rem;">/yr</span></div>
             <p style="font-size:0.72rem; color:var(--text-muted); margin-top:6px;">Full OS + Dreams Board + SRS</p>
           </div>
-          <button class="btn-primary" style="width:100%; margin-top:12px; padding:7px 10px; font-size:0.78rem; background:linear-gradient(135deg,#c084fc,#f472b6);" onclick="initiateRazorpayPayment('Annual Pass', 699)">Buy ₹699 💳</button>
+          <button class="btn-primary" style="width:100%; margin-top:12px; padding:7px 10px; font-size:0.78rem; background:linear-gradient(135deg,#c084fc,#f472b6);" onclick="initiateRazorpayPayment('Annual Pass', 499)">Buy ₹499 💳</button>
         </div>
 
         <div style="padding:14px; background:rgba(255,255,255,0.06); border:1px solid var(--card-border); border-radius:14px; display:flex; flex-direction:column; justify-content:space-between;">
           <div>
             <div style="font-size:0.8rem; color:var(--text-muted);">Lifetime Pass</div>
-            <div style="font-size:1.35rem; font-weight:700; color:#34d399;">₹6,999</div>
+            <div style="font-size:1.35rem; font-weight:700; color:#34d399;">₹4,999</div>
             <p style="font-size:0.72rem; color:var(--text-muted); margin-top:6px;">Forever VIP Access</p>
           </div>
-          <button class="btn-primary" style="width:100%; margin-top:12px; padding:7px 10px; font-size:0.78rem; background:linear-gradient(135deg,#10b981,#059669);" onclick="initiateRazorpayPayment('Lifetime Pass', 6999)">Buy ₹6,999 💳</button>
+          <button class="btn-primary" style="width:100%; margin-top:12px; padding:7px 10px; font-size:0.78rem; background:linear-gradient(135deg,#10b981,#059669);" onclick="initiateRazorpayPayment('Lifetime Pass', 4999)">Buy ₹4,999 💳</button>
         </div>
       </div>
 
@@ -797,12 +1181,12 @@
   </div>
 
   <!-- =========================================================
-       TOP BAR HEADER
+       TOP BAR HEADER (WITH SETTINGS & RECYCLE QUICK ACCESS)
        ========================================================= -->
   <div class="top-widgets-container">
     <div class="widget-pill" id="premium-top-pill" onclick="toggleProModal(true)" title="AuraSpace Premium (Pro 👑)" style="background: linear-gradient(135deg, rgba(251,191,36,0.18), rgba(192,132,252,0.18)); border-color: rgba(251,191,36,0.45); color: var(--gold-accent); font-weight:600;">
       <span>👑</span>
-      <span>Premium</span>
+      <span class="nav-label" data-i18n="premiumPill">Premium</span>
     </div>
 
     <div class="widget-pill" id="ambient-top-pill" onclick="switchTab('soundscapes')">
@@ -824,6 +1208,16 @@
       <span id="theme-text">Dark</span>
     </div>
 
+    <div class="widget-pill" id="trash-top-pill" onclick="switchTab('trash')" title="Recycle Bin">
+      <span>🗑️</span>
+      <span>Trash</span>
+    </div>
+
+    <div class="widget-pill" id="settings-top-pill" onclick="switchTab('settings')" title="Settings & Security">
+      <span>⚙️</span>
+      <span>Settings</span>
+    </div>
+
     <div class="widget-pill" id="user-profile-pill" onclick="openUserProfileModal()" title="Student Profile & Cloud Sync" style="padding: 4px 14px 4px 8px; gap: 8px;">
       <div id="header-avatar-circle" style="width:28px; height:28px; border-radius:50%; background:var(--accent-pastel); color:#0f172a; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:0.82rem; overflow:hidden;">
         S
@@ -841,22 +1235,34 @@
     </div>
     
     <button class="nav-btn active" id="nav-btn-home" onclick="switchTab('home')"><span class="nav-icon">🏠</span> <span class="nav-label" data-i18n="navDashboard">Dashboard</span></button>
-    <button class="nav-btn" id="nav-btn-companion" onclick="switchTab('companion')"><span class="nav-icon">🐾</span> <span class="nav-label" data-i18n="navCompanion">Study Partner Haven</span></button>
-    <button class="nav-btn" id="nav-btn-soundscapes" onclick="switchTab('soundscapes')"><span class="nav-icon">🎧</span> <span class="nav-label" data-i18n="navSounds">Ambient Soundscapes</span></button>
+    <button class="nav-btn" id="nav-btn-study-os" onclick="switchTab('study-os')"><span class="nav-icon">⚡</span> <span class="nav-label" data-i18n="navStudyOS">Study OS</span></button>
+    <button class="nav-btn" id="nav-btn-personal-space" onclick="switchTab('personal-space')"><span class="nav-icon">🌸</span> <span class="nav-label" data-i18n="navPersonalSpace">Personal Space</span></button>
+    
+    <div style="height:1px; background:var(--card-border); margin:8px 0; opacity:0.6;"></div>
+    <div style="font-size:0.7rem; font-weight:700; color:var(--accent-pastel); padding:4px 12px; letter-spacing:1px; text-transform:uppercase;">Study OS</div>
+
     <button class="nav-btn" id="nav-btn-tracker" onclick="switchTab('tracker')"><span class="nav-icon">📚</span> <span class="nav-label" data-i18n="navTracker">Syllabus & Exam Mastery</span></button>
-    <button class="nav-btn" id="nav-btn-spaced-rep" onclick="switchTab('spaced-rep')"><span class="nav-icon">🔁</span> <span class="nav-label" data-i18n="navSpacedRep">Spaced Repetition 👑</span></button>
+    <button class="nav-btn" id="nav-btn-spaced-rep" onclick="openFeatureOrPremium('spaced-rep', true, 'Spaced Repetition')"><span class="nav-icon">🔁</span> <span class="nav-label" data-i18n="navSpacedRep">Spaced Repetition 👑</span></button>
     <button class="nav-btn" id="nav-btn-analytics" onclick="switchTab('analytics')"><span class="nav-icon">📊</span> <span class="nav-label" data-i18n="navAnalytics">Study & Mock Analytics</span></button>
     <button class="nav-btn" id="nav-btn-error-log" onclick="switchTab('error-log')"><span class="nav-icon">📖</span> <span class="nav-label" data-i18n="navMistakeVault">Mistake Vault & Fixer</span></button>
     <button class="nav-btn" id="nav-btn-quiz" onclick="switchTab('quiz')"><span class="nav-icon">📝</span> <span class="nav-label" data-i18n="navQuiz">AI Study Quiz Arena</span></button>
     <button class="nav-btn" id="nav-btn-todo" onclick="switchTab('todo')"><span class="nav-icon">✅</span> <span class="nav-label" data-i18n="navTodo">Focus Checklist</span></button>
     <button class="nav-btn" id="nav-btn-calendar" onclick="switchTab('calendar')"><span class="nav-icon">📅</span> <span class="nav-label" data-i18n="navCalendar">Dynamic Calendar</span></button>
     <button class="nav-btn" id="nav-btn-timer" onclick="switchTab('timer')"><span class="nav-icon">⏱️</span> <span class="nav-label" data-i18n="navTimer">Stopwatch & Timer</span></button>
-    <button class="nav-btn" id="nav-btn-goals" onclick="switchTab('goals')"><span class="nav-icon">🎯</span> <span class="nav-label" data-i18n="navDreams">Dreams & Vision Board 👑</span></button>
     <button class="nav-btn" id="nav-btn-affiliate" onclick="switchTab('affiliate')"><span class="nav-icon">🛍️</span> <span class="nav-label" data-i18n="navAffiliate">Recommended Books & Gear</span></button>
-    <button class="nav-btn" id="nav-btn-diary" onclick="switchTab('diary')"><span class="nav-icon">📔</span> <span class="nav-label" data-i18n="navDiary">Daily Diary 👑</span></button>
-    <button class="nav-btn" id="nav-btn-shop" onclick="switchTab('shop')"><span class="nav-icon">🎨</span> <span class="nav-label" data-i18n="navWallpapers">Aesthetic Wallpapers 👑</span></button>
+
+    <div style="height:1px; background:var(--card-border); margin:8px 0; opacity:0.6;"></div>
+    <div style="font-size:0.7rem; font-weight:700; color:var(--pink-soft); padding:4px 12px; letter-spacing:1px; text-transform:uppercase;">Personal Space</div>
+
+    <button class="nav-btn" id="nav-btn-companion" onclick="switchTab('companion')"><span class="nav-icon">🐾</span> <span class="nav-label" data-i18n="navCompanion">Study Partner Haven</span></button>
+    <button class="nav-btn" id="nav-btn-diary" onclick="openFeatureOrPremium('diary', true, 'Daily Diary')"><span class="nav-icon">📔</span> <span class="nav-label" data-i18n="navDiary">Daily Diary 👑</span></button>
+    <button class="nav-btn" id="nav-btn-goals" onclick="openFeatureOrPremium('goals', true, 'Dreams & Vision Board')"><span class="nav-icon">🎯</span> <span class="nav-label" data-i18n="navDreams">Dreams & Vision Board 👑</span></button>
+    <button class="nav-btn" id="nav-btn-soundscapes" onclick="switchTab('soundscapes')"><span class="nav-icon">🎧</span> <span class="nav-label" data-i18n="navSounds">Ambient Soundscapes</span></button>
+    <button class="nav-btn" id="nav-btn-shop" onclick="openFeatureOrPremium('shop', true, 'Aesthetic Wallpapers')"><span class="nav-icon">🎨</span> <span class="nav-label" data-i18n="navWallpapers">Aesthetic Wallpapers 👑</span></button>
+
+    <div style="height:1px; background:var(--card-border); margin:8px 0; opacity:0.6;"></div>
     <button class="nav-btn" id="nav-btn-trash" onclick="switchTab('trash')"><span class="nav-icon">🗑️</span> <span class="nav-label" data-i18n="navTrash">Recycle Bin</span></button>
-    <button class="nav-btn" id="nav-btn-settings" onclick="switchTab('settings')"><span class="nav-icon">⚙️</span> <span class="nav-label" data-i18n="navSettings">Settings</span></button>
+    <button class="nav-btn" id="nav-btn-settings" onclick="switchTab('settings')"><span class="nav-icon">⚙️</span> <span class="nav-label" data-i18n="navSettings">Settings & Security</span></button>
   </div>
 
   <!-- =========================================================
@@ -864,7 +1270,7 @@
        ========================================================= -->
   <div id="main-content">
 
-    <!-- 1. HOME DASHBOARD TAB -->
+    <!-- 1. HOME DASHBOARD TAB (2-HUB UNCLUTTERED LAYOUT) -->
     <div id="tab-home" class="tab-content active">
       <div class="home-container">
         <h1 class="home-title" id="home-greeting">Good Day, Creative Soul</h1>
@@ -891,75 +1297,320 @@
               <span style="font-size:1.3rem;">🔔</span>
               <strong style="color:var(--pink-soft); font-size:1.05rem;">Active Revisions Due Today!</strong>
             </div>
-            <button class="btn-primary" style="padding:5px 12px; font-size:0.8rem;" onclick="switchTab('spaced-rep')">Open Spaced Repetition 🔁</button>
+            <button class="btn-primary" style="padding:5px 12px; font-size:0.8rem;" onclick="openFeatureOrPremium('spaced-rep', true, 'Spaced Repetition')">Open Spaced Repetition 🔁</button>
           </div>
           <div id="dashboard-revisions-list" style="display:flex; flex-direction:column; gap:6px;"></div>
         </div>
 
-        <div class="home-grid">
-          <div class="home-card" onclick="switchTab('companion')">
-            <span class="icon">🐾</span>
-            <h3 class="card-title" data-i18n="navCompanion">Study Partner Haven</h3>
+        <!-- TWO MAIN LANDING HUBS -->
+        <div class="hubs-grid">
+          
+          <!-- HUB 1: STUDY OS -->
+          <div class="hub-landing-card hub-card-study" onclick="switchTab('study-os')">
+            <div>
+              <div style="display:flex; justify-content:space-between; align-items:center;">
+                <div class="hub-icon-wrapper hub-study-icon-bg">
+                  <span>⚡</span>
+                </div>
+                <span class="hub-badge hub-badge-study">9 Academic Tools</span>
+              </div>
+              <h2 class="hub-title">
+                <span>Study OS</span>
+                <span style="font-size:1.3rem; opacity:0.8;">→</span>
+              </h2>
+              <div class="hub-subtitle">Academic & Learning Tools</div>
+              <p class="hub-desc">
+                High-yield curriculum tracker, AI-powered chapter quizzes, test score analytics, active recall scheduler, error fixer, and deep focus timers.
+              </p>
+              <div class="hub-tags-row">
+                <span class="hub-tag-chip">📚 Syllabus Mastery</span>
+                <span class="hub-tag-chip">🔁 Spaced Recall 👑</span>
+                <span class="hub-tag-chip">📊 Mock Analytics</span>
+                <span class="hub-tag-chip">📖 Mistake Vault</span>
+                <span class="hub-tag-chip">📝 AI Quiz Arena</span>
+                <span class="hub-tag-chip">✅ Focus Checklist</span>
+                <span class="hub-tag-chip">📅 Calendar</span>
+                <span class="hub-tag-chip">⏱️ Stopwatch & Timer</span>
+                <span class="hub-tag-chip">🛍️ Books & Gear</span>
+              </div>
+            </div>
+            <div class="hub-cta-btn">
+              <span>Open Study OS Workspace</span>
+              <span style="font-weight:700; color:var(--accent-pastel);">Launch 🚀</span>
+            </div>
           </div>
-          <div class="home-card" onclick="switchTab('soundscapes')">
-            <span class="icon">🎧</span>
-            <h3 class="card-title" data-i18n="navSounds">Ambient Soundscapes</h3>
+
+          <!-- HUB 2: PERSONAL SPACE -->
+          <div class="hub-landing-card hub-card-personal" onclick="switchTab('personal-space')">
+            <div>
+              <div style="display:flex; justify-content:space-between; align-items:center;">
+                <div class="hub-icon-wrapper hub-personal-icon-bg">
+                  <span>🌸</span>
+                </div>
+                <span class="hub-badge hub-badge-personal">5 Mindset & Aesthetic Spaces</span>
+              </div>
+              <h2 class="hub-title">
+                <span>Personal Space</span>
+                <span style="font-size:1.3rem; opacity:0.8;">→</span>
+              </h2>
+              <div class="hub-subtitle" style="color:var(--pink-soft);">Mindset, Journaling & Aesthetics</div>
+              <p class="hub-desc">
+                Cultivate peace and motivation with evolving virtual study partners, daily reflection diary, vision dream board, and calming procedural soundscapes.
+              </p>
+              <div class="hub-tags-row">
+                <span class="hub-tag-chip">🐾 Study Partner Haven</span>
+                <span class="hub-tag-chip">📔 Daily Diary 👑</span>
+                <span class="hub-tag-chip">🎯 Dreams & Vision Board 👑</span>
+                <span class="hub-tag-chip">🎧 Soundscapes</span>
+                <span class="hub-tag-chip">🎨 4K Wallpapers 👑</span>
+              </div>
+            </div>
+            <div class="hub-cta-btn">
+              <span>Enter Personal Space</span>
+              <span style="font-weight:700; color:var(--pink-soft);">Explore ✨</span>
+            </div>
           </div>
-          <div class="home-card" onclick="switchTab('tracker')">
-            <span class="icon">📚</span>
-            <h3 class="card-title" data-i18n="navTracker">Syllabus & Exam Mastery</h3>
+
+        </div>
+
+      </div>
+    </div>
+
+    <!-- 1B. DEDICATED STUDY OS HUB TAB -->
+    <div id="tab-study-os" class="tab-content">
+      <div class="hub-view-header">
+        <div>
+          <button class="btn-outline" style="padding:6px 14px; border-radius:12px; font-size:0.82rem; margin-bottom:10px; cursor:pointer;" onclick="switchTab('home')">
+            ◀ Back to Dashboard
+          </button>
+          <h2 class="hub-view-title" style="color:var(--accent-pastel);">Study OS: Academic & Learning Tools ⚡</h2>
+          <p style="color:var(--text-muted); font-size:0.86rem;">Select an academic tool to conquer your syllabus, practice quizzes, and analyze progress.</p>
+        </div>
+      </div>
+
+      <div class="hub-cards-grid">
+        <div class="feature-card" onclick="switchTab('tracker')">
+          <div>
+            <div class="feature-card-header">
+              <span class="feature-card-icon">📚</span>
+              <span class="tag-badge" style="background:rgba(192,132,252,0.15); color:var(--accent-pastel);">Core</span>
+            </div>
+            <h3 class="feature-card-title">Syllabus & Exam Mastery</h3>
+            <p class="feature-card-desc">Curriculums for JEE, NEET, CBSE, UPSC & custom goals with chapter completion metrics.</p>
           </div>
-          <div class="home-card" onclick="switchTab('spaced-rep')">
-            <span class="icon">🔁</span>
-            <h3 class="card-title" data-i18n="navSpacedRep">Spaced Repetition 👑</h3>
+          <div class="feature-card-footer">
+            <span>Track Progress</span>
+            <span>Open →</span>
           </div>
-          <div class="home-card" onclick="switchTab('analytics')">
-            <span class="icon">📊</span>
-            <h3 class="card-title" data-i18n="navAnalytics">Study & Mock Analytics</h3>
+        </div>
+
+        <div class="feature-card" onclick="openFeatureOrPremium('spaced-rep', true, 'Spaced Repetition Mastery')">
+          <div>
+            <div class="feature-card-header">
+              <span class="feature-card-icon">🔁</span>
+              <span class="premium-corner-badge">👑 PRO</span>
+            </div>
+            <h3 class="feature-card-title">Spaced Repetition</h3>
+            <p class="feature-card-desc">Scientific 1-7-15-30 day active recall scheduler to build permanent memory retention.</p>
           </div>
-          <div class="home-card" onclick="switchTab('error-log')">
-            <span class="icon">📖</span>
-            <h3 class="card-title" data-i18n="navMistakeVault">Mistake Vault & Fixer</h3>
+          <div class="feature-card-footer">
+            <span>Active Recall</span>
+            <span>Open →</span>
           </div>
-          <div class="home-card" onclick="switchTab('quiz')">
-            <span class="icon">📝</span>
-            <h3 class="card-title" data-i18n="navQuiz">AI Study Quiz Arena</h3>
+        </div>
+
+        <div class="feature-card" onclick="switchTab('analytics')">
+          <div>
+            <div class="feature-card-header">
+              <span class="feature-card-icon">📊</span>
+              <span class="tag-badge" style="background:rgba(56,189,248,0.15); color:#38bdf8;">Analytics</span>
+            </div>
+            <h3 class="feature-card-title">Study & Mock Analytics</h3>
+            <p class="feature-card-desc">365-day consistency heatmap, test score progression curves, and focus hour metrics.</p>
           </div>
-          <div class="home-card" onclick="switchTab('todo')">
-            <span class="icon">✅</span>
-            <h3 class="card-title" data-i18n="navTodo">Focus Checklist</h3>
+          <div class="feature-card-footer">
+            <span>View Stats</span>
+            <span>Open →</span>
           </div>
-          <div class="home-card" onclick="switchTab('calendar')">
-            <span class="icon">📅</span>
-            <h3 class="card-title" data-i18n="navCalendar">Dynamic Calendar</h3>
+        </div>
+
+        <div class="feature-card" onclick="switchTab('error-log')">
+          <div>
+            <div class="feature-card-header">
+              <span class="feature-card-icon">📖</span>
+              <span class="tag-badge" style="background:rgba(244,114,182,0.15); color:var(--pink-soft);">Fixer</span>
+            </div>
+            <h3 class="feature-card-title">Mistake Vault & Fixer</h3>
+            <p class="feature-card-desc">Log silly mistakes, test traps, and formula slips to eliminate recurring exam errors.</p>
           </div>
-          <div class="home-card" onclick="switchTab('timer')">
-            <span class="icon">⏱️</span>
-            <h3 class="card-title" data-i18n="navTimer">Stopwatch & Timer</h3>
+          <div class="feature-card-footer">
+            <span>Review Errors</span>
+            <span>Open →</span>
           </div>
-          <div class="home-card" onclick="switchTab('goals')">
-            <span class="icon">🎯</span>
-            <h3 class="card-title" data-i18n="navDreams">Dreams & Vision Board 👑</h3>
+        </div>
+
+        <div class="feature-card" onclick="switchTab('quiz')">
+          <div>
+            <div class="feature-card-header">
+              <span class="feature-card-icon">📝</span>
+              <span class="tag-badge" style="background:rgba(52,211,153,0.15); color:#34d399;">Gemini AI</span>
+            </div>
+            <h3 class="feature-card-title">AI Study Quiz Arena</h3>
+            <p class="feature-card-desc">Generate real exam-level chapter quizzes with instant 1-sentence explanations & AI doubt mentor.</p>
           </div>
-          <div class="home-card" onclick="switchTab('affiliate')">
-            <span class="icon">🛍️</span>
-            <h3 class="card-title" data-i18n="navAffiliate">Recommended Books & Gear</h3>
+          <div class="feature-card-footer">
+            <span>Practice MCQs</span>
+            <span>Open →</span>
           </div>
-          <div class="home-card" onclick="switchTab('diary')">
-            <span class="icon">📔</span>
-            <h3 class="card-title" data-i18n="navDiary">Daily Diary 👑</h3>
+        </div>
+
+        <div class="feature-card" onclick="switchTab('todo')">
+          <div>
+            <div class="feature-card-header">
+              <span class="feature-card-icon">✅</span>
+              <span class="tag-badge" style="background:rgba(251,191,36,0.15); color:var(--gold-accent);">Daily</span>
+            </div>
+            <h3 class="feature-card-title">Focus Checklist</h3>
+            <p class="feature-card-desc">Daily high-yield study tasks with progress tracking, filter views, and calendar integration.</p>
           </div>
-          <div class="home-card" onclick="switchTab('shop')">
-            <span class="icon">🎨</span>
-            <h3 class="card-title" data-i18n="navWallpapers">Aesthetic Wallpapers 👑</h3>
+          <div class="feature-card-footer">
+            <span>Manage Tasks</span>
+            <span>Open →</span>
           </div>
-          <div class="home-card" onclick="switchTab('trash')">
-            <span class="icon">🗑️</span>
-            <h3 class="card-title" data-i18n="navTrash">Recycle Bin</h3>
+        </div>
+
+        <div class="feature-card" onclick="switchTab('calendar')">
+          <div>
+            <div class="feature-card-header">
+              <span class="feature-card-icon">📅</span>
+              <span class="tag-badge" style="background:rgba(192,132,252,0.15); color:var(--accent-pastel);">Planner</span>
+            </div>
+            <h3 class="feature-card-title">Dynamic Calendar</h3>
+            <p class="feature-card-desc">Interactive dynamic calendar to log daily study reflections, exam milestones & dates.</p>
           </div>
-          <div class="home-card" onclick="switchTab('settings')">
-            <span class="icon">⚙️</span>
-            <h3 class="card-title" data-i18n="navSettings">Settings & Security</h3>
+          <div class="feature-card-footer">
+            <span>Open Calendar</span>
+            <span>Open →</span>
+          </div>
+        </div>
+
+        <div class="feature-card" onclick="switchTab('timer')">
+          <div>
+            <div class="feature-card-header">
+              <span class="feature-card-icon">⏱️</span>
+              <span class="tag-badge" style="background:rgba(56,189,248,0.15); color:#38bdf8;">Focus</span>
+            </div>
+            <h3 class="feature-card-title">Stopwatch & Timer</h3>
+            <p class="feature-card-desc">Precision focus stopwatch, 25m/50m Pomodoro blocks, and Zen distraction-free HUD.</p>
+          </div>
+          <div class="feature-card-footer">
+            <span>Start Session</span>
+            <span>Open →</span>
+          </div>
+        </div>
+
+        <div class="feature-card" onclick="switchTab('affiliate')">
+          <div>
+            <div class="feature-card-header">
+              <span class="feature-card-icon">🛍️</span>
+              <span class="tag-badge" style="background:rgba(52,211,153,0.15); color:#34d399;">Curated</span>
+            </div>
+            <h3 class="feature-card-title">Recommended Books & Gear</h3>
+            <p class="feature-card-desc">Handpicked top study books, noise-canceling headphones, and ergonomic focus desk tools.</p>
+          </div>
+          <div class="feature-card-footer">
+            <span>Explore Gear</span>
+            <span>Open →</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 1C. DEDICATED PERSONAL SPACE HUB TAB -->
+    <div id="tab-personal-space" class="tab-content">
+      <div class="hub-view-header">
+        <div>
+          <button class="btn-outline" style="padding:6px 14px; border-radius:12px; font-size:0.82rem; margin-bottom:10px; cursor:pointer;" onclick="switchTab('home')">
+            ◀ Back to Dashboard
+          </button>
+          <h2 class="hub-view-title" style="color:var(--pink-soft);">Personal Space: Mindset & Aesthetics 🌸</h2>
+          <p style="color:var(--text-muted); font-size:0.86rem;">Nurture mental wellness, study with virtual companions, reflect in your diary, and relax.</p>
+        </div>
+      </div>
+
+      <div class="hub-cards-grid">
+        <div class="feature-card" onclick="switchTab('companion')">
+          <div>
+            <div class="feature-card-header">
+              <span class="feature-card-icon">🐾</span>
+              <span class="tag-badge" style="background:rgba(244,114,182,0.15); color:var(--pink-soft);">Companion</span>
+            </div>
+            <h3 class="feature-card-title">Study Partner Haven</h3>
+            <p class="feature-card-desc">Interactive virtual pets (Zen Panda, Dragon, Phoenix) that study alongside you and level up.</p>
+          </div>
+          <div class="feature-card-footer">
+            <span>Visit Partner</span>
+            <span>Open →</span>
+          </div>
+        </div>
+
+        <div class="feature-card" onclick="openFeatureOrPremium('diary', true, 'Daily Reflection Diary')">
+          <div>
+            <div class="feature-card-header">
+              <span class="feature-card-icon">📔</span>
+              <span class="premium-corner-badge">👑 PRO</span>
+            </div>
+            <h3 class="feature-card-title">Daily Diary</h3>
+            <p class="feature-card-desc">Private daily reflection journal to log study mood, celebrate small wins, and release stress.</p>
+          </div>
+          <div class="feature-card-footer">
+            <span>Write Entry</span>
+            <span>Open →</span>
+          </div>
+        </div>
+
+        <div class="feature-card" onclick="openFeatureOrPremium('goals', true, 'Dreams & Vision Board')">
+          <div>
+            <div class="feature-card-header">
+              <span class="feature-card-icon">🎯</span>
+              <span class="premium-corner-badge">👑 PRO</span>
+            </div>
+            <h3 class="feature-card-title">Dreams & Vision Board</h3>
+            <p class="feature-card-desc">Manifest your dream college rank, pin photos to Polaroid Corkboard & celebrate on Success Wall.</p>
+          </div>
+          <div class="feature-card-footer">
+            <span>View Dreams</span>
+            <span>Open →</span>
+          </div>
+        </div>
+
+        <div class="feature-card" onclick="switchTab('soundscapes')">
+          <div>
+            <div class="feature-card-header">
+              <span class="feature-card-icon">🎧</span>
+              <span class="tag-badge" style="background:rgba(192,132,252,0.15); color:var(--accent-pastel);">Offline Audio</span>
+            </div>
+            <h3 class="feature-card-title">Ambient Soundscapes</h3>
+            <p class="feature-card-desc">15+ Procedural web audio soundscapes (Rain, Kyoto Cafe, Oxford Library, Alpha Beats & Waves).</p>
+          </div>
+          <div class="feature-card-footer">
+            <span>Listen & Relax</span>
+            <span>Open →</span>
+          </div>
+        </div>
+
+        <div class="feature-card" onclick="openFeatureOrPremium('shop', true, 'Aesthetic Wallpapers & Atmosphere')">
+          <div>
+            <div class="feature-card-header">
+              <span class="feature-card-icon">🎨</span>
+              <span class="premium-corner-badge">👑 PRO</span>
+            </div>
+            <h3 class="feature-card-title">Aesthetic Wallpapers</h3>
+            <p class="feature-card-desc">Atmospheric study backdrops (Lofi, Forest, Nebula) + upload your custom 4K wallpapers.</p>
+          </div>
+          <div class="feature-card-footer">
+            <span>Change Atmosphere</span>
+            <span>Open →</span>
           </div>
         </div>
       </div>
@@ -1633,7 +2284,7 @@
       <div class="section-card">
         <h3>👑 AuraSpace Premium Pass</h3>
         <p style="color: var(--text-muted); font-size:0.85rem; margin-bottom:12px;">Manage your subscription plan or activate VIP access:</p>
-        <button class="btn-primary" onclick="toggleProModal(true)">View Premium Plans (₹99 / ₹699 / ₹6999) 👑</button>
+        <button class="btn-primary" onclick="toggleProModal(true)">View Premium Plans (₹49 / ₹499 / ₹4999) 👑</button>
       </div>
     </div>
 
@@ -1643,7 +2294,6 @@
     /* =========================================================
        1. GLOBAL CONSTANTS & MOTIVATIONAL QUOTES LIBRARY
        ========================================================= */
-    const GEMINI_API_KEY = "AQ.Ab8RN6JInv1K4BmdNj90pmdRTWxxiqjzaHiyY3sOlTLilAOmlA";
 
     const MOTIVATIONAL_THOUGHTS = [
       {
@@ -1759,32 +2409,182 @@
     /* =========================================================
        2. GOOGLE & PROFILE AUTHENTICATION ENGINE
        ========================================================= */
+    const GOOGLE_CLIENT_ID = "725647096442-906qo6pf7u66btkrkn733qms30ck9qid.apps.googleusercontent.com";
+
+    function parseJwt(token) {
+      try {
+        const base64Url = token.split('.')[1];
+        if (!base64Url) return null;
+        const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+        const jsonPayload = decodeURIComponent(
+          atob(base64)
+            .split('')
+            .map(function (c) {
+              return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+            })
+            .join('')
+        );
+        return JSON.parse(jsonPayload);
+      } catch (e) {
+        console.error("JWT parse error:", e);
+        return null;
+      }
+    }
+
+    function handleGoogleCredentialResponse(response) {
+      if (!response || !response.credential) {
+        console.error("No credential in response");
+        return;
+      }
+      const payload = parseJwt(response.credential);
+      if (!payload) {
+        alert("Could not process Google sign-in. Please try again.");
+        return;
+      }
+
+      const email = (payload.email || "").toLowerCase().trim();
+      const name = payload.name || payload.given_name || "Scholar";
+      const picture = payload.picture || "";
+      const isAdmin = (email === "sharmishthadixit21@gmail.com");
+
+      let profile = JSON.parse(localStorage.getItem('aura_user_auth_profile')) || {};
+      profile.name = name;
+      profile.email = email;
+      if (picture) profile.avatar = picture;
+      profile.signedIn = true;
+      profile.googleId = payload.sub;
+      profile.isPremium = isAdmin ? true : (profile.isPremium === true);
+      profile.loginDate = new Date().toLocaleDateString();
+      profile.academicClass = profile.academicClass || "12th Pass / Dropper 🎯";
+      profile.targetExam = profile.targetExam || "jee";
+      profile.dailyHours = profile.dailyHours || 6;
+
+      if (isAdmin) {
+        window.isPremium = true;
+        localStorage.setItem('aura_pro_active', 'true');
+        localStorage.setItem('aura_pro_owner_free', 'true');
+        localStorage.setItem('aura_pro_plan_name', 'VIP Owner Pass (sharmishthadixit21@gmail.com)');
+      }
+
+      localStorage.setItem('aura_user_auth_profile', JSON.stringify(profile));
+      toggleAuthModal(false);
+      updateUserProfileUI();
+      updateProfileDrawerDetails();
+
+      if (typeof confetti === 'function') confetti({ particleCount: 130, spread: 80, origin: { y: 0.6 } });
+
+      if (isAdmin) {
+        alert(`👑 Welcome back, Sharmishtha (${email})!\nOwner Admin & All Premium VIP Features are 100% Unlocked.`);
+      } else {
+        alert(`✨ Welcome to MyStudyAI, ${name}! Logged in as ${email}`);
+      }
+
+      if (!profile.onboarded) {
+        profile.onboarded = true;
+        localStorage.setItem('aura_user_auth_profile', JSON.stringify(profile));
+        openOnboardingModal(name);
+      }
+    }
+
+    function initGoogleIdentityServices() {
+      if (typeof google !== 'undefined' && google.accounts && google.accounts.id) {
+        try {
+          google.accounts.id.initialize({
+            client_id: GOOGLE_CLIENT_ID,
+            callback: handleGoogleCredentialResponse,
+            auto_select: false,
+            cancel_on_tap_outside: true
+          });
+          const btnContainer = document.getElementById('google-signin-btn-container');
+          if (btnContainer) {
+            google.accounts.id.renderButton(btnContainer, {
+              type: "standard",
+              theme: "filled_blue",
+              size: "large",
+              text: "continue_with",
+              shape: "pill",
+              width: 340,
+              logo_alignment: "left"
+            });
+          }
+          const fallbackBtn = document.getElementById('google-fallback-btn');
+          if (fallbackBtn) fallbackBtn.style.display = 'none';
+        } catch(e) {
+          console.warn("Google Identity Init Warning:", e);
+        }
+      } else {
+        // If GIS script hasn't loaded yet or is blocked, show fallback button
+        const fallbackBtn = document.getElementById('google-fallback-btn');
+        if (fallbackBtn) fallbackBtn.style.display = 'flex';
+      }
+    }
+
+    function triggerGoogleSignInPrompt() {
+      if (typeof google !== 'undefined' && google.accounts && google.accounts.id) {
+        try {
+          google.accounts.id.prompt();
+          return;
+        } catch(e) {}
+      }
+      openGoogleAccountPrompt();
+    }
+
     function checkAuthOnLoad() {
+      try {
+        const profile = JSON.parse(localStorage.getItem('aura_user_auth_profile'));
+        if (profile && (profile.email || '').toLowerCase().trim() === 'sharmishthadixit21@gmail.com') {
+          profile.isPremium = true;
+          window.isPremium = true;
+          localStorage.setItem('aura_pro_active', 'true');
+          localStorage.setItem('aura_pro_owner_free', 'true');
+          localStorage.setItem('aura_pro_plan_name', 'VIP Owner Pass (sharmishthadixit21@gmail.com)');
+          localStorage.setItem('aura_user_auth_profile', JSON.stringify(profile));
+        }
+      } catch(e) {}
+
+      initGoogleIdentityServices();
       updateUserProfileUI();
     }
 
     function openGoogleAccountPrompt() {
       const defaultName = "Aryan Sharma";
-      const studentName = prompt("Google Sign-In Account Setup:\nEnter your Full Name:", defaultName) || defaultName;
-      const email = `${studentName.toLowerCase().replace(/[^a-z0-9]/g, '')}@gmail.com`;
+      const studentName = prompt("Google Account Sign-In:\nEnter your Full Name or Gmail:", defaultName) || defaultName;
+      let email = studentName.includes('@') ? studentName : `${studentName.toLowerCase().replace(/[^a-z0-9]/g, '')}@gmail.com`;
+
+      const isAdmin = (email.toLowerCase().trim() === 'sharmishthadixit21@gmail.com');
 
       let profile = JSON.parse(localStorage.getItem('aura_user_auth_profile')) || {};
-      profile.name = studentName;
+      profile.name = studentName.includes('@') ? studentName.split('@')[0] : studentName;
       profile.email = email;
       profile.academicClass = profile.academicClass || "12th Pass / Dropper 🎯";
       profile.targetExam = profile.targetExam || "jee";
       profile.dailyHours = profile.dailyHours || 6;
       profile.signedIn = true;
+      profile.isPremium = isAdmin ? true : (profile.isPremium === true);
       profile.loginDate = new Date().toLocaleDateString();
+
+      if (isAdmin) {
+        window.isPremium = true;
+        localStorage.setItem('aura_pro_active', 'true');
+        localStorage.setItem('aura_pro_owner_free', 'true');
+        localStorage.setItem('aura_pro_plan_name', 'VIP Owner Pass (sharmishthadixit21@gmail.com)');
+      }
 
       localStorage.setItem('aura_user_auth_profile', JSON.stringify(profile));
       toggleAuthModal(false);
-      openOnboardingModal(studentName);
+      updateUserProfileUI();
+      updateProfileDrawerDetails();
+      if (!profile.onboarded) {
+        profile.onboarded = true;
+        localStorage.setItem('aura_user_auth_profile', JSON.stringify(profile));
+        openOnboardingModal(profile.name);
+      }
     }
 
-    function handleDirectProfileLogin() {
-      const name = document.getElementById('auth-name-input').value.trim() || "Student Scholar";
-      const email = document.getElementById('auth-email-input').value.trim() || `${name.toLowerCase().replace(/\s+/g, '')}@gmail.com`;
+    function handleDirectProfileLogin(customName, customEmail) {
+      const name = customName || (document.getElementById('auth-name-input') && document.getElementById('auth-name-input').value.trim()) || "Student Scholar";
+      const email = customEmail || (document.getElementById('auth-email-input') && document.getElementById('auth-email-input').value.trim()) || `${name.toLowerCase().replace(/\s+/g, '')}@gmail.com`;
+      const isAdmin = (email.toLowerCase().trim() === 'sharmishthadixit21@gmail.com');
 
       let profile = JSON.parse(localStorage.getItem('aura_user_auth_profile')) || {};
       profile.name = name;
@@ -1793,11 +2593,25 @@
       profile.targetExam = profile.targetExam || "jee";
       profile.dailyHours = profile.dailyHours || 6;
       profile.signedIn = true;
+      profile.isPremium = isAdmin ? true : (profile.isPremium === true);
       profile.loginDate = new Date().toLocaleDateString();
+
+      if (isAdmin) {
+        window.isPremium = true;
+        localStorage.setItem('aura_pro_active', 'true');
+        localStorage.setItem('aura_pro_owner_free', 'true');
+        localStorage.setItem('aura_pro_plan_name', 'VIP Owner Pass (sharmishthadixit21@gmail.com)');
+      }
 
       localStorage.setItem('aura_user_auth_profile', JSON.stringify(profile));
       toggleAuthModal(false);
-      openOnboardingModal(name);
+      updateUserProfileUI();
+      updateProfileDrawerDetails();
+      if (!profile.onboarded) {
+        profile.onboarded = true;
+        localStorage.setItem('aura_user_auth_profile', JSON.stringify(profile));
+        openOnboardingModal(name);
+      }
     }
 
     function openOnboardingModal(defaultName = "") {
@@ -1831,13 +2645,17 @@
       loadActiveExamSyllabus();
 
       if (typeof confetti === 'function') confetti({ particleCount: 120, spread: 80, origin: { y: 0.6 } });
-      alert(`🎉 Welcome to AuraSpace, ${name}! Your workspace is ready.`);
+      alert(`🎉 Welcome to MyStudyAI, ${name}! Your workspace is ready.`);
     }
 
     function toggleAuthModal(show) {
       const modal = document.getElementById('auth-modal');
-      if (show) modal.classList.add('active');
-      else modal.classList.remove('active');
+      if (show) {
+        initGoogleIdentityServices();
+        modal.classList.add('active');
+      } else {
+        modal.classList.remove('active');
+      }
     }
 
     function toggleProfileDrawer(show) {
@@ -2093,8 +2911,18 @@
       if (confirm("Sign out of current account? (Your data remains safely stored on this device)")) {
         let profile = JSON.parse(localStorage.getItem('aura_user_auth_profile')) || {};
         profile.signedIn = false;
+        profile.isPremium = false;
         delete profile.avatar;
         localStorage.setItem('aura_user_auth_profile', JSON.stringify(profile));
+        localStorage.removeItem('aura_pro_owner_free');
+        window.isPremium = false;
+
+        if (typeof google !== 'undefined' && google.accounts && google.accounts.id) {
+          try {
+            google.accounts.id.disableAutoSelect();
+          } catch(e) {}
+        }
+
         toggleProfileDrawer(false);
         updateUserProfileUI();
         if (typeof updateAffiliateAdminUI === 'function') updateAffiliateAdminUI();
@@ -2637,37 +3465,39 @@ STRICT RULES:
 2. The questions and options must strictly adhere to the difficulty level: "${diff}".
 3. Provide exactly 4 plausible, distinct options for each question (Option A, Option B, Option C, Option D).`;
 
-        // 1. Primary Direct Gemini API Call: gemini-3.5-flash-lite
+        // 1. Primary Call: Secure Serverless API Proxy (/api/quiz)
+        const customLocalKey = localStorage.getItem('aura_custom_gemini_key') || "";
+        const proxyHeaders = { 'Content-Type': 'application/json' };
+        if (customLocalKey) proxyHeaders['x-gemini-key'] = customLocalKey;
+
         try {
-          const geminiRes = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash-lite:generateContent?key=${GEMINI_API_KEY}`, {
+          const proxyRes = await fetch('/api/quiz', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: proxyHeaders,
             body: JSON.stringify({
-              systemInstruction: { parts: [{ text: systemInstructionText }] },
-              contents: [{ parts: [{ text: quizUserPrompt }] }],
-              generationConfig: {
-                responseMimeType: "application/json",
-                temperature: 0.7
-              }
+              subject: sub,
+              chapter: ch,
+              difficulty: diff,
+              targetExam: examText
             })
           });
-
-          if (geminiRes.ok) {
-            const gData = await geminiRes.json();
-            const text = gData.candidates?.[0]?.content?.parts?.[0]?.text || "";
-            const parsed = safeClientJsonParse(text);
-            if (parsed) {
-              questions = normalizeClientQuizQuestions(parsed);
+          if (proxyRes.ok) {
+            const pData = await proxyRes.json();
+            if (pData.success && Array.isArray(pData.questions)) {
+              questions = normalizeClientQuizQuestions(pData.questions);
             }
+          } else {
+            const errJson = await proxyRes.json().catch(() => ({}));
+            if (errJson && errJson.error) lastError = new Error(errJson.error);
           }
         } catch(e) {
           lastError = e;
         }
 
-        // 2. Secondary Direct Gemini API Call: gemini-3.1-flash-lite backup
-        if (!questions || !questions.length) {
+        // 2. Secondary Fallback: Direct Client API (only if user provided a custom local key)
+        if ((!questions || !questions.length) && customLocalKey) {
           try {
-            const geminiBackupRes = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite:generateContent?key=${GEMINI_API_KEY}`, {
+            const geminiRes = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent?key=${customLocalKey}`, {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({
@@ -2680,36 +3510,12 @@ STRICT RULES:
               })
             });
 
-            if (geminiBackupRes.ok) {
-              const gData = await geminiBackupRes.json();
+            if (geminiRes.ok) {
+              const gData = await geminiRes.json();
               const text = gData.candidates?.[0]?.content?.parts?.[0]?.text || "";
               const parsed = safeClientJsonParse(text);
               if (parsed) {
                 questions = normalizeClientQuizQuestions(parsed);
-              }
-            }
-          } catch(e) {
-            lastError = e;
-          }
-        }
-
-        // 3. Tertiary Call to Serverless /api/quiz Proxy (if hosted on Vercel/Node)
-        if (!questions || !questions.length) {
-          try {
-            const proxyRes = await fetch('/api/quiz', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({
-                subject: sub,
-                chapter: ch,
-                difficulty: diff,
-                targetExam: examText
-              })
-            });
-            if (proxyRes.ok) {
-              const pData = await proxyRes.json();
-              if (pData.success && Array.isArray(pData.questions)) {
-                questions = normalizeClientQuizQuestions(pData.questions);
               }
             }
           } catch(e) {
@@ -2931,42 +3737,52 @@ STRICT RULES:
         const promptText = `You are a supportive, genius AI study mentor on AuraSpace. Explain concepts clearly in friendly language with step-by-step logic and easy analogies. Topic: ${sub}, Context Question: ${questionContext}. Student Doubt: ${doubt}`;
         
         let reply = "";
+        const customLocalKey = localStorage.getItem('aura_custom_gemini_key') || "";
+        const proxyHeaders = { 'Content-Type': 'application/json' };
+        if (customLocalKey) proxyHeaders['x-gemini-key'] = customLocalKey;
+
+        // 1. Primary: Serverless Backend /api/quiz
         try {
-          const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash-lite:generateContent?key=${GEMINI_API_KEY}`, {
+          const proxyRes = await fetch('/api/quiz', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: proxyHeaders,
             body: JSON.stringify({
-              systemInstruction: { parts: [{ text: "You are a supportive, genius AI study mentor on AuraSpace. Explain concepts clearly in friendly language with step-by-step logic, easy analogies, and key formulas." }] },
-              contents: [{ parts: [{ text: promptText }] }]
+              action: 'chat_doubt',
+              subject: sub,
+              chapter: sub,
+              targetExam: 'General',
+              userDoubt: `${promptText}`
             })
           });
-          if (res.ok) {
-            const gData = await res.json();
-            reply = gData.candidates?.[0]?.content?.parts?.[0]?.text;
+          if (proxyRes.ok) {
+            const data = await proxyRes.json();
+            reply = data.reply;
           }
         } catch(e) {}
 
-        if (!reply) {
+        // 2. Secondary: Direct fetch if custom local key exists
+        if (!reply && customLocalKey) {
           try {
-            const proxyRes = await fetch('/api/quiz', {
+            const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent?key=${customLocalKey}`, {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({
-                action: 'chat_doubt',
-                subject: sub,
-                chapter: sub,
-                targetExam: 'General',
-                userDoubt: `${promptText}`
+                systemInstruction: { parts: [{ text: "You are a supportive, genius AI study mentor on AuraSpace. Explain concepts clearly in friendly language with step-by-step logic, easy analogies, and key formulas." }] },
+                contents: [{ parts: [{ text: promptText }] }]
               })
             });
-            if (proxyRes.ok) {
-              const data = await proxyRes.json();
-              reply = data.reply;
+            if (res.ok) {
+              const gData = await res.json();
+              reply = gData.candidates?.[0]?.content?.parts?.[0]?.text;
             }
           } catch(e) {}
         }
 
-        alert(`💡 AI Study Mentor Explanation:\n\n${reply}`);
+        if (reply) {
+          alert(`💡 AI Study Mentor Explanation:\n\n${reply}`);
+        } else {
+          alert("💡 Concept Tip: Review the core formula, check the sign convention, and substitute standard SI units step-by-step!");
+        }
       } catch(err) {
         alert("💡 Concept Tip: Review the core formula, check the sign convention, and substitute standard SI units step-by-step!");
       }
@@ -3218,6 +4034,11 @@ STRICT RULES:
     function toggleAddPolaroidModal(show) {
       const modal = document.getElementById('add-polaroid-modal');
       if (show) {
+        if (!isProActive()) {
+          alert("👑 Vision Corkboard & Polaroid Pinning is a Premium feature! Upgrade to unlock.");
+          toggleProModal(true);
+          return;
+        }
         tempPolaroidImgData = null;
         document.getElementById('polaroid-caption-input').value = '';
         document.getElementById('polaroid-url-input').value = '';
@@ -3922,6 +4743,35 @@ STRICT RULES:
       }
     }
 
+    function openFeatureOrPremium(tabId, isPremiumRequired = false, featureName = "") {
+      if (isPremiumRequired && !isProActive()) {
+        const modal = document.getElementById('premium-feature-modal');
+        const titleEl = document.getElementById('premium-feature-modal-title');
+        const subEl = document.getElementById('premium-feature-modal-subtitle');
+        if (titleEl) {
+          titleEl.innerText = featureName ? `Unlock ${featureName} 👑` : "Unlock Premium Feature";
+        }
+        if (subEl) {
+          subEl.innerText = `${featureName || 'This feature'} is exclusively available for AuraSpace Premium members. Upgrade now to unlock!`;
+        }
+        if (modal) modal.classList.add('active');
+        return;
+      }
+      switchTab(tabId);
+    }
+
+    function togglePremiumFeatureModal(show) {
+      const modal = document.getElementById('premium-feature-modal');
+      if (!modal) return;
+      if (show) modal.classList.add('active');
+      else modal.classList.remove('active');
+    }
+
+    function openProModalFromInterceptor() {
+      togglePremiumFeatureModal(false);
+      toggleProModal(true);
+    }
+
     function switchTab(tabId) {
       document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
       document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active'));
@@ -3988,9 +4838,16 @@ STRICT RULES:
     function isProActive() {
       try {
         const profile = JSON.parse(localStorage.getItem('aura_user_auth_profile'));
-        if (profile && (profile.email || '').toLowerCase().trim() === ADMIN_EMAIL.toLowerCase()) {
-          window.isPremium = true;
-          return true;
+        if (profile) {
+          const email = (profile.email || '').toLowerCase().trim();
+          if (email === ADMIN_EMAIL.toLowerCase()) {
+            window.isPremium = true;
+            return true;
+          }
+          if (profile.isPremium === true) {
+            window.isPremium = true;
+            return true;
+          }
         }
       } catch(e) {}
       if (window.isPremium === true) return true;
@@ -4596,6 +5453,8 @@ STRICT RULES:
     const AURA_TRANSLATIONS = {
       en: {
         navDashboard: "Dashboard",
+        navStudyOS: "Study OS",
+        navPersonalSpace: "Personal Space",
         navCompanion: "Study Partner Haven",
         navSounds: "Ambient Soundscapes",
         navTracker: "Syllabus & Exam Mastery",
@@ -4650,6 +5509,8 @@ STRICT RULES:
       },
       hi: {
         navDashboard: "डैशबोर्ड",
+        navStudyOS: "स्टडी ओएस",
+        navPersonalSpace: "पर्सनल स्पेस",
         navCompanion: "स्टडी पार्टनर हेवन",
         navSounds: "सुकून भरी ध्वनियाँ",
         navTracker: "पाठ्यक्रम व परीक्षा ट्रैकर",
