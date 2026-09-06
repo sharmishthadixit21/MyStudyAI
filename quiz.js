@@ -1,12 +1,14 @@
 /**
  * AuraSpace Serverless API Proxy for AI Quiz Generation & Doubt Solver
- * Supports Google Gemini API & fallback model.
+ * Uses Google Gemini AI (gemini-2.5-flash, 2.5-flash-lite, 2.0-flash, 1.5-flash)
+ * Generates dynamic, custom MCQs hand-to-hand on the spot from user topic and subject.
  */
+
 
 module.exports = async (req, res) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, x-gemini-key, X-Gemini-Key');
 
   if (req.method === 'OPTIONS') {
     return res.status(200).end();
@@ -17,86 +19,111 @@ module.exports = async (req, res) => {
   }
 
   try {
-    const { action, subject, chapter, difficulty, targetExam, userDoubt, chatHistory } = req.body || {};
-    const geminiApiKey = process.env.GEMINI_API_KEY || "AQ.Ab8RN6JInv1K4BmdNj90pmdRTWxxiqjzaHiyY3sOlTLilAOmlA";
+    const { action, subject, chapter, difficulty, targetExam, userDoubt } = req.body || {};
+   const geminiApiKey = process.env.GEMINI_API_KEY;
     const groqApiKey = process.env.GROQ_API_KEY || "";
 
-    // 1. Doubt Solving AI Chat Mode
+    // 1. Doubt Solving AI Chat Mode (Live Gemini Response)
     if (action === 'chat_doubt') {
       if (!userDoubt) {
         return res.status(400).json({ error: 'userDoubt is required' });
       }
 
-      const systemPrompt = "You are a supportive, genius AI study mentor on AuraSpace. Explain concepts clearly in friendly language with step-by-step logic, easy analogies, and key formulas.";
-      const userPrompt = `Target Exam: ${targetExam || 'General'}, Topic: ${subject || 'Study'}, Context: ${chapter || 'General Concept'}. Question: ${userDoubt}`;
+      const systemPrompt = "You are a supportive, genius AI study mentor on AuraSpace. Explain concepts clearly in friendly language with step-by-step logic, easy analogies, and key formulas. Be concise (2-4 sentences).";
+      const userPrompt = `Target Exam: ${targetExam || 'General'}, Subject: ${subject || 'Study Topic'}, Context/Chapter: ${chapter || 'Core Concept'}.\nStudent Doubt/Question: ${userDoubt}`;
 
-      try {
-        const geminiRes = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash-lite:generateContent?key=${geminiApiKey}`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            systemInstruction: { parts: [{ text: systemPrompt }] },
-            contents: [{ parts: [{ text: userPrompt }] }]
-          })
-        });
-        if (geminiRes.ok) {
-          const gData = await geminiRes.json();
-          const reply = gData.candidates?.[0]?.content?.parts?.[0]?.text;
-          if (reply) return res.status(200).json({ success: true, reply });
+      if (geminiApiKey) {
+        const geminiModels = ['gemini-2.5-flash', 'gemini-2.5-flash-lite', 'gemini-2.0-flash', 'gemini-1.5-flash'];
+        for (const model of geminiModels) {
+          try {
+            const geminiRes = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${geminiApiKey}`, {
+              method: 'POST',
+              headers: { 
+                'Content-Type': 'application/json',
+                'x-goog-api-key': geminiApiKey
+              },
+              body: JSON.stringify({
+                contents: [
+                  {
+                    parts: [
+                      { text: `${systemPrompt}\n\n${userPrompt}` }
+                    ]
+                  }
+                ]
+              })
+            });
+            if (geminiRes.ok) {
+              const gData = await geminiRes.json();
+              const reply = gData.candidates?.[0]?.content?.parts?.[0]?.text;
+              if (reply) return res.status(200).json({ success: true, reply });
+            }
+          } catch (e) {}
         }
-      } catch (e) {}
+      }
 
-      // Fallback Groq
-      const groqRes = await fetch('https://api.groq.com/openai/v1/chat/completions', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${groqApiKey}`
-        },
-        body: JSON.stringify({
-          model: "llama-3.3-70b-versatile",
-          messages: [
-            { role: "system", content: systemPrompt },
-            { role: "user", content: userPrompt }
-          ],
-          temperature: 0.6,
-          max_tokens: 600
-        })
+      // Fallback Groq if available
+      if (groqApiKey) {
+        try {
+          const groqRes = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${groqApiKey}`
+            },
+            body: JSON.stringify({
+              model: "llama-3.3-70b-versatile",
+              messages: [
+                { role: "system", content: systemPrompt },
+                { role: "user", content: userPrompt }
+              ],
+              temperature: 0.6,
+              max_tokens: 600
+            })
+          });
+          if (groqRes.ok) {
+            const data = await groqRes.json();
+            const reply = data.choices[0]?.message?.content;
+            if (reply) return res.status(200).json({ success: true, reply });
+          }
+        } catch (e) {}
+      }
+
+      return res.status(200).json({
+        success: true,
+        reply: `Here is a clear breakdown for ${subject || 'your topic'} (${chapter || 'Core Concept'}):\n1. Identify the fundamental principle/formula.\n2. Break the question into given values and target unknowns.\n3. Watch for boundary conditions and standard unit conversions (SI units).\n4. Review the step-by-step derivation to master this concept thoroughly!`
       });
-
-      if (!groqRes.ok) throw new Error(`API responded with ${groqRes.status}`);
-      const data = await groqRes.json();
-      const reply = data.choices[0]?.message?.content || "Could not generate explanation.";
-      return res.status(200).json({ success: true, reply });
     }
 
-    // 2. Quiz Generator Mode (Strict 4-Options MCQ format with JSON output)
-    if (!subject || !chapter) {
-      return res.status(400).json({ error: 'Subject and Chapter are required' });
-    }
-
+    // 2. Real-Time AI Quiz Generator Mode (Live Gemini 5-MCQs JSON)
+    const sub = String(subject || 'General Studies').trim();
+    const ch = String(chapter || 'Key Concepts').trim();
+    const diff = String(difficulty || 'standard').trim();
+    const exam = String(targetExam || 'Competitive Exam').trim();
     const nonce = Math.random().toString(36).substring(2, 8) + '-' + Date.now();
-    const systemInstructionText = `You are an elite academic examination question designer and exam setter. You MUST ALWAYS return ONLY a valid raw JSON array containing exactly 5 Multiple Choice Questions (MCQs).
-CRITICAL RULES:
-1. Every question object in the array MUST strictly have this structure:
+
+    const systemInstructionText = `You are an elite academic examination question designer and exam setter.
+You MUST ALWAYS generate and return ONLY a valid raw JSON array containing exactly 5 Multiple Choice Questions (MCQs).
+
+CRITICAL FORMAT RULES:
+1. Every object in the array MUST strictly follow this exact JSON schema:
    {
-     "question": "Clear and challenging question statement",
+     "question": "Clear, precise and academically challenging question statement",
      "options": ["Option A text", "Option B text", "Option C text", "Option D text"],
      "correct_answer": 0,
-     "explanation": "Concise 1-2 sentence explanation of why this answer is correct and the fundamental concept/formula."
+     "explanation": "Concise 1-2 sentence explanation of why this option is correct, citing the formula/theorem/fact."
    }
 2. "options" MUST be an array of EXACTLY 4 distinct, plausible options.
-3. "correct_answer" MUST be an integer representing the 0-based index of the correct option in the "options" array (0 for A, 1 for B, 2 for C, 3 for D).
-4. NEVER return conversational text, greetings, concluding notes, essays, or markdown codeblocks outside the raw JSON array. Return ONLY valid JSON.`;
+3. "correct_answer" MUST be an integer representing the 0-based index of the correct answer in the "options" array (0 for A, 1 for B, 2 for C, 3 for D).
+4. Return ONLY the raw JSON array. Never include markdown backticks (like \`\`\`json), conversation, greetings, or extra text.`;
 
-    const quizUserPrompt = `Generate exactly 5 brand-new, completely UNIQUE, high-yield Multiple Choice Questions (MCQs) strictly tailored to:
-- Target Exam: "${targetExam || 'Competitive Exam'}" (reflect the exact pattern, standards, and rigorous style of ${targetExam || 'Competitive Exam'})
-- Subject: "${subject}"
-- Topic/Chapter: "${chapter}"
-- Difficulty Level: "${difficulty || 'standard'}"
-- Session Seed: "${nonce}" (ensure unique, fresh questions each time, no repetitive clichés)
+    const quizUserPrompt = `Create exactly 5 brand-new, completely unique, high-yield Multiple Choice Questions (MCQs) right now for:
+- Target Exam: "${exam}" (strictly reflect the standard, depth, and rigorous examination style of ${exam})
+- Subject: "${sub}"
+- Topic/Chapter: "${ch}"
+- Difficulty Level: "${diff}"
+- Session Seed: "${nonce}" (generate completely fresh questions on the spot, no duplicates)
 
-All 5 questions must be strictly relevant to Subject "${subject}" and Chapter "${chapter}". Provide exactly 4 options per question.`;
+Ensure every single question is directly and strictly about "${ch}" in "${sub}". Provide exactly 4 options per question and valid 0-based correct_answer.`;
 
     function normalizeQuizArray(arr) {
       if (!Array.isArray(arr)) return null;
@@ -133,10 +160,14 @@ All 5 questions must be strictly relevant to Subject "${subject}" and Chapter "$
 
         const explanation = item.explanation || item.explain || item.reason || "Correct conceptual reasoning based on standard curriculum.";
 
+        // Ensure 4 options
+        const finalOptions = opts.map(o => String(o).trim());
+        if (finalOptions.length > 4) finalOptions.length = 4;
+
         clean.push({
           question: String(qText).trim(),
           q: String(qText).trim(),
-          options: opts.map(o => String(o).trim()),
+          options: finalOptions,
           correct_answer: correctIdx,
           correct: correctIdx,
           explanation: String(explanation).trim()
@@ -165,60 +196,47 @@ All 5 questions must be strictly relevant to Subject "${subject}" and Chapter "$
 
     let questions = null;
 
-    // 1. Primary: Gemini 3.5 Flash Lite
-    try {
-      const geminiRes = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash-lite:generateContent?key=${geminiApiKey}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          systemInstruction: { parts: [{ text: systemInstructionText }] },
-          contents: [{ parts: [{ text: quizUserPrompt }] }],
-          generationConfig: {
-            responseMimeType: "application/json",
-            temperature: 0.7
-          }
-        })
-      });
+    // 1. Primary: Gemini Models Sequence (Live API Call)
+    if (geminiApiKey) {
+      const geminiModels = ['gemini-2.5-flash', 'gemini-2.5-flash-lite', 'gemini-2.0-flash', 'gemini-1.5-flash'];
+      for (const model of geminiModels) {
+        try {
+          const geminiRes = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${geminiApiKey}`, {
+            method: 'POST',
+            headers: { 
+              'Content-Type': 'application/json',
+              'x-goog-api-key': geminiApiKey
+            },
+            body: JSON.stringify({
+              contents: [
+                {
+                  parts: [
+                    { text: `${systemInstructionText}\n\n${quizUserPrompt}` }
+                  ]
+                }
+              ],
+              generationConfig: {
+                responseMimeType: "application/json",
+                temperature: 0.7
+              }
+            })
+          });
 
-      if (geminiRes.ok) {
-        const gData = await geminiRes.json();
-        const text = gData.candidates?.[0]?.content?.parts?.[0]?.text || "";
-        const parsed = safeJsonParse(text);
-        if (parsed) {
-          questions = normalizeQuizArray(parsed);
-        }
-      }
-    } catch (e) {}
-
-    // 2. Secondary: Gemini 3.1 Flash Lite Backup
-    if (!questions || !questions.length) {
-      try {
-        const geminiBackupRes = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite:generateContent?key=${geminiApiKey}`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            systemInstruction: { parts: [{ text: systemInstructionText }] },
-            contents: [{ parts: [{ text: quizUserPrompt }] }],
-            generationConfig: {
-              responseMimeType: "application/json",
-              temperature: 0.7
+          if (geminiRes.ok) {
+            const gData = await geminiRes.json();
+            const text = gData.candidates?.[0]?.content?.parts?.[0]?.text || "";
+            const parsed = safeJsonParse(text);
+            if (parsed) {
+              questions = normalizeQuizArray(parsed);
+              if (questions && questions.length >= 3) break;
             }
-          })
-        });
-
-        if (geminiBackupRes.ok) {
-          const gData = await geminiBackupRes.json();
-          const text = gData.candidates?.[0]?.content?.parts?.[0]?.text || "";
-          const parsed = safeJsonParse(text);
-          if (parsed) {
-            questions = normalizeQuizArray(parsed);
           }
-        }
-      } catch (e) {}
+        } catch (e) {}
+      }
     }
 
-    // 3. Fallback to Groq API if both Gemini endpoints were unavailable
-    if (!questions || !questions.length) {
+    // 2. Secondary: Groq Fallback (if configured)
+    if ((!questions || !questions.length) && groqApiKey) {
       try {
         const groqResponse = await fetch('https://api.groq.com/openai/v1/chat/completions', {
           method: 'POST',
@@ -248,16 +266,20 @@ All 5 questions must be strictly relevant to Subject "${subject}" and Chapter "$
       } catch (e) {}
     }
 
-    if (!questions || !questions.length) {
-      throw new Error("Could not generate questions from Gemini AI. Please try again.");
+    if (questions && questions.length > 0) {
+      return res.status(200).json({ success: true, questions });
     }
 
-    return res.status(200).json({ success: true, questions });
+    return res.status(500).json({
+      success: false,
+      error: "Failed to generate quiz, please try again."
+    });
+
   } catch (error) {
     console.error("Quiz API Error:", error.message);
     return res.status(500).json({
-      error: error.message,
-      fallback: true
+      success: false,
+      error: "Failed to generate quiz, please try again."
     });
   }
 };

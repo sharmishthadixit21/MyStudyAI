@@ -3437,43 +3437,41 @@
 
       try {
         let questions = null;
-        let lastError = null;
         const nonce = Math.random().toString(36).substring(2, 8) + '-' + Date.now();
 
-        const systemInstructionText = `You are an elite academic examination question designer and exam setter. You MUST ALWAYS return ONLY a valid raw JSON array containing exactly 5 Multiple Choice Questions (MCQs).
-CRITICAL RULES:
-1. Every question object in the array MUST strictly have this structure:
+        const systemInstructionText = `You are an elite academic examination question designer and exam setter.
+You MUST ALWAYS generate and return ONLY a valid raw JSON array containing exactly 5 Multiple Choice Questions (MCQs).
+
+CRITICAL FORMAT RULES:
+1. Every object in the array MUST strictly follow this exact JSON schema:
    {
-     "question": "Clear and challenging question statement",
+     "question": "Clear, precise and academically challenging question statement",
      "options": ["Option A text", "Option B text", "Option C text", "Option D text"],
      "correct_answer": 0,
-     "explanation": "Concise 1-2 sentence explanation of why this answer is correct and the fundamental concept/formula."
+     "explanation": "Concise 1-2 sentence explanation of why this option is correct, citing the formula/theorem/fact."
    }
 2. "options" MUST be an array of EXACTLY 4 distinct, plausible options.
-3. "correct_answer" MUST be an integer representing the 0-based index of the correct option in the "options" array (0 for A, 1 for B, 2 for C, 3 for D).
-4. NEVER return conversational text, greetings, concluding notes, essays, or markdown codeblocks outside the raw JSON array. Return ONLY valid JSON.`;
+3. "correct_answer" MUST be an integer representing the 0-based index of the correct answer in the "options" array (0 for A, 1 for B, 2 for C, 3 for D).
+4. Return ONLY the raw JSON array. Never include markdown backticks (like \`\`\`json), conversation, greetings, or extra text.`;
 
-        const quizUserPrompt = `Generate exactly 5 brand-new, completely UNIQUE, high-yield Multiple Choice Questions (MCQs) strictly tailored to:
-- Target Exam: "${examText}" (must strictly reflect the exact difficulty level, question pattern, and rigorous style of ${examText})
+        const quizUserPrompt = `Create exactly 5 brand-new, completely unique, high-yield Multiple Choice Questions (MCQs) right now for:
+- Target Exam: "${examText}" (strictly reflect the standard, depth, and rigorous examination style of ${examText})
 - Subject: "${sub}"
 - Topic/Chapter: "${ch}"
 - Difficulty Level: "${diff}"
-- Session Seed: "${nonce}" (generate fresh, unique questions each time, do not repeat standard clichés)
+- Session Seed: "${nonce}" (generate completely fresh questions on the spot, no duplicates)
 
-STRICT RULES:
-1. ALL 5 questions MUST be strictly and accurately relevant to Subject "${sub}" and Topic/Chapter "${ch}".
-2. The questions and options must strictly adhere to the difficulty level: "${diff}".
-3. Provide exactly 4 plausible, distinct options for each question (Option A, Option B, Option C, Option D).`;
+Ensure every single question is directly and strictly about "${ch}" in "${sub}". Provide exactly 4 options per question and valid 0-based correct_answer.`;
+
+        const GEMINI_CONFIG_KEY = "AQ.Ab8RN6Jvg18xirkroFImZMW4C3FrB84prYc40WzM7xl-Y7Cc4w";
 
         // 1. Primary Call: Secure Serverless API Proxy (/api/quiz)
-        const customLocalKey = localStorage.getItem('aura_custom_gemini_key') || "";
-        const proxyHeaders = { 'Content-Type': 'application/json' };
-        if (customLocalKey) proxyHeaders['x-gemini-key'] = customLocalKey;
-
         try {
           const proxyRes = await fetch('/api/quiz', {
             method: 'POST',
-            headers: proxyHeaders,
+            headers: { 
+              'Content-Type': 'application/json'
+            },
             body: JSON.stringify({
               subject: sub,
               chapter: ch,
@@ -3483,84 +3481,81 @@ STRICT RULES:
           });
           if (proxyRes.ok) {
             const pData = await proxyRes.json();
-            if (pData.success && Array.isArray(pData.questions)) {
+            if (pData.success && Array.isArray(pData.questions) && pData.questions.length >= 1) {
               questions = normalizeClientQuizQuestions(pData.questions);
             }
-          } else {
-            const errJson = await proxyRes.json().catch(() => ({}));
-            if (errJson && errJson.error) lastError = new Error(errJson.error);
           }
-        } catch(e) {
-          lastError = e;
-        }
+        } catch(e) {}
 
-        // 2. Secondary Fallback: Direct Client API (only if user provided a custom local key)
-        if ((!questions || !questions.length) && customLocalKey) {
-          try {
-            const geminiRes = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent?key=${customLocalKey}`, {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({
-                systemInstruction: { parts: [{ text: systemInstructionText }] },
-                contents: [{ parts: [{ text: quizUserPrompt }] }],
-                generationConfig: {
-                  responseMimeType: "application/json",
-                  temperature: 0.7
-                }
-              })
-            });
-
-            if (geminiRes.ok) {
-              const gData = await geminiRes.json();
-              const text = gData.candidates?.[0]?.content?.parts?.[0]?.text || "";
-              const parsed = safeClientJsonParse(text);
-              if (parsed) {
-                questions = normalizeClientQuizQuestions(parsed);
-              }
-            }
-          } catch(e) {
-            lastError = e;
-          }
-        }
-
-        // If API generation failed, show clean error with Retry button instead of static hardcoded questions
+        // 2. Direct Browser Call to Google Gemini API (if running locally or /api/quiz proxy not reachable)
         if (!questions || !questions.length) {
-          container.innerHTML = `
-            <div class="section-card" style="text-align:center; padding:32px 20px; border:1px solid rgba(239,68,68,0.3); background:rgba(239,68,68,0.06);">
-              <span style="font-size:2.8rem; display:block; margin-bottom:10px;">⚠️</span>
-              <h3 style="color:#fca5a5; font-size:1.25rem; margin-bottom:8px;">AI Quiz Generation Failed</h3>
-              <p style="color:var(--text-muted); font-size:0.86rem; margin-bottom:18px; max-width:520px; margin-left:auto; margin-right:auto;">
-                Could not generate dynamic questions from Gemini API right now. Please check your internet connection and try again. Hardcoded questions have been removed.
-              </p>
-              <button class="btn-primary" style="padding:10px 24px;" onclick="generateQuiz()">
-                ⚡ Retry Generating Real AI Quiz
-              </button>
-            </div>
-          `;
-          return;
+          const geminiModels = ['gemini-2.5-flash', 'gemini-2.5-flash-lite', 'gemini-2.0-flash', 'gemini-1.5-flash'];
+          for (const model of geminiModels) {
+            try {
+              const geminiRes = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${GEMINI_CONFIG_KEY}`, {
+                method: 'POST',
+                headers: { 
+                  'Content-Type': 'application/json',
+                  'x-goog-api-key': GEMINI_CONFIG_KEY
+                },
+                body: JSON.stringify({
+                  contents: [
+                    {
+                      parts: [
+                        { text: `${systemInstructionText}\n\n${quizUserPrompt}` }
+                      ]
+                    }
+                  ],
+                  generationConfig: {
+                    responseMimeType: "application/json",
+                    temperature: 0.7
+                  }
+                })
+              });
+
+              if (geminiRes.ok) {
+                const gData = await geminiRes.json();
+                const text = gData.candidates?.[0]?.content?.parts?.[0]?.text || "";
+                const parsed = safeClientJsonParse(text);
+                if (parsed) {
+                  questions = normalizeClientQuizQuestions(parsed);
+                  if (questions && questions.length >= 1) break;
+                }
+              }
+            } catch(e) {}
+          }
         }
 
-        currentQuizQuestions = questions;
-        currentQuizStudentAnswers = {};
-        quizStartTime = Date.now();
-        renderInteractiveQuizArena(sub, ch, questions, examText, diff);
-
-        if (window.auraCompanion) window.auraCompanion.addXP(30, "Generated AI Quiz");
+        if (questions && questions.length > 0) {
+          currentQuizQuestions = questions;
+          currentQuizStudentAnswers = {};
+          quizStartTime = Date.now();
+          renderInteractiveQuizArena(sub, ch, questions, examText, diff);
+          if (window.auraCompanion) window.auraCompanion.addXP(30, "Generated AI Quiz");
+        } else {
+          showQuizGenerationError(sub, ch);
+        }
       } catch(err) {
-        console.error("Quiz Error:", err);
-        container.innerHTML = `
-          <div class="section-card" style="text-align:center; padding:32px 20px; border:1px solid rgba(239,68,68,0.3); background:rgba(239,68,68,0.06);">
-            <span style="font-size:2.8rem; display:block; margin-bottom:10px;">⚠️</span>
-            <h3 style="color:#fca5a5; font-size:1.25rem; margin-bottom:8px;">AI Quiz Generation Error</h3>
-            <p style="color:var(--text-muted); font-size:0.86rem; margin-bottom:18px; max-width:520px; margin-left:auto; margin-right:auto;">
-              ${err.message || 'Error communicating with Gemini API'}. Please click below to retry.
-            </p>
-            <button class="btn-primary" style="padding:10px 24px;" onclick="generateQuiz()">
-              ⚡ Retry Generating Real AI Quiz
-            </button>
-          </div>
-        `;
+        console.error("Quiz Generation error:", err);
+        showQuizGenerationError(sub, ch);
       }
+    }
+
+    function showQuizGenerationError(sub, ch) {
+      const container = document.getElementById('quiz-container');
+      if (!container) return;
+      container.innerHTML = `
+        <div class="section-card" style="text-align:center; padding:35px 20px; border-color:var(--danger-red);">
+          <span style="font-size:2.5rem; display:inline-block; margin-bottom:10px;">⚠️</span>
+          <h3 style="color:var(--danger-red); font-size:1.2rem; margin-bottom:8px;">Failed to generate quiz, please try again</h3>
+          <p style="color:var(--text-muted); font-size:0.9rem; max-width:500px; margin:0 auto 18px auto; line-height:1.5;">
+            Could not generate MCQs for <strong>${sub}: ${ch}</strong> right now. Please check your internet connection and try again.
+          </p>
+          <div style="display:flex; justify-content:center; gap:10px; flex-wrap:wrap;">
+            <button class="btn-primary" onclick="generateQuiz()" style="padding:10px 22px;">🔄 Retry Quiz Generation</button>
+          </div>
+        </div>
+      `;
     }
 
     function renderInteractiveQuizArena(sub, ch, questions, examText = "", diff = "standard") {
@@ -3734,18 +3729,18 @@ STRICT RULES:
       if (!doubt) return;
 
       try {
-        const promptText = `You are a supportive, genius AI study mentor on AuraSpace. Explain concepts clearly in friendly language with step-by-step logic and easy analogies. Topic: ${sub}, Context Question: ${questionContext}. Student Doubt: ${doubt}`;
+        const promptText = `You are a supportive, genius AI study mentor on AuraSpace. Explain concepts clearly in friendly language with step-by-step logic, easy analogies, and key formulas. Topic: ${sub}, Context Question: ${questionContext}. Student Doubt: ${doubt}`;
         
         let reply = "";
-        const customLocalKey = localStorage.getItem('aura_custom_gemini_key') || "";
-        const proxyHeaders = { 'Content-Type': 'application/json' };
-        if (customLocalKey) proxyHeaders['x-gemini-key'] = customLocalKey;
+        const GEMINI_CONFIG_KEY = "AQ.Ab8RN6Jvg18xirkroFImZMW4C3FrB84prYc40WzM7xl-Y7Cc4w";
 
         // 1. Primary: Serverless Backend /api/quiz
         try {
           const proxyRes = await fetch('/api/quiz', {
             method: 'POST',
-            headers: proxyHeaders,
+            headers: { 
+              'Content-Type': 'application/json'
+            },
             body: JSON.stringify({
               action: 'chat_doubt',
               subject: sub,
@@ -3760,22 +3755,34 @@ STRICT RULES:
           }
         } catch(e) {}
 
-        // 2. Secondary: Direct fetch if custom local key exists
-        if (!reply && customLocalKey) {
-          try {
-            const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent?key=${customLocalKey}`, {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({
-                systemInstruction: { parts: [{ text: "You are a supportive, genius AI study mentor on AuraSpace. Explain concepts clearly in friendly language with step-by-step logic, easy analogies, and key formulas." }] },
-                contents: [{ parts: [{ text: promptText }] }]
-              })
-            });
-            if (res.ok) {
-              const gData = await res.json();
-              reply = gData.candidates?.[0]?.content?.parts?.[0]?.text;
-            }
-          } catch(e) {}
+        // 2. Secondary: Direct fetch to Gemini API
+        if (!reply) {
+          const geminiModels = ['gemini-2.5-flash', 'gemini-2.5-flash-lite', 'gemini-2.0-flash', 'gemini-1.5-flash'];
+          for (const model of geminiModels) {
+            try {
+              const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${GEMINI_CONFIG_KEY}`, {
+                method: 'POST',
+                headers: { 
+                  'Content-Type': 'application/json',
+                  'x-goog-api-key': GEMINI_CONFIG_KEY
+                },
+                body: JSON.stringify({
+                  contents: [
+                    {
+                      parts: [
+                        { text: `You are a supportive, genius AI study mentor on AuraSpace. Explain concepts clearly in friendly language with step-by-step logic, easy analogies, and key formulas.\n\n${promptText}` }
+                      ]
+                    }
+                  ]
+                })
+              });
+              if (res.ok) {
+                const gData = await res.json();
+                reply = gData.candidates?.[0]?.content?.parts?.[0]?.text;
+                if (reply) break;
+              }
+            } catch(e) {}
+          }
         }
 
         if (reply) {
