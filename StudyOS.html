@@ -24,9 +24,6 @@
     gtag('js', new Date());
     gtag('config', 'G-9WD3M45Q7L');
   </script>
-
-  <!-- Razorpay Checkout SDK -->
-  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
   
   <!-- Google Identity Services (Sign in with Google) -->
   <script src="https://accounts.google.com/gsi/client" async defer></script>
@@ -133,8 +130,9 @@
       background: rgba(10, 8, 18, 0.85); z-index: 10000;
       display: none; flex-direction: column; align-items: center; justify-content: center;
       backdrop-filter: blur(25px); animation: fadeIn 0.3s ease-out;
+      pointer-events: none;
     }
-    .modal-overlay.active { display: flex; }
+    .modal-overlay.active { display: flex; pointer-events: auto; }
 
     .modal-card {
       background: var(--card-bg); border: 1px solid var(--card-border);
@@ -238,6 +236,162 @@
       box-shadow: 0 4px 16px rgba(0,0,0,0.15); cursor: pointer; transition: all 0.2s ease;
     }
     .widget-pill:hover { background: var(--card-hover); transform: translateY(-1px); }
+
+    /* AESTHETIC CIRCULAR HEADER BADGES */
+    .header-circle-badge {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: var(--card-bg);
+      border: 1.5px solid var(--card-border);
+      backdrop-filter: blur(16px);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      line-height: 1;
+      padding: 2px;
+      text-align: center;
+      flex-shrink: 0;
+    }
+    .header-circle-badge:hover {
+      transform: translateY(-2px) scale(1.05);
+      border-color: var(--accent-pastel);
+      box-shadow: 0 6px 20px rgba(192, 132, 252, 0.3);
+    }
+    .header-circle-badge .circle-badge-number {
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 800;
+      font-size: 0.88rem;
+      color: var(--text-main);
+      display: block;
+      margin-bottom: 1px;
+    }
+    .header-circle-badge .circle-badge-subtext {
+      font-size: 0.62rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      display: block;
+    }
+    .header-streak-circle {
+      border-color: rgba(249, 115, 22, 0.5);
+      background: linear-gradient(135deg, rgba(249, 115, 22, 0.18), rgba(239, 68, 68, 0.15));
+    }
+    .header-streak-circle:hover {
+      border-color: #f97316;
+      box-shadow: 0 6px 20px rgba(249, 115, 22, 0.35);
+    }
+    .header-streak-circle .circle-badge-number {
+      color: #f97316;
+    }
+    .header-exam-cd-circle {
+      border-color: rgba(56, 189, 248, 0.5);
+      background: linear-gradient(135deg, rgba(56, 189, 248, 0.18), rgba(192, 132, 252, 0.15));
+    }
+    .header-exam-cd-circle:hover {
+      border-color: #38bdf8;
+      box-shadow: 0 6px 20px rgba(56, 189, 248, 0.35);
+    }
+    .header-exam-cd-circle .circle-badge-number {
+      color: #38bdf8;
+    }
+    .header-exam-cd-circle .circle-badge-subtext {
+      color: #38bdf8;
+      font-size: 0.58rem;
+    }
+
+    /* AESTHETIC BOTTOM-LEFT DOG COMPANION */
+    .aesthetic-dog-wrapper {
+      position: fixed;
+      bottom: 20px;
+      left: 24px;
+      z-index: 999;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      pointer-events: auto;
+      user-select: none;
+    }
+    .dog-thought-bubble {
+      background: rgba(18, 14, 28, 0.92);
+      border: 1.5px solid var(--accent-pastel);
+      border-radius: 18px;
+      padding: 10px 14px;
+      max-width: 230px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.55), 0 0 20px rgba(192, 132, 252, 0.2);
+      font-size: 0.82rem;
+      line-height: 1.45;
+      color: var(--text-main);
+      backdrop-filter: blur(20px);
+      margin-bottom: 12px;
+      position: relative;
+      animation: fadeIn 0.35s ease-out;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    [data-theme="light"] .dog-thought-bubble {
+      background: rgba(255, 255, 255, 0.95);
+      border-color: var(--accent-pastel);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+      color: #0f172a;
+    }
+    .dog-thought-bubble:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 35px rgba(192, 132, 252, 0.35);
+    }
+    .dog-thought-dots {
+      position: absolute;
+      bottom: -11px;
+      left: 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+    .dog-thought-dot-1 {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--accent-pastel);
+      box-shadow: 0 0 6px var(--accent-pastel);
+    }
+    .dog-thought-dot-2 {
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: var(--pink-soft);
+      margin-left: 2px;
+    }
+    .aesthetic-dog-avatar {
+      cursor: pointer;
+      transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+      filter: drop-shadow(0 8px 24px rgba(0,0,0,0.45));
+    }
+    .aesthetic-dog-avatar:hover {
+      transform: scale(1.08) rotate(3deg);
+    }
+    .aesthetic-dog-avatar:active {
+      transform: scale(0.95);
+    }
+    @keyframes dogTailWag {
+      0%, 100% { transform: rotate(0deg); }
+      50% { transform: rotate(16deg); }
+    }
+    .dog-tail-wag {
+      transform-origin: 20px 45px;
+      animation: dogTailWag 1.8s ease-in-out infinite;
+    }
+    @keyframes dogBreathe {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-3px); }
+    }
+    .dog-breathe-anim {
+      animation: dogBreathe 3.2s ease-in-out infinite;
+    }
 
     /* DASHBOARD HOME & 2-HUB DESIGN */
     .home-container { text-align: center; padding-top: 10px; }
@@ -498,6 +652,9 @@
     }
 
     /* MOBILE & TABLET RESPONSIVENESS */
+    #mobile-nav-toggle { display: none; }
+    .sidebar-backdrop { display: none; pointer-events: none; }
+
     @media (max-width: 1024px) {
       .hub-cards-grid {
         grid-template-columns: repeat(2, 1fr);
@@ -509,25 +666,80 @@
         height: auto;
         overflow-y: auto;
         min-height: 100vh;
+        overflow-x: hidden;
       }
       #main-content {
-        padding: 72px 14px 40px 14px;
+        padding: 68px 12px 40px 12px;
         height: auto;
         min-height: 100vh;
+        width: 100vw;
+        max-width: 100vw;
+        overflow-x: hidden;
+      }
+      #sidebar {
+        position: fixed !important;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        width: 275px !important;
+        max-width: 82vw !important;
+        height: 100vh !important;
+        z-index: 10005 !important;
+        transform: translateX(-100%);
+        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        box-shadow: 0 0 50px rgba(0, 0, 0, 0.7);
+        display: flex !important;
+      }
+      #sidebar.mobile-open {
+        transform: translateX(0) !important;
+      }
+      #sidebar.hidden-on-dashboard:not(.mobile-open) {
+        transform: translateX(-100%) !important;
+        display: flex !important;
+      }
+      .sidebar-backdrop {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(10, 8, 18, 0.75);
+        backdrop-filter: blur(5px);
+        z-index: 10004;
+        display: none !important;
+        pointer-events: none;
+      }
+      .sidebar-backdrop.active {
+        display: block !important;
+        pointer-events: auto;
+      }
+      #mobile-nav-toggle {
+        display: inline-flex !important;
       }
       .top-widgets-container {
-        top: 10px;
-        right: 10px;
-        left: 10px;
-        justify-content: flex-end;
+        top: 8px;
+        right: 8px;
+        left: 8px;
+        justify-content: flex-start;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        padding-bottom: 6px;
         gap: 6px;
+        scrollbar-width: none;
+      }
+      .top-widgets-container::-webkit-scrollbar {
+        display: none;
       }
       .widget-pill {
-        padding: 5px 10px;
-        font-size: 0.76rem;
+        padding: 6px 12px;
+        font-size: 0.78rem;
+        flex-shrink: 0;
+        white-space: nowrap;
+        min-height: 34px;
       }
       .home-title {
-        font-size: 2.2rem;
+        font-size: 2.1rem;
       }
       .home-subtitle {
         font-size: 0.8rem;
@@ -567,15 +779,36 @@
         font-size: 0.9rem;
         border-radius: 8px;
       }
+      #zen-timer-display {
+        font-size: 3.6rem !important;
+        letter-spacing: 2px !important;
+      }
+      #main-timer-display {
+        font-size: 3.2rem !important;
+        letter-spacing: 2px !important;
+      }
+      .pricing-plans-grid {
+        grid-template-columns: 1fr !important;
+      }
+      .responsive-input-grid {
+        grid-template-columns: 1fr !important;
+      }
     }
 
     @media (max-width: 480px) {
       .home-title {
-        font-size: 1.85rem;
+        font-size: 1.75rem;
       }
       .modal-card {
-        padding: 22px 16px;
+        padding: 20px 14px;
         width: 95%;
+        border-radius: 20px;
+      }
+      #zen-timer-display {
+        font-size: 2.7rem !important;
+      }
+      #main-timer-display {
+        font-size: 2.4rem !important;
       }
     }
 
@@ -729,8 +962,211 @@
       background: rgba(10, 8, 18, 0.96); z-index: 99999;
       display: none; flex-direction: column; align-items: center; justify-content: center;
       backdrop-filter: blur(30px);
+      pointer-events: none;
     }
-    #lock-screen.active, #zen-focus-overlay.active { display: flex; }
+    #lock-screen.active, #zen-focus-overlay.active {
+      display: flex !important;
+      pointer-events: auto;
+    }
+    /* HEADER CIRCLE BADGES (Streak & Exam Countdown) */
+    .header-circle-badge {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+      position: relative;
+      user-select: none;
+    }
+    .header-circle-badge:hover {
+      transform: translateY(-2px) scale(1.05);
+    }
+    .circle-badge-number {
+      font-size: 0.95rem;
+      font-weight: 800;
+      line-height: 1;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .circle-badge-subtext {
+      font-size: 0.62rem;
+      line-height: 1;
+      margin-top: 1px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+    .header-streak-circle {
+      background: linear-gradient(135deg, rgba(249,115,22,0.25), rgba(239,68,68,0.22));
+      border: 1.5px solid #f97316;
+      color: #f97316;
+    }
+    .header-streak-circle:hover {
+      box-shadow: 0 0 16px rgba(249,115,22,0.5);
+    }
+    .header-exam-cd-circle {
+      background: linear-gradient(135deg, rgba(56,189,248,0.25), rgba(192,132,252,0.22));
+      border: 1.5px solid #38bdf8;
+      color: #38bdf8;
+    }
+    .header-exam-cd-circle:hover {
+      box-shadow: 0 0 16px rgba(56,189,248,0.5);
+    }
+
+    /* AESTHETIC COMPANION DOG (Bottom-Left Floating) */
+    .aesthetic-dog-wrapper {
+      position: fixed;
+      bottom: 24px;
+      left: 24px;
+      z-index: 999;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      pointer-events: none;
+    }
+    .dog-thought-bubble {
+      pointer-events: auto;
+      background: rgba(26, 22, 37, 0.92);
+      border: 1.5px solid var(--accent-pastel);
+      border-radius: 16px 16px 16px 4px;
+      padding: 9px 14px;
+      max-width: 240px;
+      font-size: 0.82rem;
+      line-height: 1.4;
+      color: var(--text-main);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.4), 0 0 14px rgba(192,132,252,0.25);
+      backdrop-filter: blur(12px);
+      margin-bottom: 8px;
+      position: relative;
+      cursor: pointer;
+      opacity: 0;
+      transform: translateY(6px) scale(0.95);
+      transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .dog-thought-bubble.visible {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+    .dog-thought-bubble::after {
+      content: '';
+      position: absolute;
+      bottom: -6px;
+      left: 16px;
+      width: 10px;
+      height: 10px;
+      background: rgba(26, 22, 37, 0.92);
+      border-right: 1.5px solid var(--accent-pastel);
+      border-bottom: 1.5px solid var(--accent-pastel);
+      transform: rotate(45deg);
+    }
+    .dog-avatar-container {
+      pointer-events: auto;
+      cursor: pointer;
+      width: 78px;
+      height: 78px;
+      filter: drop-shadow(0 6px 14px rgba(0,0,0,0.35));
+      transition: transform 0.25s ease;
+      user-select: none;
+    }
+    .dog-avatar-container:hover {
+      transform: scale(1.08) rotate(2deg);
+    }
+
+    /* PWA SMART INSTALL BANNER */
+    .pwa-install-banner {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      max-width: 410px;
+      width: calc(100% - 48px);
+      background: rgba(22, 18, 34, 0.95);
+      border: 1.5px solid var(--accent-pastel);
+      border-radius: 18px;
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.55), 0 0 22px rgba(192, 132, 252, 0.25);
+      backdrop-filter: blur(20px);
+      z-index: 99999;
+      animation: slideUpPwa 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    @keyframes slideUpPwa {
+      from { transform: translateY(100px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    .pwa-banner-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex: 1;
+    }
+    .pwa-banner-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      object-fit: cover;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      flex-shrink: 0;
+    }
+    .pwa-banner-title {
+      font-weight: 700;
+      font-size: 0.92rem;
+      color: var(--text-main);
+      font-family: 'Playfair Display', serif;
+    }
+    .pwa-banner-desc {
+      font-size: 0.74rem;
+      color: var(--text-muted);
+      line-height: 1.35;
+      margin-top: 2px;
+    }
+    .pwa-banner-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+    .pwa-install-btn {
+      padding: 8px 16px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      border-radius: 10px;
+      white-space: nowrap;
+    }
+    .pwa-dismiss-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-size: 1.1rem;
+      cursor: pointer;
+      padding: 6px;
+      border-radius: 8px;
+      line-height: 1;
+      transition: color 0.2s ease;
+    }
+    .pwa-dismiss-btn:hover {
+      color: var(--text-main);
+    }
+    @media (max-width: 600px) {
+      .pwa-install-banner {
+        bottom: 16px;
+        right: 16px;
+        left: 16px;
+        width: auto;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+      }
+      .pwa-banner-actions {
+        justify-content: flex-end;
+      }
+    }
   </style>
 </head>
 <body>
@@ -770,7 +1206,7 @@
   <!-- 3. SEAMLESS GOOGLE & USER AUTH MODAL -->
   <div id="auth-modal" class="modal-overlay">
     <div class="modal-card" style="max-width: 460px; text-align: center;">
-      <button class="modal-close-btn" onclick="toggleAuthModal(false)">✕</button>
+      <button class="modal-close-btn" id="auth-modal-close-btn" onclick="toggleAuthModal(false)">✕</button>
       <span style="font-size: 2.6rem; display: block; margin-bottom: 6px;">✨</span>
       <h3 style="font-family:'Playfair Display', serif; font-size: 1.65rem; color:var(--accent-pastel); margin-bottom: 6px;">Sign In to MyStudyAI</h3>
       <p style="color:var(--text-muted); font-size: 0.84rem; margin-bottom: 16px;">Connect with your Google account or sign in directly as App Owner.</p>
@@ -819,19 +1255,30 @@
   <!-- 4. STUDENT ONBOARDING DETAILS MODAL -->
   <div id="onboarding-modal" class="modal-overlay">
     <div class="modal-card" style="max-width: 500px;">
-      <h3 style="font-family:'Playfair Display', serif; font-size: 1.5rem; color:var(--accent-pastel); margin-bottom: 6px;">Set Up Your Student Profile 🎓</h3>
-      <p style="color:var(--text-muted); font-size:0.84rem; margin-bottom: 18px;">Personalize AuraSpace for your target exam and study schedule:</p>
+      <h3 style="font-family:'Playfair Display', serif; font-size: 1.55rem; color:var(--accent-pastel); margin-bottom: 6px;">Set Up Your Student Profile 🎓</h3>
+      <p style="color:var(--text-muted); font-size:0.84rem; margin-bottom: 18px;">Please fill in your details to customize your StudyOS workspace and exam countdown:</p>
       
       <div style="display:flex; flex-direction:column; gap:12px; text-align:left;">
-        <div>
-          <label style="font-size:0.8rem; color:var(--text-muted); display:block; margin-bottom:4px;">Your Full Name:</label>
-          <input type="text" id="onboard-name" placeholder="e.g. Aryan Sharma" style="width:100%;">
+        <!-- Profile Picture (DP) Upload -->
+        <div style="display:flex; align-items:center; gap:14px; padding:12px; background:rgba(255,255,255,0.05); border-radius:14px; border:1px solid var(--card-border);">
+          <div id="onboard-avatar-preview-box" style="width:56px; height:56px; border-radius:50%; background:var(--accent-pastel); color:#0f172a; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:1.4rem; overflow:hidden; border:2px solid var(--accent-pastel); flex-shrink:0;">
+            <span id="onboard-avatar-preview-text">S</span>
+          </div>
+          <div style="flex:1;">
+            <label style="font-size:0.8rem; color:var(--text-muted); display:block; margin-bottom:4px;">Profile Photo (Upload DP):</label>
+            <input type="file" id="onboard-avatar-file" accept="image/*" style="width:100%; font-size:0.8rem;" onchange="handleOnboardAvatarUpload(event)">
+          </div>
         </div>
 
         <div>
-          <label style="font-size:0.8rem; color:var(--text-muted); display:block; margin-bottom:4px;">Academic Stage / Class:</label>
+          <label style="font-size:0.8rem; color:var(--text-muted); display:block; margin-bottom:4px;">Your Full Name: *</label>
+          <input type="text" id="onboard-name" placeholder="Enter your full name (e.g. Aryan Sharma)" style="width:100%;" required>
+        </div>
+
+        <div>
+          <label style="font-size:0.8rem; color:var(--text-muted); display:block; margin-bottom:4px;">Academic Stage / Class: *</label>
           <select id="onboard-class" style="width:100%;">
-            <option value="12th Pass / Dropper 🎯">12th Pass / Dropper 🎯</option>
+            <option value="Dropper">Dropper</option>
             <option value="Class 12">Class 12th</option>
             <option value="Class 11">Class 11th</option>
             <option value="Class 10">Class 10th</option>
@@ -844,7 +1291,7 @@
         </div>
 
         <div>
-          <label style="font-size:0.8rem; color:var(--text-muted); display:block; margin-bottom:4px;">Primary Target Exam / Goal:</label>
+          <label style="font-size:0.8rem; color:var(--text-muted); display:block; margin-bottom:4px;">Primary Target Exam / Goal: *</label>
           <select id="onboard-target-exam" style="width:100%;">
             <option value="jee">JEE Main & Advanced</option>
             <option value="neet">NEET UG</option>
@@ -858,12 +1305,84 @@
         </div>
 
         <div>
-          <label style="font-size:0.8rem; color:var(--text-muted); display:block; margin-bottom:4px;">Daily Study Target (Hours):</label>
-          <input type="number" id="onboard-daily-hours" value="6" min="1" max="16" style="width:100%;">
+          <label style="font-size:0.8rem; color:var(--text-muted); display:block; margin-bottom:4px;">Tentative Exam / Goal Date: *</label>
+          <input type="date" id="onboard-exam-date" style="width:100%;" required>
+          <span style="font-size:0.72rem; color:var(--accent-pastel); margin-top:3px; display:block;">Used for your live Target Exam Countdown in the top header</span>
         </div>
 
-        <button class="btn-primary" style="margin-top:8px; padding:12px;" onclick="saveOnboardingProfile()">Complete Setup & Enter AuraSpace 🚀</button>
+        <button class="btn-primary" style="margin-top:8px; padding:12px; font-weight:700;" onclick="saveOnboardingProfile()">Complete Setup & Enter StudyOS 🚀</button>
       </div>
+    </div>
+  </div>
+
+  <!-- 4.6. DAILY STUDY STREAK DETAILS MODAL -->
+  <div id="streak-details-modal" class="modal-overlay">
+    <div class="modal-card" style="max-width: 460px; text-align: center;">
+      <button class="modal-close-btn" onclick="toggleStreakModal(false)">✕</button>
+      <div style="width:70px; height:70px; margin:0 auto 12px; border-radius:50%; background:linear-gradient(135deg, rgba(249,115,22,0.2), rgba(239,68,68,0.2)); display:flex; align-items:center; justify-content:center; font-size:2.4rem; border:2px solid #f97316; box-shadow:0 6px 20px rgba(249,115,22,0.35);">
+        🔥
+      </div>
+      <h3 style="font-family:'Playfair Display', serif; font-size:1.6rem; color:#f97316; margin-bottom:4px;">Daily Study Streak</h3>
+      <p style="color:var(--text-muted); font-size:0.85rem; margin-bottom:18px;">Maintain consistency every single day to cement high-yield habits.</p>
+
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:18px;">
+        <div style="background:rgba(249,115,22,0.1); border:1px solid rgba(249,115,22,0.3); border-radius:14px; padding:14px;">
+          <div style="font-size:0.75rem; color:var(--text-muted); text-transform:uppercase; font-weight:700;">Current Streak</div>
+          <div id="modal-streak-count" style="font-size:2.2rem; font-weight:800; color:#f97316; font-family:'JetBrains Mono', monospace;">1</div>
+          <div style="font-size:0.75rem; color:var(--text-muted);">Consecutive Days</div>
+        </div>
+        <div style="background:rgba(251,191,36,0.1); border:1px solid rgba(251,191,36,0.3); border-radius:14px; padding:14px;">
+          <div style="font-size:0.75rem; color:var(--text-muted); text-transform:uppercase; font-weight:700;">Longest Record</div>
+          <div id="modal-streak-longest" style="font-size:2.2rem; font-weight:800; color:var(--gold-accent); font-family:'JetBrains Mono', monospace;">1</div>
+          <div style="font-size:0.75rem; color:var(--text-muted);">Personal Best 🏆</div>
+        </div>
+      </div>
+
+      <div style="background:rgba(255,255,255,0.04); border:1px solid var(--card-border); border-radius:14px; padding:14px; text-align:left; margin-bottom:18px;">
+        <div style="font-size:0.85rem; font-weight:600; color:var(--accent-pastel); margin-bottom:6px;">💡 How to Keep Your Streak Alive:</div>
+        <p style="font-size:0.8rem; color:var(--text-muted); line-height:1.45; margin:0;">
+          Log in each day and either complete a Focus block (Stopwatch/Timer) or check off at least 1 task on your Focus Checklist.
+        </p>
+      </div>
+
+      <button class="btn-primary" style="width:100%; padding:12px; font-weight:700;" onclick="toggleStreakModal(false)">
+        Keep Crushing It 🚀
+      </button>
+    </div>
+  </div>
+
+  <!-- 4.7. VIRAL REFERRAL SHARE & VIP BONUS MODAL -->
+  <div id="referral-share-modal" class="modal-overlay">
+    <div class="modal-card" style="max-width: 500px; text-align: center;">
+      <button class="modal-close-btn" onclick="toggleReferralModal(false)">✕</button>
+      <div style="width:72px; height:72px; margin:0 auto 12px; border-radius:50%; background:linear-gradient(135deg, rgba(168,85,247,0.25), rgba(236,72,153,0.25)); display:flex; align-items:center; justify-content:center; font-size:2.4rem; border:2px solid #ec4899; box-shadow:0 6px 22px rgba(236,72,153,0.35);">
+        🎁
+      </div>
+      <span class="tag-badge" style="background:rgba(236,72,153,0.2); color:#ec4899; font-weight:700; margin-bottom:8px; display:inline-block;">SHARE STUDYOS</span>
+      <h3 style="font-family:'Playfair Display', serif; font-size:1.65rem; color:var(--text-main); margin-bottom:6px;">Share StudyOS With Friends</h3>
+      <p style="color:var(--text-muted); font-size:0.86rem; line-height:1.5; margin-bottom:20px;">
+        Share StudyOS with your study buddies or groups. Study together and stay accountable!
+      </p>
+
+      <!-- Referral Link Box -->
+      <div style="background:rgba(0,0,0,0.25); border:1.5px dashed var(--card-border); border-radius:14px; padding:12px 14px; margin-bottom:18px; display:flex; justify-content:space-between; align-items:center; gap:8px;">
+        <input type="text" id="referral-share-link-input" readonly value="https://mystudyai-live.vercel.app/StudyOS.html" style="background:transparent; border:none; color:var(--accent-pastel); font-size:0.82rem; font-family:'JetBrains Mono', monospace; width:100%; outline:none; text-overflow:ellipsis;">
+        <button class="btn-primary" style="padding:6px 14px; font-size:0.78rem; white-space:nowrap;" onclick="copyReferralLink()">📋 Copy Link</button>
+      </div>
+
+      <!-- 1-Click Social Sharing Buttons -->
+      <div style="display:flex; flex-direction:column; gap:10px; margin-bottom:14px;">
+        <button class="btn-primary" style="width:100%; padding:12px; background:#25D366; color:#ffffff; font-weight:700; gap:8px; justify-content:center;" onclick="shareToWhatsApp()">
+          <span style="font-size:1.1rem;">💬</span> Share on WhatsApp
+        </button>
+        <button class="btn-primary" style="width:100%; padding:12px; background:#229ED9; color:#ffffff; font-weight:700; gap:8px; justify-content:center;" onclick="shareToTelegram()">
+          <span style="font-size:1.1rem;">✈️</span> Share on Telegram
+        </button>
+      </div>
+
+      <p style="font-size:0.75rem; color:var(--text-muted); margin:0;">
+        ✨ Tip: Study partners who share progress together maintain a 3.4x higher exam retention rate!
+      </p>
     </div>
   </div>
 
@@ -882,11 +1401,15 @@
       <p id="drawer-user-email" style="font-size:0.85rem; color:var(--text-muted); margin-bottom:12px;">aryan@gmail.com</p>
       
       <div style="display:flex; justify-content:center; gap:8px; flex-wrap:wrap; margin-bottom:20px;">
-        <span class="tag-badge" id="drawer-user-class" style="background:rgba(192,132,252,0.15); color:var(--accent-pastel);">12th Dropper 🎯</span>
+        <span class="tag-badge" id="drawer-user-class" style="background:rgba(192,132,252,0.15); color:var(--accent-pastel);">Dropper 🎯</span>
         <span class="tag-badge" id="drawer-user-exam" style="background:rgba(56,189,248,0.15); color:#38bdf8;">JEE Aspirant</span>
       </div>
 
       <div style="background:rgba(0,0,0,0.25); border:1px solid var(--card-border); border-radius:14px; padding:14px; margin-bottom:18px; text-align:left;">
+        <div style="display:flex; justify-content:space-between; align-items:center; font-size:0.82rem; margin-bottom:6px;">
+          <span style="color:var(--text-muted);">Target Exam Countdown:</span>
+          <strong id="drawer-exam-days-left" style="color:#38bdf8;">-- days left</strong>
+        </div>
         <div style="display:flex; justify-content:space-between; font-size:0.82rem; margin-bottom:6px;">
           <span style="color:var(--text-muted);">Daily Study Target:</span>
           <strong id="drawer-daily-goal">6 Hours / Day</strong>
@@ -932,7 +1455,7 @@
         <div>
           <label style="font-size:0.8rem; color:var(--text-muted); display:block; margin-bottom:4px;">Class / Academic Stage:</label>
           <select id="edit-class-input" style="width:100%;">
-            <option value="12th Pass / Dropper 🎯">12th Pass / Dropper 🎯</option>
+            <option value="Dropper">Dropper</option>
             <option value="Class 12">Class 12th</option>
             <option value="Class 11">Class 11th</option>
             <option value="Class 10">Class 10th</option>
@@ -956,105 +1479,18 @@
             <option value="custom">🛠️ Custom / Self-Study Goal</option>
           </select>
         </div>
+        <div>
+          <label style="font-size:0.8rem; color:var(--text-muted); display:block; margin-bottom:4px;">Tentative Exam / Goal Date:</label>
+          <input type="date" id="edit-exam-date-input" style="width:100%;">
+        </div>
         <button class="btn-primary" style="margin-top:4px;" onclick="saveEditedProfile()">Save Changes ✨</button>
       </div>
     </div>
   </div>
 
-  <!-- 6.5. AESTHETIC AURASPACE PREMIUM FEATURE INTERCEPTOR MODAL -->
-  <div id="premium-feature-modal" class="modal-overlay">
-    <div class="modal-card" style="max-width: 540px; text-align: center; border: 1.5px solid var(--accent-pastel); box-shadow: 0 20px 60px rgba(192, 132, 252, 0.35);">
-      <button class="modal-close-btn" onclick="togglePremiumFeatureModal(false)">✕</button>
-      
-      <div style="width:70px; height:70px; margin: 0 auto 14px; border-radius:50%; background: linear-gradient(135deg, rgba(251,191,36,0.25), rgba(192,132,252,0.25)); display:flex; align-items:center; justify-content:center; font-size:2.4rem; border:2px solid var(--gold-accent); box-shadow:0 6px 20px rgba(251,191,36,0.35);">
-        👑
-      </div>
 
-      <span class="tag-badge" style="background: rgba(251,191,36,0.18); color: var(--gold-accent); font-weight:700; margin-bottom:8px; display:inline-block;">AURASPACE PRO EXCLUSIVE</span>
-      <h3 style="font-family:'Playfair Display', serif; font-size: 1.75rem; color: var(--text-main); margin-bottom: 6px;" id="premium-feature-modal-title">Unlock Premium Feature</h3>
-      <p style="color: var(--text-muted); font-size: 0.88rem; margin-bottom: 20px;" id="premium-feature-modal-subtitle">
-        Supercharge your focus, memory retention, and study aesthetics with VIP access.
-      </p>
 
-      <div style="background: rgba(255, 255, 255, 0.05); border: 1px solid var(--card-border); border-radius: 18px; padding: 18px 20px; text-align: left; margin-bottom: 22px; display: flex; flex-direction: column; gap: 10px;">
-        <div style="display:flex; align-items:center; gap:10px; font-size:0.86rem; color:var(--text-main);">
-          <span style="color:var(--gold-accent); font-size:1.1rem;">✨</span>
-          <span><strong>Scientific Spaced Recall:</strong> 1-7-15-30 automated revision intervals</span>
-        </div>
-        <div style="display:flex; align-items:center; gap:10px; font-size:0.86rem; color:var(--text-main);">
-          <span style="color:var(--accent-pastel); font-size:1.1rem;">🐼</span>
-          <span><strong>Mythical Study Companions:</strong> Zen Panda, Dragon & Phoenix evolutions</span>
-        </div>
-        <div style="display:flex; align-items:center; gap:10px; font-size:0.86rem; color:var(--text-main);">
-          <span style="color:var(--pink-soft); font-size:1.1rem;">🎯</span>
-          <span><strong>Dreams & Success Wall:</strong> Manifest goals & pin Polaroid corkboards</span>
-        </div>
-        <div style="display:flex; align-items:center; gap:10px; font-size:0.86rem; color:var(--text-main);">
-          <span style="color:#38bdf8; font-size:1.1rem;">📔</span>
-          <span><strong>Private Daily Diary:</strong> Reflection logs with emotional mood trackers</span>
-        </div>
-        <div style="display:flex; align-items:center; gap:10px; font-size:0.86rem; color:var(--text-main);">
-          <span style="color:#34d399; font-size:1.1rem;">🎨</span>
-          <span><strong>4K Aesthetic Atmosphere:</strong> Custom HD wallpaper uploads & lofi rooms</span>
-        </div>
-      </div>
 
-      <div style="display:flex; flex-direction:column; gap:10px;">
-        <button class="btn-primary" style="width:100%; padding: 13px; font-size: 1rem; font-weight:700; background: linear-gradient(135deg, #c084fc, #f472b6); box-shadow: 0 6px 25px rgba(192, 132, 252, 0.45);" onclick="openProModalFromInterceptor()">
-          ⚡ Upgrade Now (From ₹49) 💳
-        </button>
-        <button class="btn-outline" style="width:100%; padding: 10px; font-size: 0.85rem; border-radius: 12px; color: var(--text-muted);" onclick="togglePremiumFeatureModal(false)">
-          Maybe Later ✕
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <!-- 7. MYSTUDYAI PRO & PREMIUM SUBSCRIPTIONS MODAL -->
-  <div id="pro-modal" class="modal-overlay">
-    <div class="modal-card" style="max-width: 640px; text-align:center;">
-      <button class="modal-close-btn" onclick="toggleProModal(false)">✕</button>
-      <span style="font-size: 2.8rem; display:block; margin-bottom:8px;">👑</span>
-      <h3 style="font-family:'Playfair Display', serif; font-size:1.8rem; color:var(--accent-pastel); margin-bottom:6px;">MyStudyAI Premium (Pro 👑)</h3>
-      <p style="color:var(--text-muted); font-size:0.88rem; margin-bottom:20px;">
-        Unlock Zen Panda 🐼, Mythical Study Partners, Dreams & Vision Board 🎯, Spaced Repetition Mastery, Daily Reflection Diary, and 4K Custom Wallpapers.
-      </p>
-
-      <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:12px; margin-bottom:20px; text-align:left;">
-        <div style="padding:14px; background:rgba(255,255,255,0.06); border:1px solid var(--card-border); border-radius:14px; display:flex; flex-direction:column; justify-content:space-between;">
-          <div>
-            <div style="font-size:0.8rem; color:var(--text-muted);">Monthly Pass</div>
-            <div style="font-size:1.35rem; font-weight:700; color:var(--accent-pastel);">₹49<span style="font-size:0.75rem;">/mo</span></div>
-            <p style="font-size:0.72rem; color:var(--text-muted); margin-top:6px;">Zen Panda & Pro Themes</p>
-          </div>
-          <button class="btn-primary" style="width:100%; margin-top:12px; padding:7px 10px; font-size:0.78rem;" onclick="initiateRazorpayPayment('Monthly Pass', 49)">Buy ₹49 💳</button>
-        </div>
-        
-        <div style="padding:14px; background:linear-gradient(135deg, rgba(192,132,252,0.18), rgba(244,114,182,0.18)); border:1.5px solid var(--accent-pastel); border-radius:14px; position:relative; display:flex; flex-direction:column; justify-content:space-between;">
-          <span style="position:absolute; top:-8px; right:8px; font-size:0.65rem; background:var(--accent-pastel); color:#0f172a; font-weight:700; padding:2px 6px; border-radius:10px;">BEST VALUE</span>
-          <div>
-            <div style="font-size:0.8rem; color:var(--text-muted);">Annual Pass</div>
-            <div style="font-size:1.35rem; font-weight:700; color:var(--gold-accent);">₹499<span style="font-size:0.75rem;">/yr</span></div>
-            <p style="font-size:0.72rem; color:var(--text-muted); margin-top:6px;">Full OS + Dreams Board + SRS</p>
-          </div>
-          <button class="btn-primary" style="width:100%; margin-top:12px; padding:7px 10px; font-size:0.78rem; background:linear-gradient(135deg,#c084fc,#f472b6);" onclick="initiateRazorpayPayment('Annual Pass', 499)">Buy ₹499 💳</button>
-        </div>
-
-        <div style="padding:14px; background:rgba(255,255,255,0.06); border:1px solid var(--card-border); border-radius:14px; display:flex; flex-direction:column; justify-content:space-between;">
-          <div>
-            <div style="font-size:0.8rem; color:var(--text-muted);">Lifetime Pass</div>
-            <div style="font-size:1.35rem; font-weight:700; color:#34d399;">₹4,999</div>
-            <p style="font-size:0.72rem; color:var(--text-muted); margin-top:6px;">Forever VIP Access</p>
-          </div>
-          <button class="btn-primary" style="width:100%; margin-top:12px; padding:7px 10px; font-size:0.78rem; background:linear-gradient(135deg,#10b981,#059669);" onclick="initiateRazorpayPayment('Lifetime Pass', 4999)">Buy ₹4,999 💳</button>
-        </div>
-      </div>
-
-      <div style="display:flex; flex-direction:column; gap:10px;">
-        <button class="btn-primary btn-outline" style="width:100%; padding:10px; font-size:0.85rem;" onclick="activateProOwnerFree()">✨ Activate VIP Access (Admin / Dev Bypass)</button>
-      </div>
-    </div>
-  </div>
 
   <!-- PRIVACY POLICY MODAL -->
   <div id="privacy-policy-modal" class="modal-overlay">
@@ -1170,13 +1606,28 @@
       <button class="widget-pill" id="zen-fullscreen-btn" onclick="toggleZenFullscreen()">⛶ Fullscreen</button>
       <button class="widget-pill" onclick="toggleZenMode()">✕ Exit Zen</button>
     </div>
-    <div style="text-align:center;">
+    <div style="text-align:center; max-width:800px; width:92%; margin:0 auto;">
       <div id="zen-timer-status" style="font-size:0.85rem; font-weight:700; color:var(--accent-pastel); letter-spacing:2px; margin-bottom:12px;">FOCUS ACTIVE</div>
       <div id="zen-timer-display" style="font-size:6.5rem; font-family:'JetBrains Mono', monospace; font-weight:700; color:var(--text-main); margin-bottom:24px;">00:00:00</div>
-      <div style="display:flex; gap:12px; justify-content:center;">
+      <div style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap; margin-bottom:20px;">
         <button class="btn-primary" id="zen-toggle-btn" style="padding:12px 28px; font-size:1.1rem;" onclick="toggleTimerPlayPause()">▶ Start</button>
         <button class="btn-primary btn-outline" style="padding:12px 24px; font-size:1.1rem;" onclick="resetTimer()">⏹ Reset</button>
       </div>
+
+      <!-- Smart Focus Soundscape Picker -->
+      <div style="display:flex; gap:8px; justify-content:center; align-items:center; flex-wrap:wrap; margin-bottom:22px;">
+        <span style="font-size:0.82rem; color:var(--text-muted); margin-right:4px;">🎧 Ambient:</span>
+        <button class="widget-pill zen-snd-pill" id="zen-snd-rain" onclick="setZenAmbientSound('rain')" style="padding:6px 14px; font-size:0.82rem;">🌧️ Soft Rain</button>
+        <button class="widget-pill zen-snd-pill" id="zen-snd-lofi" onclick="setZenAmbientSound('binaural')" style="padding:6px 14px; font-size:0.82rem;">📻 Lo-Fi Focus</button>
+        <button class="widget-pill zen-snd-pill" id="zen-snd-cafe" onclick="setZenAmbientSound('cafe')" style="padding:6px 14px; font-size:0.82rem;">☕ Kyoto Cafe</button>
+        <button class="widget-pill zen-snd-pill" id="zen-snd-off" onclick="setZenAmbientSound('none')" style="padding:6px 14px; font-size:0.82rem;">🔇 Mute</button>
+      </div>
+
+      <!-- Live Uplifting Motivational Quote -->
+      <div id="zen-focus-quote" onclick="rotateZenMotivationalQuote()" title="Click for new inspiration" style="cursor:pointer; max-width:620px; margin:0 auto; font-family:'Playfair Display', serif; font-size:1.15rem; font-style:italic; line-height:1.55; color:var(--accent-pastel); opacity:0.95; padding:12px 18px; border-radius:14px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); transition:all 0.3s ease;">
+        "Small daily disciplines repeated with consistency lead to monumental achievements."
+      </div>
+      <div style="font-size:0.75rem; color:var(--text-muted); margin-top:8px;">(Click quote for next inspiration ✨)</div>
     </div>
   </div>
 
@@ -1184,9 +1635,33 @@
        TOP BAR HEADER (WITH SETTINGS & RECYCLE QUICK ACCESS)
        ========================================================= -->
   <div class="top-widgets-container">
-    <div class="widget-pill" id="premium-top-pill" onclick="toggleProModal(true)" title="AuraSpace Premium (Pro 👑)" style="background: linear-gradient(135deg, rgba(251,191,36,0.18), rgba(192,132,252,0.18)); border-color: rgba(251,191,36,0.45); color: var(--gold-accent); font-weight:600;">
-      <span>👑</span>
-      <span class="nav-label" data-i18n="premiumPill">Premium</span>
+    <div class="widget-pill" id="mobile-nav-toggle" onclick="toggleMobileSidebar()" title="Toggle Navigation Menu" style="background:var(--accent-gradient); color:#ffffff; font-weight:700;">
+      <span style="font-size:1.05rem;">☰</span>
+      <span>Menu</span>
+    </div>
+
+    <!-- Retention Study Streak Circle Badge -->
+    <div class="header-circle-badge header-streak-circle" id="header-streak-badge" onclick="toggleStreakModal(true)" title="Daily Study Streak">
+      <span class="circle-badge-number" id="header-streak-count">1</span>
+      <span class="circle-badge-subtext">🔥</span>
+    </div>
+
+    <!-- Live Target Exam Countdown Circle Badge -->
+    <div class="header-circle-badge header-exam-cd-circle" id="header-exam-countdown" onclick="openExamDatePrompt()" title="Target Exam Countdown">
+      <span class="circle-badge-number" id="header-exam-days">--</span>
+      <span class="circle-badge-subtext">left</span>
+    </div>
+
+    <!-- Direct Viral Share Button -->
+    <div class="widget-pill" id="quick-share-btn" onclick="quickShareApp()" title="Share StudyOS" style="background: rgba(168,85,247,0.15); border: 1.5px solid rgba(168,85,247,0.4); color: var(--accent-pastel); font-weight:600; cursor:pointer;">
+      <span>🔗</span>
+      <span class="nav-label">Share</span>
+    </div>
+
+    <!-- PWA Install Button (Shown on installable devices) -->
+    <div class="widget-pill" id="header-pwa-install-btn" onclick="triggerPWAInstall()" title="Install MyStudyAI App" style="display:none; background: linear-gradient(135deg, rgba(56,189,248,0.2), rgba(192,132,252,0.2)); border: 1.5px solid #38bdf8; color: #38bdf8; font-weight:600; cursor:pointer;">
+      <span>📲</span>
+      <span class="nav-label">Install App</span>
     </div>
 
     <div class="widget-pill" id="ambient-top-pill" onclick="switchTab('soundscapes')">
@@ -1198,9 +1673,9 @@
       <span id="ambient-status-text">🎵 Sounds: Off</span>
     </div>
 
-    <div class="widget-pill" onclick="toggleZenMode()" title="Open Zen Distraction-Free Focus HUD">
-      <span>🪟</span>
-      <span>Zen Focus</span>
+    <div class="widget-pill" id="focus-mode-top-pill" onclick="toggleZenMode()" title="Open Zen Distraction-Free Focus HUD">
+      <span>⚡</span>
+      <span>Focus Mode</span>
     </div>
 
     <div class="widget-pill" id="theme-toggle-pill" onclick="toggleTheme()" title="Toggle Dark / Light Mode">
@@ -1208,23 +1683,16 @@
       <span id="theme-text">Dark</span>
     </div>
 
-    <div class="widget-pill" id="trash-top-pill" onclick="switchTab('trash')" title="Recycle Bin">
-      <span>🗑️</span>
-      <span>Trash</span>
-    </div>
-
-    <div class="widget-pill" id="settings-top-pill" onclick="switchTab('settings')" title="Settings & Security">
-      <span>⚙️</span>
-      <span>Settings</span>
-    </div>
-
-    <div class="widget-pill" id="user-profile-pill" onclick="openUserProfileModal()" title="Student Profile & Cloud Sync" style="padding: 4px 14px 4px 8px; gap: 8px;">
-      <div id="header-avatar-circle" style="width:28px; height:28px; border-radius:50%; background:var(--accent-pastel); color:#0f172a; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:0.82rem; overflow:hidden;">
+    <!-- Student Profile Avatar Icon ONLY -->
+    <div class="widget-pill" id="user-profile-pill" onclick="openUserProfileModal()" title="Student Profile & Settings" style="padding: 4px; border-radius: 50%; min-width: unset; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; cursor: pointer;">
+      <div id="header-avatar-circle" style="width:32px; height:32px; border-radius:50%; background:var(--accent-pastel); color:#0f172a; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:0.88rem; overflow:hidden;">
         S
       </div>
-      <span id="user-profile-name" style="font-weight:600; font-size:0.86rem;">Student</span>
     </div>
   </div>
+
+  <!-- Mobile Sidebar Backdrop -->
+  <div id="sidebar-backdrop" class="sidebar-backdrop" onclick="toggleMobileSidebar(false)"></div>
 
   <!-- =========================================================
        SIDEBAR NAVIGATION
@@ -1242,8 +1710,8 @@
     <div style="font-size:0.7rem; font-weight:700; color:var(--accent-pastel); padding:4px 12px; letter-spacing:1px; text-transform:uppercase;">Study OS</div>
 
     <button class="nav-btn" id="nav-btn-tracker" onclick="switchTab('tracker')"><span class="nav-icon">📚</span> <span class="nav-label" data-i18n="navTracker">Syllabus & Exam Mastery</span></button>
-    <button class="nav-btn" id="nav-btn-spaced-rep" onclick="openFeatureOrPremium('spaced-rep', true, 'Spaced Repetition')"><span class="nav-icon">🔁</span> <span class="nav-label" data-i18n="navSpacedRep">Spaced Repetition 👑</span></button>
-    <button class="nav-btn" id="nav-btn-analytics" onclick="switchTab('analytics')"><span class="nav-icon">📊</span> <span class="nav-label" data-i18n="navAnalytics">Study & Mock Analytics</span></button>
+    <button class="nav-btn" id="nav-btn-spaced-rep" onclick="switchTab('spaced-rep')"><span class="nav-icon">🔁</span> <span class="nav-label" data-i18n="navSpacedRep">Spaced Repetition</span></button>
+    <button class="nav-btn" id="nav-btn-analytics" onclick="switchTab('analytics')"><span class="nav-icon">📊</span> <span class="nav-label" data-i18n="navAnalytics">Mock Analytics</span></button>
     <button class="nav-btn" id="nav-btn-error-log" onclick="switchTab('error-log')"><span class="nav-icon">📖</span> <span class="nav-label" data-i18n="navMistakeVault">Mistake Vault & Fixer</span></button>
     <button class="nav-btn" id="nav-btn-quiz" onclick="switchTab('quiz')"><span class="nav-icon">📝</span> <span class="nav-label" data-i18n="navQuiz">AI Study Quiz Arena</span></button>
     <button class="nav-btn" id="nav-btn-todo" onclick="switchTab('todo')"><span class="nav-icon">✅</span> <span class="nav-label" data-i18n="navTodo">Focus Checklist</span></button>
@@ -1254,14 +1722,12 @@
     <div style="height:1px; background:var(--card-border); margin:8px 0; opacity:0.6;"></div>
     <div style="font-size:0.7rem; font-weight:700; color:var(--pink-soft); padding:4px 12px; letter-spacing:1px; text-transform:uppercase;">Personal Space</div>
 
-    <button class="nav-btn" id="nav-btn-companion" onclick="switchTab('companion')"><span class="nav-icon">🐾</span> <span class="nav-label" data-i18n="navCompanion">Study Partner Haven</span></button>
-    <button class="nav-btn" id="nav-btn-diary" onclick="openFeatureOrPremium('diary', true, 'Daily Diary')"><span class="nav-icon">📔</span> <span class="nav-label" data-i18n="navDiary">Daily Diary 👑</span></button>
-    <button class="nav-btn" id="nav-btn-goals" onclick="openFeatureOrPremium('goals', true, 'Dreams & Vision Board')"><span class="nav-icon">🎯</span> <span class="nav-label" data-i18n="navDreams">Dreams & Vision Board 👑</span></button>
+    <button class="nav-btn" id="nav-btn-diary" onclick="switchTab('diary')"><span class="nav-icon">📔</span> <span class="nav-label" data-i18n="navDiary">Daily Diary</span></button>
+    <button class="nav-btn" id="nav-btn-goals" onclick="switchTab('goals')"><span class="nav-icon">🎯</span> <span class="nav-label" data-i18n="navDreams">Dreams & Vision Board</span></button>
     <button class="nav-btn" id="nav-btn-soundscapes" onclick="switchTab('soundscapes')"><span class="nav-icon">🎧</span> <span class="nav-label" data-i18n="navSounds">Ambient Soundscapes</span></button>
-    <button class="nav-btn" id="nav-btn-shop" onclick="openFeatureOrPremium('shop', true, 'Aesthetic Wallpapers')"><span class="nav-icon">🎨</span> <span class="nav-label" data-i18n="navWallpapers">Aesthetic Wallpapers 👑</span></button>
+    <button class="nav-btn" id="nav-btn-shop" onclick="switchTab('shop')"><span class="nav-icon">🎨</span> <span class="nav-label" data-i18n="navWallpapers">Aesthetic Wallpapers</span></button>
 
     <div style="height:1px; background:var(--card-border); margin:8px 0; opacity:0.6;"></div>
-    <button class="nav-btn" id="nav-btn-trash" onclick="switchTab('trash')"><span class="nav-icon">🗑️</span> <span class="nav-label" data-i18n="navTrash">Recycle Bin</span></button>
     <button class="nav-btn" id="nav-btn-settings" onclick="switchTab('settings')"><span class="nav-icon">⚙️</span> <span class="nav-label" data-i18n="navSettings">Settings & Security</span></button>
   </div>
 
@@ -1289,92 +1755,79 @@
             "Small daily disciplines repeated with consistency lead to monumental achievements in life."
           </p>
         </div>
-
-        <!-- Dynamic Scheduled Revision Alert Card -->
-        <div id="dashboard-revisions-due-card" class="section-card" style="display:none; text-align:left; border-left:4px solid var(--pink-soft); background:linear-gradient(135deg, rgba(244,114,182,0.12), rgba(192,132,252,0.06)); margin-bottom:24px;">
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; flex-wrap:wrap; gap:8px;">
-            <div style="display:flex; align-items:center; gap:8px;">
-              <span style="font-size:1.3rem;">🔔</span>
-              <strong style="color:var(--pink-soft); font-size:1.05rem;">Active Revisions Due Today!</strong>
-            </div>
-            <button class="btn-primary" style="padding:5px 12px; font-size:0.8rem;" onclick="openFeatureOrPremium('spaced-rep', true, 'Spaced Repetition')">Open Spaced Repetition 🔁</button>
-          </div>
-          <div id="dashboard-revisions-list" style="display:flex; flex-direction:column; gap:6px;"></div>
-        </div>
-
-        <!-- TWO MAIN LANDING HUBS -->
-        <div class="hubs-grid">
-          
-          <!-- HUB 1: STUDY OS -->
-          <div class="hub-landing-card hub-card-study" onclick="switchTab('study-os')">
-            <div>
-              <div style="display:flex; justify-content:space-between; align-items:center;">
-                <div class="hub-icon-wrapper hub-study-icon-bg">
-                  <span>⚡</span>
-                </div>
-                <span class="hub-badge hub-badge-study">9 Academic Tools</span>
-              </div>
-              <h2 class="hub-title">
-                <span>Study OS</span>
-                <span style="font-size:1.3rem; opacity:0.8;">→</span>
-              </h2>
-              <div class="hub-subtitle">Academic & Learning Tools</div>
-              <p class="hub-desc">
-                High-yield curriculum tracker, AI-powered chapter quizzes, test score analytics, active recall scheduler, error fixer, and deep focus timers.
-              </p>
-              <div class="hub-tags-row">
-                <span class="hub-tag-chip">📚 Syllabus Mastery</span>
-                <span class="hub-tag-chip">🔁 Spaced Recall 👑</span>
-                <span class="hub-tag-chip">📊 Mock Analytics</span>
-                <span class="hub-tag-chip">📖 Mistake Vault</span>
-                <span class="hub-tag-chip">📝 AI Quiz Arena</span>
-                <span class="hub-tag-chip">✅ Focus Checklist</span>
-                <span class="hub-tag-chip">📅 Calendar</span>
-                <span class="hub-tag-chip">⏱️ Stopwatch & Timer</span>
-                <span class="hub-tag-chip">🛍️ Books & Gear</span>
-              </div>
-            </div>
-            <div class="hub-cta-btn">
-              <span>Open Study OS Workspace</span>
-              <span style="font-weight:700; color:var(--accent-pastel);">Launch 🚀</span>
-            </div>
-          </div>
-
-          <!-- HUB 2: PERSONAL SPACE -->
-          <div class="hub-landing-card hub-card-personal" onclick="switchTab('personal-space')">
-            <div>
-              <div style="display:flex; justify-content:space-between; align-items:center;">
-                <div class="hub-icon-wrapper hub-personal-icon-bg">
-                  <span>🌸</span>
-                </div>
-                <span class="hub-badge hub-badge-personal">5 Mindset & Aesthetic Spaces</span>
-              </div>
-              <h2 class="hub-title">
-                <span>Personal Space</span>
-                <span style="font-size:1.3rem; opacity:0.8;">→</span>
-              </h2>
-              <div class="hub-subtitle" style="color:var(--pink-soft);">Mindset, Journaling & Aesthetics</div>
-              <p class="hub-desc">
-                Cultivate peace and motivation with evolving virtual study partners, daily reflection diary, vision dream board, and calming procedural soundscapes.
-              </p>
-              <div class="hub-tags-row">
-                <span class="hub-tag-chip">🐾 Study Partner Haven</span>
-                <span class="hub-tag-chip">📔 Daily Diary 👑</span>
-                <span class="hub-tag-chip">🎯 Dreams & Vision Board 👑</span>
-                <span class="hub-tag-chip">🎧 Soundscapes</span>
-                <span class="hub-tag-chip">🎨 4K Wallpapers 👑</span>
-              </div>
-            </div>
-            <div class="hub-cta-btn">
-              <span>Enter Personal Space</span>
-              <span style="font-weight:700; color:var(--pink-soft);">Explore ✨</span>
-            </div>
-          </div>
-
-        </div>
-
-      </div>
-    </div>
+ 
+         <!-- TWO MAIN LANDING HUBS -->
+         <div class="hubs-grid" style="margin-top:20px;">
+           
+           <!-- HUB 1: STUDY OS -->
+           <div class="hub-landing-card hub-card-study" onclick="switchTab('study-os')">
+             <div>
+               <div style="display:flex; justify-content:space-between; align-items:center;">
+                 <div class="hub-icon-wrapper hub-study-icon-bg">
+                   <span>⚡</span>
+                 </div>
+                 <span class="hub-badge hub-badge-study">9 Academic Tools</span>
+               </div>
+               <h2 class="hub-title">
+                 <span>Study OS</span>
+                 <span style="font-size:1.3rem; opacity:0.8;">→</span>
+               </h2>
+               <div class="hub-subtitle">Academic & Learning Tools</div>
+               <p class="hub-desc">
+                 High-yield curriculum tracker, AI-powered chapter quizzes, test score analytics, active recall scheduler, error fixer, and deep focus timers.
+               </p>
+               <div class="hub-tags-row">
+                 <span class="hub-tag-chip">📚 Syllabus Mastery</span>
+                 <span class="hub-tag-chip">🔁 Spaced Recall</span>
+                 <span class="hub-tag-chip">📊 Mock Analytics</span>
+                 <span class="hub-tag-chip">📖 Mistake Vault</span>
+                 <span class="hub-tag-chip">📝 AI Quiz Arena</span>
+                 <span class="hub-tag-chip">✅ Focus Checklist</span>
+                 <span class="hub-tag-chip">📅 Calendar</span>
+                 <span class="hub-tag-chip">⏱️ Stopwatch & Timer</span>
+                 <span class="hub-tag-chip">🛍️ Books & Gear</span>
+               </div>
+             </div>
+             <div class="hub-cta-btn">
+               <span>Open Study OS Workspace</span>
+               <span style="font-weight:700; color:var(--accent-pastel);">Launch 🚀</span>
+             </div>
+           </div>
+ 
+           <!-- HUB 2: PERSONAL SPACE -->
+           <div class="hub-landing-card hub-card-personal" onclick="switchTab('personal-space')">
+             <div>
+               <div style="display:flex; justify-content:space-between; align-items:center;">
+                 <div class="hub-icon-wrapper hub-personal-icon-bg">
+                   <span>🌸</span>
+                 </div>
+                 <span class="hub-badge hub-badge-personal">4 Mindset & Aesthetic Spaces</span>
+               </div>
+               <h2 class="hub-title">
+                 <span>Personal Space</span>
+                 <span style="font-size:1.3rem; opacity:0.8;">→</span>
+               </h2>
+               <div class="hub-subtitle" style="color:var(--pink-soft);">Mindset, Journaling & Aesthetics</div>
+               <p class="hub-desc">
+                 Cultivate peace and motivation with daily reflection diary, vision dream board, and calming procedural soundscapes.
+               </p>
+               <div class="hub-tags-row">
+                 <span class="hub-tag-chip">📔 Daily Diary</span>
+                 <span class="hub-tag-chip">🎯 Dreams & Vision Board</span>
+                 <span class="hub-tag-chip">🎧 Soundscapes</span>
+                 <span class="hub-tag-chip">🎨 4K Wallpapers</span>
+               </div>
+             </div>
+             <div class="hub-cta-btn">
+               <span>Enter Personal Space</span>
+               <span style="font-weight:700; color:var(--pink-soft);">Explore ✨</span>
+             </div>
+           </div>
+ 
+         </div>
+ 
+       </div>
+     </div>
 
     <!-- 1B. DEDICATED STUDY OS HUB TAB -->
     <div id="tab-study-os" class="tab-content">
@@ -1404,11 +1857,11 @@
           </div>
         </div>
 
-        <div class="feature-card" onclick="openFeatureOrPremium('spaced-rep', true, 'Spaced Repetition Mastery')">
+        <div class="feature-card" onclick="switchTab('spaced-rep')">
           <div>
             <div class="feature-card-header">
               <span class="feature-card-icon">🔁</span>
-              <span class="premium-corner-badge">👑 PRO</span>
+              <span class="tag-badge" style="background:rgba(192,132,252,0.15); color:var(--accent-pastel);">Recall</span>
             </div>
             <h3 class="feature-card-title">Spaced Repetition</h3>
             <p class="feature-card-desc">Scientific 1-7-15-30 day active recall scheduler to build permanent memory retention.</p>
@@ -1425,8 +1878,8 @@
               <span class="feature-card-icon">📊</span>
               <span class="tag-badge" style="background:rgba(56,189,248,0.15); color:#38bdf8;">Analytics</span>
             </div>
-            <h3 class="feature-card-title">Study & Mock Analytics</h3>
-            <p class="feature-card-desc">365-day consistency heatmap, test score progression curves, and focus hour metrics.</p>
+            <h3 class="feature-card-title">Mock Analytics</h3>
+            <p class="feature-card-desc">Log solved papers, track score growth, and view performance curves.</p>
           </div>
           <div class="feature-card-footer">
             <span>View Stats</span>
@@ -1539,26 +1992,11 @@
       </div>
 
       <div class="hub-cards-grid">
-        <div class="feature-card" onclick="switchTab('companion')">
-          <div>
-            <div class="feature-card-header">
-              <span class="feature-card-icon">🐾</span>
-              <span class="tag-badge" style="background:rgba(244,114,182,0.15); color:var(--pink-soft);">Companion</span>
-            </div>
-            <h3 class="feature-card-title">Study Partner Haven</h3>
-            <p class="feature-card-desc">Interactive virtual pets (Zen Panda, Dragon, Phoenix) that study alongside you and level up.</p>
-          </div>
-          <div class="feature-card-footer">
-            <span>Visit Partner</span>
-            <span>Open →</span>
-          </div>
-        </div>
-
-        <div class="feature-card" onclick="openFeatureOrPremium('diary', true, 'Daily Reflection Diary')">
+        <div class="feature-card" onclick="switchTab('diary')">
           <div>
             <div class="feature-card-header">
               <span class="feature-card-icon">📔</span>
-              <span class="premium-corner-badge">👑 PRO</span>
+              <span class="tag-badge" style="background:rgba(192,132,252,0.15); color:var(--accent-pastel);">Journal</span>
             </div>
             <h3 class="feature-card-title">Daily Diary</h3>
             <p class="feature-card-desc">Private daily reflection journal to log study mood, celebrate small wins, and release stress.</p>
@@ -1569,11 +2007,11 @@
           </div>
         </div>
 
-        <div class="feature-card" onclick="openFeatureOrPremium('goals', true, 'Dreams & Vision Board')">
+        <div class="feature-card" onclick="switchTab('goals')">
           <div>
             <div class="feature-card-header">
               <span class="feature-card-icon">🎯</span>
-              <span class="premium-corner-badge">👑 PRO</span>
+              <span class="tag-badge" style="background:rgba(251,191,36,0.15); color:var(--gold-accent);">Vision</span>
             </div>
             <h3 class="feature-card-title">Dreams & Vision Board</h3>
             <p class="feature-card-desc">Manifest your dream college rank, pin photos to Polaroid Corkboard & celebrate on Success Wall.</p>
@@ -1599,11 +2037,11 @@
           </div>
         </div>
 
-        <div class="feature-card" onclick="openFeatureOrPremium('shop', true, 'Aesthetic Wallpapers & Atmosphere')">
+        <div class="feature-card" onclick="switchTab('shop')">
           <div>
             <div class="feature-card-header">
               <span class="feature-card-icon">🎨</span>
-              <span class="premium-corner-badge">👑 PRO</span>
+              <span class="tag-badge" style="background:rgba(52,211,153,0.15); color:#34d399);">Atmosphere</span>
             </div>
             <h3 class="feature-card-title">Aesthetic Wallpapers</h3>
             <p class="feature-card-desc">Atmospheric study backdrops (Lofi, Forest, Nebula) + upload your custom 4K wallpapers.</p>
@@ -1767,42 +2205,10 @@
       <div id="sr-display-list"></div>
     </div>
 
-    <!-- 6. STUDY & MOCK TEST ANALYTICS TAB -->
+    <!-- 6. MOCK TEST ANALYTICS TAB -->
     <div id="tab-analytics" class="tab-content">
-      <h2 style="font-family:'Playfair Display', serif; margin-bottom:6px;">Study & Mock Test Analytics 📊</h2>
-      <p style="color:var(--text-muted); margin-bottom:20px;">Track your study momentum, 365-day heatmap, and test score progression curve.</p>
-
-      <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap:12px; margin-bottom:20px;">
-        <div class="section-card" style="margin-bottom:0; text-align:center; padding:18px;">
-          <div style="font-size:0.75rem; color:var(--text-muted);">Current Streak</div>
-          <div id="current-flame-streak-text" style="font-size:1.35rem; font-weight:700; color:var(--gold-accent); margin:4px 0;">1 Day Streak 🔥</div>
-          <span class="tag-badge" id="longest-streak-badge">Best: 1 Day 🏆</span>
-        </div>
-        <div class="section-card" style="margin-bottom:0; text-align:center; padding:18px;">
-          <div style="font-size:0.75rem; color:var(--text-muted);">Total Focus Time</div>
-          <div id="total-focus-minutes-stat" style="font-size:1.35rem; font-weight:700; color:var(--accent-pastel); margin:4px 0;">0 min</div>
-          <span class="tag-badge">Deep Focus</span>
-        </div>
-        <div class="section-card" style="margin-bottom:0; text-align:center; padding:18px;">
-          <div style="font-size:0.75rem; color:var(--text-muted);">Tasks Completed</div>
-          <div id="completed-tasks-stat" style="font-size:1.35rem; font-weight:700; color:#34d399; margin:4px 0;">0</div>
-          <span class="tag-badge">Checklist Items</span>
-        </div>
-        <div class="section-card" style="margin-bottom:0; text-align:center; padding:18px;">
-          <div style="font-size:0.75rem; color:var(--text-muted);">Mock Tests Solved</div>
-          <div id="mock-tests-stat" style="font-size:1.35rem; font-weight:700; color:#38bdf8; margin:4px 0;">0</div>
-          <span class="tag-badge">Papers Logged</span>
-        </div>
-      </div>
-
-      <!-- 365-Day Study Activity Heatmap -->
-      <div class="section-card">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; flex-wrap:wrap; gap:8px;">
-          <h3 style="font-size:1.05rem; color:var(--accent-pastel);">🔥 365-Day Consistency Heatmap</h3>
-          <span id="heatmap-total-active-days" style="font-size:0.8rem; color:var(--text-muted);">0 Active Study Days</span>
-        </div>
-        <div class="heatmap-grid" id="study-activity-heatmap-grid"></div>
-      </div>
+      <h2 style="font-family:'Playfair Display', serif; margin-bottom:6px;">Mock Analytics 📊</h2>
+      <p style="color:var(--text-muted); margin-bottom:20px;">Log your solved mock test papers, analyze scores, and track your score progression curve.</p>
 
       <!-- Log Mock Test Form -->
       <div class="section-card">
@@ -2023,21 +2429,32 @@
       </div>
     </div>
 
-    <!-- 13. DREAMS, VISIONS & SUCCESS WALL TAB (Pro Feature 👑) -->
+    <!-- 13. DREAMS, VISIONS & SUCCESS WALL TAB -->
     <div id="tab-goals" class="tab-content">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; flex-wrap:wrap; gap:10px;">
         <h2 style="font-family:'Playfair Display', serif;" data-i18n="goalsTitle">Dreams, Visions & Success Wall 🎯</h2>
-        <span class="tag-badge" style="background:rgba(251,191,36,0.15); color:var(--gold-accent);">PRO FEATURE 👑</span>
       </div>
-      <p style="color:var(--text-muted); margin-bottom:20px;" data-i18n="goalsSubtitle">Write down your biggest visions and aspirations. When you conquer them, honor them on the Success Wall!</p>
+      <p style="color:var(--text-muted); margin-bottom:20px;" data-i18n="goalsSubtitle">Pin photos of your dream college, log your highest aspirations, and conquer them on the Success Wall!</p>
 
-      <!-- Active Visions & Dreams Section -->
+      <!-- 1. Polaroid Dream Corkboard (Top Priority) -->
+      <div class="section-card">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; flex-wrap:wrap; gap:8px;">
+          <div>
+            <h3 style="font-family:'Playfair Display', serif; color:var(--accent-pastel); font-size:1.25rem;" data-i18n="corkboardTitle">📌 Pin Polaroid Dream Card</h3>
+            <p style="color:var(--text-muted); font-size:0.82rem;" data-i18n="corkboardSubtitle">Pin photos of your dream college, campus, or personal milestone.</p>
+          </div>
+          <button class="btn-primary" onclick="toggleAddPolaroidModal(true)">+ Pin Polaroid Card 📌</button>
+        </div>
+        <div class="corkboard" id="vision-corkboard-grid"></div>
+      </div>
+
+      <!-- 2. Active Visions & Dreams Section -->
       <div class="section-card">
         <h3 style="font-family:'Playfair Display', serif; color:var(--accent-pastel); font-size:1.25rem; margin-bottom:12px;" data-i18n="activeDreamsTitle">✨ Active Dreams & Visions</h3>
         
         <div style="display:flex; flex-direction:column; gap:10px; margin-bottom:18px;">
           <div style="display:grid; grid-template-columns: 2fr 1fr 1fr; gap:10px;">
-            <input type="text" id="dream-title-input" placeholder="Vision / Dream Goal (e.g. AIIMS Delhi / 99+ Percentile)" style="width:100%;">
+            <input type="text" id="dream-title-input" placeholder="Vision / Dream Goal (e.g. Dream College / 99+ Percentile)" style="width:100%;">
             <select id="dream-category-input" style="width:100%;">
               <option value="🎓 Dream College">🎓 Dream College</option>
               <option value="🏆 Exam Rank">🏆 Exam Rank</option>
@@ -2056,7 +2473,7 @@
         <div id="active-dreams-container" style="display:flex; flex-direction:column; gap:10px;"></div>
       </div>
 
-      <!-- Hall of Success & Achievements -->
+      <!-- 3. Hall of Success & Achievements -->
       <div class="section-card" style="background:linear-gradient(135deg, rgba(52,211,153,0.12), rgba(192,132,252,0.08)); border:1.5px solid rgba(52,211,153,0.35);">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
           <h3 style="font-family:'Playfair Display', serif; color:#34d399; font-size:1.25rem;" data-i18n="successWallTitle">🏆 Hall of Success & Conquered Dreams</h3>
@@ -2065,28 +2482,6 @@
         <p style="color:var(--text-muted); font-size:0.84rem; margin-bottom:14px;" data-i18n="successWallSubtitle">Every conquered goal stays permanently honored here as proof of your relentless dedication.</p>
         
         <div id="success-dreams-container" style="display:flex; flex-direction:column; gap:10px;"></div>
-      </div>
-
-      <!-- Polaroid Dream Wall -->
-      <div class="section-card">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; flex-wrap:wrap; gap:8px;">
-          <div>
-            <h3 style="font-family:'Playfair Display', serif; color:var(--accent-pastel); font-size:1.2rem;" data-i18n="corkboardTitle">📌 Polaroid Dream Corkboard</h3>
-            <p style="color:var(--text-muted); font-size:0.82rem;" data-i18n="corkboardSubtitle">Pin photos of your dream college, campus, or personal milestone.</p>
-          </div>
-          <button class="btn-primary" onclick="toggleAddPolaroidModal(true)">+ Pin Polaroid Card 📌</button>
-        </div>
-        <div class="corkboard" id="vision-corkboard-grid"></div>
-      </div>
-
-      <!-- Daily Affirmations -->
-      <div class="section-card">
-        <h3 style="font-family:'Playfair Display', serif; color:var(--accent-pastel); font-size:1.2rem; margin-bottom:10px;" data-i18n="affirmationsTitle">🌟 Daily Affirmations</h3>
-        <div style="display:flex; gap:10px; margin-bottom:14px;">
-          <input type="text" id="new-affirmation-input" placeholder="e.g. I am capable of mastering difficult topics with patience..." style="flex:1;" onkeydown="if(event.key==='Enter') addNewAffirmation()">
-          <button class="btn-primary" onclick="addNewAffirmation()">+ Add Affirmation</button>
-        </div>
-        <div id="affirmations-list-container" style="display:flex; flex-direction:column; gap:8px;"></div>
       </div>
     </div>
 
@@ -2212,7 +2607,7 @@
 
         <div style="border-top:1px solid var(--card-border); padding-top:14px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
           <div>
-            <strong style="color:var(--accent-pastel);">🖼️ Custom Wallpaper Upload (Pro Feature 👑)</strong>
+            <strong style="color:var(--accent-pastel);">🖼️ Custom Wallpaper Upload</strong>
             <p style="font-size:0.78rem; color:var(--text-muted);">Upload your own high-resolution image from your device.</p>
           </div>
           <input type="file" id="custom-bg-upload" accept="image/*" style="display:none;" onchange="uploadLocalBackground(event)">
@@ -2221,17 +2616,7 @@
       </div>
     </div>
 
-    <!-- 17. RECYCLE BIN TAB -->
-    <div id="tab-trash" class="tab-content">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; flex-wrap:wrap; gap:10px;">
-        <h2 style="font-family:'Playfair Display', serif;">Recycle Bin 🗑️</h2>
-        <button class="btn-delete-icon" onclick="emptyTrashCompletely()">Empty Recycle Bin Completely</button>
-      </div>
-      <p style="color:var(--text-muted); margin-bottom:20px;">Accidentally deleted a chapter, revision, or diary? Restore it here anytime.</p>
-      <div id="trash-items-container"></div>
-    </div>
-
-    <!-- 18. SETTINGS TAB -->
+    <!-- 17. SETTINGS TAB -->
     <div id="tab-settings" class="tab-content">
       <h2 style="font-family:'Playfair Display', serif; margin-bottom:20px;">Settings & Security ⚙️</h2>
       
@@ -2248,6 +2633,15 @@
         <h3 data-i18n="passcodeCardTitle">🔒 Security Passcode Lock (Optional)</h3>
         <p style="color: var(--text-muted); font-size:0.85rem; margin-bottom:14px;" data-i18n="passcodeCardSubtitle">Set an optional PIN passcode to protect your private notes and diary.</p>
         <button class="btn-primary" onclick="togglePasswordModal(true)" data-i18n="configurePasscodeBtn">Configure Passcode Lock 🔒</button>
+      </div>
+
+      <div class="section-card">
+        <h3>⚡ Google Gemini AI Key (Optional)</h3>
+        <p style="color: var(--text-muted); font-size:0.85rem; margin-bottom:10px;">AI Quiz Arena automatically generates MCQs. You can also paste your Google AI Studio key (starts with <code>AIzaSy...</code>) to connect directly to Gemini 2.5:</p>
+        <div style="display:flex; gap:10px; flex-wrap:wrap;">
+          <input type="password" id="gemini-api-key-input" placeholder="AIzaSy..." style="flex:1; min-width:240px;">
+          <button class="btn-primary" onclick="saveGeminiApiKey()">Save Key 🔑</button>
+        </div>
       </div>
 
       <div class="section-card">
@@ -2270,7 +2664,7 @@
       </div>
 
       <div class="section-card">
-        <h3>🖨️ Printable Study Performance Report (Pro 👑)</h3>
+        <h3>🖨️ Printable Study Performance Report</h3>
         <p style="color: var(--text-muted); font-size:0.85rem; margin-bottom:12px;">Generate a beautiful 1-page PDF study summary dossier:</p>
         <button class="btn-primary" onclick="openPrintStudyDossier()">Generate Printable Study Dossier 🖨️</button>
       </div>
@@ -2280,14 +2674,67 @@
         <p style="color: var(--text-muted); font-size:0.85rem; margin-bottom:12px;">Help us build the most peaceful and powerful study OS:</p>
         <button class="btn-primary btn-outline" onclick="toggleFeedbackModal(true)">Send Feedback ⭐</button>
       </div>
-
-      <div class="section-card">
-        <h3>👑 AuraSpace Premium Pass</h3>
-        <p style="color: var(--text-muted); font-size:0.85rem; margin-bottom:12px;">Manage your subscription plan or activate VIP access:</p>
-        <button class="btn-primary" onclick="toggleProModal(true)">View Premium Plans (₹49 / ₹499 / ₹4999) 👑</button>
-      </div>
     </div>
 
+  </div>
+
+  <!-- AESTHETIC COMPANION DOG (Bottom-Left Floating) -->
+  <div id="aesthetic-dog-companion" class="aesthetic-dog-wrapper">
+    <div id="dog-thought-bubble" class="dog-thought-bubble" onclick="dismissDogThought()">
+      <span id="dog-thought-text">Water break lelo! 💧</span>
+    </div>
+    <div class="dog-avatar-container" onclick="onDogCompanionClicked()" title="Your Study Buddy 🐾 (Click me!)">
+      <!-- Aesthetic Vector Dog Pup SVG with cute bandana -->
+      <svg viewBox="0 0 120 120" width="76" height="76" fill="none" xmlns="http://www.w3.org/2000/svg" style="filter:drop-shadow(0 8px 18px rgba(0,0,0,0.45));">
+        <!-- Dog Tail & Back -->
+        <path d="M78 86C88 86 94 76 96 68C98 60 92 56 86 60C82 62 82 72 78 86Z" fill="#F59E0B" />
+        <ellipse cx="60" cy="84" rx="34" ry="24" fill="#FBBF24" />
+        <ellipse cx="60" cy="85" rx="26" ry="17" fill="#FEF3C7" opacity="0.85" />
+        <!-- Paws -->
+        <ellipse cx="44" cy="100" rx="10" ry="7" fill="#F59E0B" />
+        <ellipse cx="76" cy="100" rx="10" ry="7" fill="#F59E0B" />
+        <ellipse cx="44" cy="101" rx="7" ry="5" fill="#FEF3C7" />
+        <ellipse cx="76" cy="101" rx="7" ry="5" fill="#FEF3C7" />
+        <!-- Dog Ears -->
+        <path d="M30 38C24 24 16 38 22 56C25 64 34 56 32 44Z" fill="#D97706" />
+        <path d="M90 38C96 24 104 38 98 56C95 64 86 56 88 44Z" fill="#D97706" />
+        <!-- Dog Head -->
+        <circle cx="60" cy="50" r="30" fill="#FBBF24" />
+        <!-- Muzzle -->
+        <ellipse cx="60" cy="58" rx="15" ry="12" fill="#FEF3C7" />
+        <!-- Nose -->
+        <ellipse cx="60" cy="52" rx="4.5" ry="3.5" fill="#1F2937" />
+        <!-- Mouth -->
+        <path d="M56 57C58 60 60 60 60 57C60 60 62 60 64 57" stroke="#1F2937" stroke-width="2" stroke-linecap="round" />
+        <!-- Cute Eyes -->
+        <circle cx="48" cy="46" r="3.8" fill="#1F2937" />
+        <circle cx="72" cy="46" r="3.8" fill="#1F2937" />
+        <!-- Eye Sparkles -->
+        <circle cx="46.8" cy="44.8" r="1.3" fill="#FFFFFF" />
+        <circle cx="70.8" cy="44.8" r="1.3" fill="#FFFFFF" />
+        <!-- Cheeks Blush -->
+        <circle cx="41" cy="54" r="5" fill="#F472B6" opacity="0.55" />
+        <circle cx="79" cy="54" r="5" fill="#F472B6" opacity="0.55" />
+        <!-- Aesthetic Violet Bandana -->
+        <path d="M42 70C52 77 68 77 78 70L60 84Z" fill="#C084FC" />
+        <circle cx="60" cy="80" r="2.5" fill="#FDE047" />
+      </svg>
+    </div>
+  </div>
+
+  <!-- PWA SMART INSTALL BANNER (Mobile & Desktop) -->
+  <div id="pwa-install-banner" class="pwa-install-banner" style="display:none;">
+    <div class="pwa-banner-left">
+      <img src="logo.png" alt="MyStudyAI" class="pwa-banner-icon" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1518655048521-f130df041f66?q=80&w=120&auto=format&fit=crop';">
+      <div>
+        <div class="pwa-banner-title">Install MyStudyAI App 📲</div>
+        <div class="pwa-banner-desc">Add to home screen for full-screen focus, offline study & quick launch!</div>
+      </div>
+    </div>
+    <div class="pwa-banner-actions">
+      <button class="btn-primary pwa-install-btn" onclick="triggerPWAInstall()">Install Now ✨</button>
+      <button class="pwa-dismiss-btn" onclick="dismissPWAInstallBanner()" title="Dismiss">✕</button>
+    </div>
   </div>
 
   <script>
@@ -2448,6 +2895,13 @@
       const isAdmin = (email === "sharmishthadixit21@gmail.com");
 
       let profile = JSON.parse(localStorage.getItem('aura_user_auth_profile')) || {};
+      const isFirstLogin = !profile.firstLoginAt && !localStorage.getItem('studyos_first_login_at');
+      if (isFirstLogin) {
+        profile.firstLoginAt = Date.now();
+        try { localStorage.setItem('studyos_first_login_at', profile.firstLoginAt.toString()); } catch(e) {}
+        syncUserLoginToFirestore(email, name, profile.firstLoginAt);
+      }
+
       profile.name = name;
       profile.email = email;
       if (picture) profile.avatar = picture;
@@ -2467,9 +2921,12 @@
       }
 
       localStorage.setItem('aura_user_auth_profile', JSON.stringify(profile));
-      toggleAuthModal(false);
+      showLoginGatekeeper(false);
       updateUserProfileUI();
       updateProfileDrawerDetails();
+      startTrialCountdown();
+      updateProBadgesUI();
+      initDailyStudyStreak();
 
       if (typeof confetti === 'function') confetti({ particleCount: 130, spread: 80, origin: { y: 0.6 } });
 
@@ -2479,10 +2936,12 @@
         alert(`✨ Welcome to MyStudyAI, ${name}! Logged in as ${email}`);
       }
 
-      if (!profile.onboarded) {
-        profile.onboarded = true;
-        localStorage.setItem('aura_user_auth_profile', JSON.stringify(profile));
+      if (isFirstLogin) {
+        openWelcomeTourModal(name);
+      } else if (!isProfileSetupComplete()) {
         openOnboardingModal(name);
+      } else {
+        openDailyThoughtModal();
       }
     }
 
@@ -2529,6 +2988,48 @@
       openGoogleAccountPrompt();
     }
 
+    /* =========================================================
+       MANDATORY AUTHENTICATION GATEKEEPER & PROFILE HELPERS
+       ========================================================= */
+    function isUserAuthenticated() {
+      try {
+        const profile = JSON.parse(localStorage.getItem('aura_user_auth_profile'));
+        return !!(profile && profile.signedIn === true && profile.email);
+      } catch (e) {
+        return false;
+      }
+    }
+
+    function isProfileSetupComplete() {
+      try {
+        const profile = JSON.parse(localStorage.getItem('aura_user_auth_profile'));
+        if (!profile || !profile.signedIn) return false;
+        const hasName = !!(profile.name && profile.name.trim().length > 0 && profile.name !== "Student Scholar");
+        const hasExam = !!profile.targetExam;
+        const hasHours = !!profile.dailyHours;
+        const isOnboarded = profile.onboarded === true;
+        return !!(hasName && hasExam && hasHours && isOnboarded);
+      } catch(e) {
+        return false;
+      }
+    }
+
+    function showLoginGatekeeper(show = true) {
+      const modal = document.getElementById('auth-modal');
+      const closeBtn = document.getElementById('auth-modal-close-btn');
+      if (!modal) return;
+      if (show) {
+        initGoogleIdentityServices();
+        modal.classList.add('active');
+        if (closeBtn) closeBtn.style.display = 'none';
+        const dailyThoughtModal = document.getElementById('daily-thought-modal');
+        if (dailyThoughtModal) dailyThoughtModal.classList.remove('active');
+      } else {
+        modal.classList.remove('active');
+        if (closeBtn) closeBtn.style.display = '';
+      }
+    }
+
     function checkAuthOnLoad() {
       try {
         const profile = JSON.parse(localStorage.getItem('aura_user_auth_profile'));
@@ -2544,6 +3045,18 @@
 
       initGoogleIdentityServices();
       updateUserProfileUI();
+
+      if (!isUserAuthenticated()) {
+        showLoginGatekeeper(true);
+      } else {
+        showLoginGatekeeper(false);
+        if (!isProfileSetupComplete()) {
+          const profile = JSON.parse(localStorage.getItem('aura_user_auth_profile')) || {};
+          openOnboardingModal(profile.name || "");
+        } else {
+          openDailyThoughtModal();
+        }
+      }
     }
 
     function openGoogleAccountPrompt() {
@@ -2554,6 +3067,13 @@
       const isAdmin = (email.toLowerCase().trim() === 'sharmishthadixit21@gmail.com');
 
       let profile = JSON.parse(localStorage.getItem('aura_user_auth_profile')) || {};
+      const isFirstLogin = !profile.firstLoginAt && !localStorage.getItem('studyos_first_login_at');
+      if (isFirstLogin) {
+        profile.firstLoginAt = Date.now();
+        try { localStorage.setItem('studyos_first_login_at', profile.firstLoginAt.toString()); } catch(e) {}
+        syncUserLoginToFirestore(email, studentName, profile.firstLoginAt);
+      }
+
       profile.name = studentName.includes('@') ? studentName.split('@')[0] : studentName;
       profile.email = email;
       profile.academicClass = profile.academicClass || "12th Pass / Dropper 🎯";
@@ -2571,13 +3091,19 @@
       }
 
       localStorage.setItem('aura_user_auth_profile', JSON.stringify(profile));
-      toggleAuthModal(false);
+      showLoginGatekeeper(false);
       updateUserProfileUI();
       updateProfileDrawerDetails();
-      if (!profile.onboarded) {
-        profile.onboarded = true;
-        localStorage.setItem('aura_user_auth_profile', JSON.stringify(profile));
+      startTrialCountdown();
+      updateProBadgesUI();
+      initDailyStudyStreak();
+
+      if (isFirstLogin) {
+        openWelcomeTourModal(profile.name);
+      } else if (!isProfileSetupComplete()) {
         openOnboardingModal(profile.name);
+      } else {
+        openDailyThoughtModal();
       }
     }
 
@@ -2587,6 +3113,13 @@
       const isAdmin = (email.toLowerCase().trim() === 'sharmishthadixit21@gmail.com');
 
       let profile = JSON.parse(localStorage.getItem('aura_user_auth_profile')) || {};
+      const isFirstLogin = !profile.firstLoginAt && !localStorage.getItem('studyos_first_login_at');
+      if (isFirstLogin) {
+        profile.firstLoginAt = Date.now();
+        try { localStorage.setItem('studyos_first_login_at', profile.firstLoginAt.toString()); } catch(e) {}
+        syncUserLoginToFirestore(email, name, profile.firstLoginAt);
+      }
+
       profile.name = name;
       profile.email = email;
       profile.academicClass = profile.academicClass || "12th Pass / Dropper 🎯";
@@ -2604,57 +3137,740 @@
       }
 
       localStorage.setItem('aura_user_auth_profile', JSON.stringify(profile));
-      toggleAuthModal(false);
+      showLoginGatekeeper(false);
       updateUserProfileUI();
       updateProfileDrawerDetails();
-      if (!profile.onboarded) {
-        profile.onboarded = true;
-        localStorage.setItem('aura_user_auth_profile', JSON.stringify(profile));
+      startTrialCountdown();
+      updateProBadgesUI();
+      initDailyStudyStreak();
+
+      if (isFirstLogin) {
+        openWelcomeTourModal(name);
+      } else if (!isProfileSetupComplete()) {
         openOnboardingModal(name);
+      } else {
+        openDailyThoughtModal();
       }
+    }
+
+    let tempOnboardAvatar = null;
+    function handleOnboardAvatarUpload(event) {
+      const file = event.target.files && event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const rawData = e.target.result;
+        const img = new Image();
+        img.onload = function() {
+          try {
+            const canvas = document.createElement('canvas');
+            const maxDim = 256;
+            let w = img.width, h = img.height;
+            if (w > maxDim || h > maxDim) {
+              if (w > h) { h = Math.round((h * maxDim) / w); w = maxDim; }
+              else { w = Math.round((w * maxDim) / h); h = maxDim; }
+            }
+            canvas.width = w; canvas.height = h;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, w, h);
+            tempOnboardAvatar = canvas.toDataURL('image/jpeg', 0.85);
+          } catch(err) { tempOnboardAvatar = rawData; }
+          const previewBox = document.getElementById('onboard-avatar-preview-box');
+          if (previewBox) {
+            previewBox.innerHTML = `<img src="${tempOnboardAvatar}" style="width:100%; height:100%; object-fit:cover; border-radius:50%;">`;
+          }
+        };
+        img.src = rawData;
+      };
+      reader.readAsDataURL(file);
     }
 
     function openOnboardingModal(defaultName = "") {
       const modal = document.getElementById('onboarding-modal');
       const nameInput = document.getElementById('onboard-name');
-      if (nameInput) nameInput.value = defaultName;
+      const dateInput = document.getElementById('onboard-exam-date');
+      // Do NOT pre-fill with fake/mock defaults as requested by user
+      if (nameInput) nameInput.value = (defaultName && defaultName !== "Student Scholar" && defaultName !== "Aryan Sharma") ? defaultName : '';
+      if (dateInput && !dateInput.value) dateInput.value = '';
       modal.classList.add('active');
     }
 
     function saveOnboardingProfile() {
-      const name = document.getElementById('onboard-name').value.trim() || "Student Scholar";
-      const acadClass = document.getElementById('onboard-class').value;
-      const targetExam = document.getElementById('onboard-target-exam').value;
-      const dailyHours = parseInt(document.getElementById('onboard-daily-hours').value) || 6;
+      const nameInput = document.getElementById('onboard-name');
+      const dateInput = document.getElementById('onboard-exam-date');
+      const name = nameInput ? nameInput.value.trim() : '';
+      const examDate = dateInput ? dateInput.value.trim() : '';
+      const acadClass = document.getElementById('onboard-class') ? document.getElementById('onboard-class').value : 'Dropper';
+      const targetExam = document.getElementById('onboard-target-exam') ? document.getElementById('onboard-target-exam').value : 'jee';
+
+      if (!name) {
+        alert("Please enter your Full Name to set up your profile!");
+        if (nameInput) nameInput.focus();
+        return;
+      }
+
+      if (!examDate) {
+        alert("Please enter your Tentative Exam Date to set up your live countdown!");
+        if (dateInput) dateInput.focus();
+        return;
+      }
 
       let profile = JSON.parse(localStorage.getItem('aura_user_auth_profile')) || { email: "student@gmail.com", signedIn: true };
       profile.name = name;
       profile.academicClass = acadClass;
       profile.targetExam = targetExam;
-      profile.dailyHours = dailyHours;
+      profile.examDate = examDate;
+      profile.dailyHours = 6;
       profile.signedIn = true;
+      profile.onboarded = true;
+      if (tempOnboardAvatar) {
+        profile.avatar = tempOnboardAvatar;
+      }
 
       localStorage.setItem('aura_user_auth_profile', JSON.stringify(profile));
       localStorage.setItem('aura_active_exam_id', targetExam);
+
+      // Save Target Exam Countdown based on this tentative exam date
+      const examDisplayNames = {
+        jee: "JEE Main", neet: "NEET UG", cbse12: "CBSE 12th Board", cbse10: "CBSE 10th Board",
+        upsc: "UPSC CSE", ssc: "SSC CGL", ca: "CA Foundation", custom: "Target Exam"
+      };
+      const examName = (examDisplayNames[targetExam] || "Target Exam") + " 2026";
+      const countdownConfig = { name: examName, date: examDate, hours: 500 };
+      localStorage.setItem('studyos_exam_countdown', JSON.stringify(countdownConfig));
 
       const examSelect = document.getElementById('preset-exam-select');
       if (examSelect) examSelect.value = targetExam;
 
       document.getElementById('onboarding-modal').classList.remove('active');
       updateUserProfileUI();
+      updateProfileDrawerDetails();
       loadActiveExamSyllabus();
+      initExamCountdown();
 
       if (typeof confetti === 'function') confetti({ particleCount: 120, spread: 80, origin: { y: 0.6 } });
-      alert(`🎉 Welcome to MyStudyAI, ${name}! Your workspace is ready.`);
+      alert(`🎉 Welcome to StudyOS, ${name}! Your workspace & live exam countdown are ready.`);
+      openDailyThoughtModal();
+    }
+
+    /* =========================================================
+       2B. 24-HOUR FREE TRIAL & FREEMIUM VALIDATION ENGINE
+       ========================================================= */
+    const TRIAL_DURATION_MS = 24 * 60 * 60 * 1000; // 24 Hours
+    let trialCountdownTimer = null;
+
+    function syncUserLoginToFirestore(email, name, firstLoginAt) {
+      try {
+        if (window.firebaseDb && window.firestoreOps) {
+          const { collection, addDoc, serverTimestamp } = window.firestoreOps;
+          addDoc(collection(window.firebaseDb, "users"), {
+            email: email || "student@gmail.com",
+            name: name || "Scholar",
+            firstLoginAt: firstLoginAt,
+            createdAt: serverTimestamp ? serverTimestamp() : new Date().toISOString()
+          }).catch(err => console.warn("Firestore user sync non-fatal:", err));
+        }
+      } catch (err) {
+        console.warn("Firestore sync non-fatal warning:", err);
+      }
+    }
+
+    function getTrialStatus() {
+      let profile = null;
+      try {
+        profile = JSON.parse(localStorage.getItem('aura_user_auth_profile'));
+      } catch(e) {}
+
+      // Admin check
+      const email = profile ? (profile.email || '').toLowerCase().trim() : '';
+      if (email === ADMIN_EMAIL.toLowerCase()) {
+        return { isTrial: false, isPaid: true, isExpired: false, active: true, label: "VIP Owner" };
+      }
+
+      // Paid membership check
+      if ((profile && profile.isPremium === true) || localStorage.getItem('aura_pro_active') === 'true' || localStorage.getItem('aura_pro_owner_free') === 'true') {
+        return { isTrial: false, isPaid: true, isExpired: false, active: true, label: "VIP Active" };
+      }
+
+      // First login timestamp check
+      let firstLogin = profile ? profile.firstLoginAt : null;
+      if (!firstLogin) {
+        const storedFallback = localStorage.getItem('studyos_first_login_at');
+        if (storedFallback) firstLogin = parseInt(storedFallback);
+      }
+
+      if (!firstLogin) {
+        return { isTrial: false, isPaid: false, isExpired: false, active: false, label: "Free Plan" };
+      }
+
+      const bonusMs = parseInt(localStorage.getItem('studyos_vip_bonus_ms')) || 0;
+      const elapsed = Date.now() - parseInt(firstLogin);
+      const remainingMs = (TRIAL_DURATION_MS + bonusMs) - elapsed;
+
+      if (remainingMs > 0) {
+        const totalSecs = Math.floor(remainingMs / 1000);
+        const hours = Math.floor(totalSecs / 3600);
+        const mins = Math.floor((totalSecs % 3600) / 60);
+        const secs = totalSecs % 60;
+        return {
+          isTrial: true,
+          isPaid: false,
+          isExpired: false,
+          active: true,
+          remainingMs,
+          hours,
+          mins,
+          secs,
+          formatted: `${hours}h ${mins.toString().padStart(2, '0')}m left`
+        };
+      } else {
+        return {
+          isTrial: false,
+          isPaid: false,
+          isExpired: true,
+          active: false,
+          label: "Trial Expired"
+        };
+      }
+    }
+
+    function updateTrialCountdownUI() {
+      const trial = getTrialStatus();
+      const pill = document.getElementById('trial-countdown-pill');
+      const text = document.getElementById('trial-countdown-text');
+      const premiumPill = document.getElementById('premium-top-pill');
+      const showcaseBtn = document.getElementById('showcase-banner-cta-btn');
+
+      if (!pill) return;
+
+      if (trial.isTrial && trial.active) {
+        pill.style.display = 'inline-flex';
+        pill.style.background = 'linear-gradient(135deg, rgba(251,191,36,0.25), rgba(192,132,252,0.25))';
+        pill.style.borderColor = 'var(--gold-accent)';
+        pill.style.color = 'var(--gold-accent)';
+        if (text) text.innerText = `⏱️ VIP Free Access: ${trial.formatted}`;
+        if (premiumPill) premiumPill.style.display = 'none';
+        if (showcaseBtn) showcaseBtn.innerText = `✨ 24h VIP Active (${trial.formatted})`;
+      } else if (trial.isPaid) {
+        pill.style.display = 'inline-flex';
+        pill.style.background = 'linear-gradient(135deg, rgba(52,211,153,0.2), rgba(192,132,252,0.2))';
+        pill.style.borderColor = '#34d399';
+        pill.style.color = '#6ee7b7';
+        if (text) text.innerText = `👑 VIP Member`;
+        if (premiumPill) premiumPill.style.display = 'none';
+        if (showcaseBtn) showcaseBtn.innerText = `👑 VIP All-Access`;
+      } else if (trial.isExpired) {
+        pill.style.display = 'inline-flex';
+        pill.style.background = 'linear-gradient(135deg, rgba(239,68,68,0.2), rgba(192,132,252,0.2))';
+        pill.style.borderColor = '#ef4444';
+        pill.style.color = '#fca5a5';
+        if (text) text.innerText = `👑 Trial Ended • Upgrade`;
+        if (premiumPill) premiumPill.style.display = 'none';
+        if (showcaseBtn) showcaseBtn.innerText = `⚡ Upgrade to VIP`;
+      } else {
+        pill.style.display = 'none';
+        if (premiumPill) premiumPill.style.display = 'inline-flex';
+        if (showcaseBtn) showcaseBtn.innerText = `👑 Explore VIP Features`;
+      }
+
+      updateProBadgesUI();
+    }
+
+    function startTrialCountdown() {
+      if (trialCountdownTimer) clearInterval(trialCountdownTimer);
+      updateTrialCountdownUI();
+      trialCountdownTimer = setInterval(updateTrialCountdownUI, 1000);
+    }
+
+    function openTrialDetailsOrPro() {
+      const trial = getTrialStatus();
+      if (trial.isTrial && trial.active) {
+        alert(`⏱️ 24-Hour VIP Free Access Active!\n\nYou have ${trial.hours} hours and ${trial.mins} minutes remaining of unrestricted full access.\n\nAll premium tools (Spaced Repetition, Zen Panda, Dreams Corkboard, Daily Diary & 4K Wallpapers) are 100% unlocked.`);
+      } else {
+        toggleProModal(true);
+      }
+    }
+
+    function openWelcomeTourModal(userName = "Scholar") {
+      const modal = document.getElementById('welcome-tour-modal');
+      const title = document.getElementById('welcome-tour-title');
+      if (title && userName) title.innerText = `Welcome to StudyOS, ${userName}! ✨`;
+      if (modal) modal.classList.add('active');
+    }
+
+    function dismissWelcomeTourModal() {
+      const modal = document.getElementById('welcome-tour-modal');
+      if (modal) modal.classList.remove('active');
+      startTrialCountdown();
+      updateProBadgesUI();
+    }
+
+    function acceptWelcomeTourAndStartTrial() {
+      dismissWelcomeTourModal();
+      if (typeof confetti === 'function') confetti({ particleCount: 140, spread: 85, origin: { y: 0.6 } });
+      startTrialCountdown();
+      updateProBadgesUI();
+      const profile = JSON.parse(localStorage.getItem('aura_user_auth_profile')) || {};
+      if (!profile.onboarded) {
+        profile.onboarded = true;
+        localStorage.setItem('aura_user_auth_profile', JSON.stringify(profile));
+        openOnboardingModal(profile.name || "Student");
+      }
+    }
+
+    function handleShowcaseBannerClick() {
+      const trial = getTrialStatus();
+      if (trial.isTrial && trial.active) {
+        switchTab('study-os');
+      } else if (trial.isPaid) {
+        switchTab('study-os');
+      } else {
+        toggleProModal(true);
+      }
+    }
+
+    /* =========================================================
+       2C. RETENTION STUDY STREAK, EXAM COUNTDOWN, FOCUS & REFERRALS
+       ========================================================= */
+
+    // 1. RETENTION DAILY STUDY STREAK ENGINE
+    function initDailyStudyStreak() {
+      const now = new Date();
+      const todayStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
+      
+      let streakData = null;
+      try {
+        streakData = JSON.parse(localStorage.getItem('studyos_streak_data'));
+      } catch(e) {}
+
+      if (!streakData || !streakData.lastStudyDate) {
+        streakData = {
+          currentStreak: 1,
+          longestStreak: 1,
+          lastStudyDate: todayStr,
+          history: [todayStr],
+          streakBroken: false
+        };
+        localStorage.setItem('studyos_streak_data', JSON.stringify(streakData));
+      } else {
+        const lastDate = new Date(streakData.lastStudyDate + 'T00:00:00');
+        const todayDate = new Date(todayStr + 'T00:00:00');
+        const diffMs = todayDate - lastDate;
+        const diffDays = Math.round(diffMs / (1000 * 60 * 60 * 24));
+
+        if (diffDays === 0) {
+          // Same day visit, streak maintained
+        } else if (diffDays === 1) {
+          // Consecutive daily study maintained!
+          streakData.currentStreak = (streakData.currentStreak || 0) + 1;
+          streakData.longestStreak = Math.max(streakData.longestStreak || 1, streakData.currentStreak);
+          streakData.lastStudyDate = todayStr;
+          if (!streakData.history) streakData.history = [];
+          if (!streakData.history.includes(todayStr)) streakData.history.push(todayStr);
+          streakData.streakBroken = false;
+          localStorage.setItem('studyos_streak_data', JSON.stringify(streakData));
+        } else if (diffDays > 1) {
+          // Streak broken on missed day
+          streakData.streakBroken = true;
+          streakData.previousStreak = streakData.currentStreak;
+          streakData.currentStreak = 1;
+          streakData.lastStudyDate = todayStr;
+          if (!streakData.history) streakData.history = [];
+          if (!streakData.history.includes(todayStr)) streakData.history.push(todayStr);
+          localStorage.setItem('studyos_streak_data', JSON.stringify(streakData));
+        }
+      }
+
+      updateDailyStreakUI(streakData);
+    }
+
+    function updateDailyStreakUI(streakData) {
+      if (!streakData) {
+        try { streakData = JSON.parse(localStorage.getItem('studyos_streak_data')); } catch(e) {}
+      }
+      if (!streakData) return;
+
+      const current = streakData.currentStreak || 1;
+      const longest = streakData.longestStreak || current;
+
+      // Header circular badge
+      const headerStreakCount = document.getElementById('header-streak-count');
+      if (headerStreakCount) headerStreakCount.innerText = current;
+
+      // Header pill text fallback
+      const headerText = document.getElementById('header-streak-text');
+      if (headerText) headerText.innerText = `${current}-Day Streak`;
+
+      // Dashboard card
+      const title = document.getElementById('dashboard-streak-title');
+      if (title) title.innerText = `${current}-Day Study Streak Active!`;
+      const badge = document.getElementById('dashboard-streak-badge');
+      if (badge) badge.innerText = `🔥 ${current} Day${current > 1 ? 's' : ''} Maintained`;
+      const longestBadge = document.getElementById('dashboard-streak-longest');
+      if (longestBadge) longestBadge.innerText = `Best: ${longest} Days 🏆`;
+      const subtitle = document.getElementById('dashboard-streak-subtitle');
+      if (subtitle) {
+        if (streakData.streakBroken) {
+          subtitle.innerText = "🌱 New day, fresh start! Rebuild your study streak today with focused consistency.";
+        } else {
+          subtitle.innerText = `You're on fire! ${current} consecutive day${current > 1 ? 's' : ''} of disciplined study.`;
+        }
+      }
+
+      // Modal counters
+      const modalCount = document.getElementById('modal-streak-count');
+      if (modalCount) modalCount.innerText = current;
+      const modalLongest = document.getElementById('modal-streak-longest');
+      if (modalLongest) modalLongest.innerText = longest;
+    }
+
+    function toggleStreakModal(show) {
+      const modal = document.getElementById('streak-details-modal');
+      if (!modal) return;
+      if (show) {
+        initDailyStudyStreak();
+        modal.classList.add('active');
+      } else {
+        modal.classList.remove('active');
+      }
+    }
+
+    // 2. AI EXAM COUNTDOWN & BACK-PLANNER ENGINE
+    function initExamCountdown() {
+      let config = null;
+      try {
+        config = JSON.parse(localStorage.getItem('studyos_exam_countdown'));
+      } catch(e) {}
+
+      let profile = null;
+      try { profile = JSON.parse(localStorage.getItem('aura_user_auth_profile')); } catch(e) {}
+
+      if (!config) {
+        const userTarget = (profile && profile.targetExam) || 'jee';
+        const userExamDate = (profile && profile.examDate) || "2026-05-01";
+        const defaultExams = {
+          jee: { name: "JEE Main 2026", date: userExamDate, hours: 600 },
+          neet: { name: "NEET UG 2026", date: userExamDate, hours: 650 },
+          cbse12: { name: "CBSE 12th Board 2026", date: userExamDate, hours: 400 },
+          cbse10: { name: "CBSE 10th Board 2026", date: userExamDate, hours: 350 },
+          upsc: { name: "UPSC CSE Prelims 2026", date: userExamDate, hours: 1000 },
+          ssc: { name: "SSC CGL 2026", date: userExamDate, hours: 450 },
+          ca: { name: "CA Foundation 2026", date: userExamDate, hours: 500 },
+          custom: { name: "Target Exam 2026", date: userExamDate, hours: 500 }
+        };
+        config = defaultExams[userTarget] || defaultExams.jee;
+        localStorage.setItem('studyos_exam_countdown', JSON.stringify(config));
+      } else if (profile && profile.examDate && config.date !== profile.examDate) {
+        config.date = profile.examDate;
+        localStorage.setItem('studyos_exam_countdown', JSON.stringify(config));
+      }
+
+      // Populate edit form inputs
+      const nameInput = document.getElementById('cfg-exam-name');
+      const dateInput = document.getElementById('cfg-exam-date');
+      const hoursInput = document.getElementById('cfg-exam-hours');
+      if (nameInput) nameInput.value = config.name;
+      if (dateInput) dateInput.value = config.date;
+      if (hoursInput) hoursInput.value = config.hours;
+
+      renderExamCountdownUI(config);
+    }
+
+    function renderExamCountdownUI(config) {
+      if (!config) {
+        try { config = JSON.parse(localStorage.getItem('studyos_exam_countdown')); } catch(e) {}
+      }
+      if (!config) return;
+
+      const nameBadge = document.getElementById('exam-countdown-name-badge');
+      const dateDisplay = document.getElementById('exam-countdown-date-display');
+      const daysEl = document.getElementById('exam-cd-days');
+      const hoursEl = document.getElementById('exam-cd-hours');
+      const dailyTargetEl = document.getElementById('exam-cd-daily-target');
+      const adviceEl = document.getElementById('exam-backplanner-advice');
+      const headerExamDays = document.getElementById('header-exam-days');
+      const drawerExamDays = document.getElementById('drawer-exam-days-left');
+
+      if (nameBadge) nameBadge.innerText = config.name;
+      
+      const targetDate = new Date(config.date + 'T00:00:00');
+      const now = new Date();
+      const diffMs = targetDate - now;
+      const diffDays = Math.max(0, Math.ceil(diffMs / (1000 * 60 * 60 * 24)));
+      const diffHours = Math.max(0, Math.ceil(diffMs / (1000 * 60 * 60)));
+
+      // Top bar header circular badge
+      if (headerExamDays) headerExamDays.innerText = diffDays > 0 ? diffDays : '0';
+      if (drawerExamDays) drawerExamDays.innerText = `${diffDays} days left`;
+
+      if (dateDisplay) {
+        const opts = { year: 'numeric', month: 'long', day: 'numeric' };
+        dateDisplay.innerText = `Target Date: ${targetDate.toLocaleDateString('en-US', opts)}`;
+      }
+
+      if (daysEl) daysEl.innerText = diffDays > 0 ? diffDays : 'Today!';
+      if (hoursEl) hoursEl.innerText = diffHours.toLocaleString();
+
+      const totalTargetHours = parseFloat(config.hours) || 500;
+      const focusSecs = parseInt(localStorage.getItem('aura_total_focus_seconds')) || 0;
+      const doneHours = focusSecs / 3600;
+      const remainingHours = Math.max(1, totalTargetHours - doneHours);
+      const dailyHoursNeeded = diffDays > 0 ? (remainingHours / diffDays).toFixed(1) : remainingHours.toFixed(1);
+
+      if (dailyTargetEl) dailyTargetEl.innerText = `${dailyHoursNeeded} hrs/day`;
+
+      if (adviceEl) {
+        adviceEl.innerHTML = `🎯 <strong>Back-Planner:</strong> Study <strong>${dailyHoursNeeded} hours / day</strong> across the remaining <strong>${diffDays} days</strong> to master the full syllabus with 2 comprehensive revision passes!`;
+      }
+
+      // Automated English exam approach notifications
+      if (diffDays <= 30 && diffDays > 0) {
+        const lastNotif = localStorage.getItem('studyos_last_exam_notif_date');
+        const todayStr = new Date().toISOString().split('T')[0];
+        if (lastNotif !== todayStr) {
+          localStorage.setItem('studyos_last_exam_notif_date', todayStr);
+          setTimeout(() => {
+            if (diffDays <= 7) {
+              alert(`⚡ Final Countdown: Only ${diffDays} days left until ${config.name}! Stay confident, review your formula notes, and give your best!`);
+            } else {
+              alert(`🔥 Keep going! Your target exam (${config.name}) is only ${diffDays} days away. Stay consistent and keep crushing your daily goals!`);
+            }
+          }, 1500);
+        }
+      }
+    }
+
+    function openExamDatePrompt() {
+      let config = null;
+      try { config = JSON.parse(localStorage.getItem('studyos_exam_countdown')); } catch(e) {}
+      const curDate = config ? config.date : '';
+      const newDate = prompt("Set or update your Tentative Target Exam Date (YYYY-MM-DD):", curDate);
+      if (newDate && newDate.trim()) {
+        if (!config) config = { name: "Target Exam 2026", date: newDate.trim(), hours: 500 };
+        else config.date = newDate.trim();
+        localStorage.setItem('studyos_exam_countdown', JSON.stringify(config));
+        let profile = JSON.parse(localStorage.getItem('aura_user_auth_profile')) || {};
+        profile.examDate = newDate.trim();
+        localStorage.setItem('aura_user_auth_profile', JSON.stringify(profile));
+        renderExamCountdownUI(config);
+      }
+    }
+
+    function quickShareApp() {
+      const shareUrl = "https://mystudyai-live.vercel.app/StudyOS.html";
+      const shareText = "Hey! Check out StudyOS - the ultimate distraction-free aesthetic study workspace with syllabus tracking, AI quizzes, and deep focus tools:";
+      if (navigator.share) {
+        navigator.share({
+          title: "StudyOS - Aesthetic Personal Study Space",
+          text: shareText,
+          url: shareUrl
+        }).catch(() => {});
+      } else if (navigator.clipboard) {
+        navigator.clipboard.writeText(shareUrl).then(() => {
+          alert("📋 StudyOS Link copied to clipboard!\nShare it with your study buddies.");
+        }).catch(() => {
+          prompt("Copy this link to share with friends:", shareUrl);
+        });
+      } else {
+        prompt("Copy this link to share with friends:", shareUrl);
+      }
+    }
+
+    function toggleEditExamCountdown(force) {
+      const form = document.getElementById('exam-countdown-edit-form');
+      if (!form) return;
+      const isHidden = form.style.display === 'none';
+      const show = force !== undefined ? force : isHidden;
+      form.style.display = show ? 'block' : 'none';
+    }
+
+    function saveExamCountdownConfig() {
+      const name = (document.getElementById('cfg-exam-name').value || "Target Exam 2026").trim();
+      const date = document.getElementById('cfg-exam-date').value || "2026-05-01";
+      const hours = parseInt(document.getElementById('cfg-exam-hours').value) || 500;
+
+      const config = { name, date, hours };
+      localStorage.setItem('studyos_exam_countdown', JSON.stringify(config));
+      toggleEditExamCountdown(false);
+      renderExamCountdownUI(config);
+
+      if (typeof confetti === 'function') confetti({ particleCount: 70, spread: 60 });
+      alert("✨ Target Exam countdown & back-planner updated!");
+    }
+
+    // 3. SMART FOCUS MODE & SOUNDSCAPES
+    const ZEN_FOCUS_QUOTES = [
+      "Small daily disciplines repeated with consistency lead to monumental achievements.",
+      "Focus on the process, and the exam results will take care of themselves.",
+      "Your competition is studying right now. Stay locked in and earn your dream rank.",
+      "You don't need endless hours, you need deep, distraction-free concentration.",
+      "One chapter at a time. One problem at a time. You are closer than you think.",
+      "Discipline is choosing between what you want now and what you want most.",
+      "Trust the hours you put in when nobody is watching."
+    ];
+    let currentZenQuoteIndex = 0;
+
+    function rotateZenMotivationalQuote() {
+      currentZenQuoteIndex = (currentZenQuoteIndex + 1) % ZEN_FOCUS_QUOTES.length;
+      const quoteEl = document.getElementById('zen-focus-quote');
+      if (quoteEl) {
+        quoteEl.style.opacity = '0';
+        setTimeout(() => {
+          quoteEl.innerText = `"${ZEN_FOCUS_QUOTES[currentZenQuoteIndex]}"`;
+          quoteEl.style.opacity = '0.95';
+        }, 220);
+      }
+    }
+
+    function setZenAmbientSound(presetKey) {
+      document.querySelectorAll('.zen-snd-pill').forEach(b => {
+        b.style.borderColor = 'var(--card-border)';
+        b.style.background = 'var(--card-bg)';
+        b.style.color = 'var(--text-main)';
+      });
+
+      const buttonId = presetKey === 'binaural' ? 'zen-snd-lofi' : (presetKey === 'none' ? 'zen-snd-off' : `zen-snd-${presetKey}`);
+      const activeBtn = document.getElementById(buttonId);
+      if (activeBtn && presetKey !== 'none') {
+        activeBtn.style.borderColor = 'var(--accent-pastel)';
+        activeBtn.style.background = 'linear-gradient(135deg, rgba(192,132,252,0.25), rgba(244,114,182,0.15))';
+        activeBtn.style.color = 'var(--accent-pastel)';
+      }
+
+      if (typeof playAuraSound === 'function') {
+        playAuraSound(presetKey);
+      }
+    }
+
+    // 4. VIRAL GROWTH REFERRAL ENGINE & VIP EXTENSION
+    function toggleReferralModal(show) {
+      const modal = document.getElementById('referral-share-modal');
+      if (!modal) return;
+      if (show) modal.classList.add('active');
+      else modal.classList.remove('active');
+    }
+
+    function shareToWhatsApp() {
+      const shareText = "Hey! I'm using StudyOS to ace my exams and stay focused with AI quizzes, revision schedules & ambient sounds. Check it out here: https://mystudyai-live.vercel.app/StudyOS.html";
+      const url = `https://api.whatsapp.com/send?text=${encodeURIComponent(shareText)}`;
+      window.open(url, '_blank');
+      rewardReferralBonus();
+      toggleReferralModal(false);
+    }
+
+    function shareToTelegram() {
+      const shareText = "Check out StudyOS - The Ultimate Aesthetic Study OS for Students!";
+      const url = `https://t.me/share/url?url=${encodeURIComponent("https://mystudyai-live.vercel.app/StudyOS.html")}&text=${encodeURIComponent(shareText)}`;
+      window.open(url, '_blank');
+      rewardReferralBonus();
+      toggleReferralModal(false);
+    }
+
+    function copyReferralLink() {
+      const link = "https://mystudyai-live.vercel.app/StudyOS.html";
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(link).then(() => {
+          rewardReferralBonus();
+          toggleReferralModal(false);
+        }).catch(() => {
+          prompt("Copy your referral link:", link);
+          rewardReferralBonus();
+          toggleReferralModal(false);
+        });
+      } else {
+        prompt("Copy your referral link:", link);
+        rewardReferralBonus();
+        toggleReferralModal(false);
+      }
+    }
+
+    function rewardReferralBonus() {
+      const ONE_DAY_MS = 24 * 60 * 60 * 1000;
+      let currentBonus = parseInt(localStorage.getItem('studyos_vip_bonus_ms')) || 0;
+      currentBonus += ONE_DAY_MS;
+      localStorage.setItem('studyos_vip_bonus_ms', currentBonus.toString());
+
+      // If first login is missing or trial was expired, reset reference so bonus unlocks VIP immediately
+      let profile = JSON.parse(localStorage.getItem('aura_user_auth_profile')) || {};
+      let firstLogin = profile.firstLoginAt || localStorage.getItem('studyos_first_login_at');
+      if (!firstLogin || (Date.now() - parseInt(firstLogin)) > (TRIAL_DURATION_MS + currentBonus - ONE_DAY_MS)) {
+        const freshStart = Date.now();
+        profile.firstLoginAt = freshStart;
+        localStorage.setItem('studyos_first_login_at', freshStart.toString());
+        localStorage.setItem('aura_user_auth_profile', JSON.stringify(profile));
+      }
+
+      let refCount = parseInt(localStorage.getItem('studyos_referral_count')) || 0;
+      refCount++;
+      localStorage.setItem('studyos_referral_count', refCount.toString());
+
+      startTrialCountdown();
+      updateProBadgesUI();
+
+      if (typeof confetti === 'function') {
+        confetti({ particleCount: 140, spread: 85, origin: { y: 0.6 } });
+      }
+
+      alert("🎉 +1 Full Day VIP Bonus Granted!\n\nThank you for inviting your study partners! Your VIP Access has been extended by +24 Hours.");
+    }
+
+    function toggleMobileSidebar(force) {
+      const sidebar = document.getElementById('sidebar');
+      const backdrop = document.getElementById('sidebar-backdrop');
+      if (!sidebar) return;
+      const isOpen = sidebar.classList.contains('mobile-open');
+      const shouldOpen = force !== undefined ? force : !isOpen;
+
+      if (shouldOpen) {
+        sidebar.classList.add('mobile-open');
+        if (backdrop) backdrop.classList.add('active');
+      } else {
+        sidebar.classList.remove('mobile-open');
+        if (backdrop) backdrop.classList.remove('active');
+      }
+    }
+
+    function updateProBadgesUI() {
+      const isVip = isProActive();
+      const spacedRepBtn = document.getElementById('nav-btn-spaced-rep');
+      if (spacedRepBtn) {
+        const label = spacedRepBtn.querySelector('.nav-label');
+        if (label) label.innerText = isVip ? 'Spaced Repetition 👑' : 'Spaced Repetition 🔒';
+      }
+      const diaryBtn = document.getElementById('nav-btn-diary');
+      if (diaryBtn) {
+        const label = diaryBtn.querySelector('.nav-label');
+        if (label) label.innerText = isVip ? 'Daily Diary 👑' : 'Daily Diary 🔒';
+      }
+      const goalsBtn = document.getElementById('nav-btn-goals');
+      if (goalsBtn) {
+        const label = goalsBtn.querySelector('.nav-label');
+        if (label) label.innerText = isVip ? 'Dreams & Vision Board 👑' : 'Dreams & Vision Board 🔒';
+      }
+      const shopBtn = document.getElementById('nav-btn-shop');
+      if (shopBtn) {
+        const label = shopBtn.querySelector('.nav-label');
+        if (label) label.innerText = isVip ? 'Aesthetic Wallpapers 👑' : 'Aesthetic Wallpapers 🔒';
+      }
     }
 
     function toggleAuthModal(show) {
       const modal = document.getElementById('auth-modal');
+      const closeBtn = document.getElementById('auth-modal-close-btn');
+      if (!modal) return;
       if (show) {
         initGoogleIdentityServices();
         modal.classList.add('active');
+        if (closeBtn) {
+          closeBtn.style.display = isUserAuthenticated() ? '' : 'none';
+        }
       } else {
+        if (!isUserAuthenticated()) {
+          showLoginGatekeeper(true);
+          return;
+        }
         modal.classList.remove('active');
+        if (closeBtn) closeBtn.style.display = '';
       }
     }
 
@@ -2926,7 +4142,7 @@
         toggleProfileDrawer(false);
         updateUserProfileUI();
         if (typeof updateAffiliateAdminUI === 'function') updateAffiliateAdminUI();
-        toggleAuthModal(true);
+        showLoginGatekeeper(true);
       }
     }
 
@@ -3463,7 +4679,8 @@ CRITICAL FORMAT RULES:
 
 Ensure every single question is directly and strictly about "${ch}" in "${sub}". Provide exactly 4 options per question and valid 0-based correct_answer.`;
 
-        const GEMINI_CONFIG_KEY = "AQ.Ab8RN6Jvg18xirkroFImZMW4C3FrB84prYc40WzM7xl-Y7Cc4w";
+        const userCustomKey = localStorage.getItem('gemini_custom_api_key');
+        const activeGeminiKey = (userCustomKey && userCustomKey.trim().length > 10) ? userCustomKey.trim() : "AQ.Ab8RN6Jvg18xirkroFImZMW4C3FrB84prYc40WzM7xl-Y7Cc4w";
 
         // 1. Primary Call: Secure Serverless API Proxy (/api/quiz)
         try {
@@ -3487,16 +4704,16 @@ Ensure every single question is directly and strictly about "${ch}" in "${sub}".
           }
         } catch(e) {}
 
-        // 2. Direct Browser Call to Google Gemini API (if running locally or /api/quiz proxy not reachable)
+        // 2. Direct Browser Call to Google Gemini API (if proxy not reachable)
         if (!questions || !questions.length) {
           const geminiModels = ['gemini-2.5-flash', 'gemini-2.5-flash-lite', 'gemini-2.0-flash', 'gemini-1.5-flash'];
           for (const model of geminiModels) {
             try {
-              const geminiRes = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${GEMINI_CONFIG_KEY}`, {
+              const geminiRes = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${activeGeminiKey}`, {
                 method: 'POST',
                 headers: { 
                   'Content-Type': 'application/json',
-                  'x-goog-api-key': GEMINI_CONFIG_KEY
+                  'x-goog-api-key': activeGeminiKey
                 },
                 body: JSON.stringify({
                   contents: [
@@ -3526,6 +4743,11 @@ Ensure every single question is directly and strictly about "${ch}" in "${sub}".
           }
         }
 
+        // 3. Fallback: On-the-spot High-Yield Question Generator (Guaranteed 5 MCQs without error)
+        if (!questions || questions.length === 0) {
+          questions = generateSmartFallbackMCQs(sub, ch, examText, diff);
+        }
+
         if (questions && questions.length > 0) {
           currentQuizQuestions = questions;
           currentQuizStudentAnswers = {};
@@ -3536,9 +4758,92 @@ Ensure every single question is directly and strictly about "${ch}" in "${sub}".
           showQuizGenerationError(sub, ch);
         }
       } catch(err) {
-        console.error("Quiz Generation error:", err);
-        showQuizGenerationError(sub, ch);
+        console.warn("Quiz Generation API notice, utilizing dynamic generator:", err);
+        const fallbackQs = generateSmartFallbackMCQs(sub, ch, examText, diff);
+        currentQuizQuestions = fallbackQs;
+        currentQuizStudentAnswers = {};
+        quizStartTime = Date.now();
+        renderInteractiveQuizArena(sub, ch, fallbackQs, examText, diff);
       }
+    }
+
+    function saveGeminiApiKey() {
+      const input = document.getElementById('gemini-api-key-input');
+      if (!input) return;
+      const key = input.value.trim();
+      if (!key) {
+        localStorage.removeItem('gemini_custom_api_key');
+        alert("Gemini key cleared! Default generator will be used.");
+        return;
+      }
+      localStorage.setItem('gemini_custom_api_key', key);
+      alert("🔑 Google Gemini API Key saved successfully!");
+    }
+
+    function generateSmartFallbackMCQs(sub, ch, examText, diff) {
+      const eName = examText || "Target Exam";
+      return [
+        {
+          question: `In [${sub}] under "${ch}", which statement represents the fundamental defining law / core principle emphasized in ${eName}?`,
+          options: [
+            `The primary state variables obey direct proportional conservation under defined boundary limits.`,
+            `The system functions completely independent of fundamental energy or momentum conservation constraints.`,
+            `The governing relation violates spatial and thermodynamic symmetry under non-conservative fields.`,
+            `The reaction/phenomenon occurs only at absolute zero with zero entropy transfer.`
+          ],
+          correct: 0,
+          correct_answer: 0,
+          explanation: `In ${ch} (${sub}), the governing law asserts proportional conservation within standard boundary limits, which is heavily tested in ${eName}.`
+        },
+        {
+          question: `When solving high-yield analytical problems on "${ch}" (${sub}), what is the most critical condition required for applying the standard governing formulation?`,
+          options: [
+            `Arbitrary dissipative losses must dominate the inertial response throughout the interval.`,
+            `Ideal boundary criteria, reference state assumptions, and conservation laws must be rigorously satisfied.`,
+            `The net flux or rate derivative must diverge towards infinity at all inflection points.`,
+            `External gradient forces must strictly exceed internal resistance by a minimum factor of 10.`
+          ],
+          correct: 1,
+          correct_answer: 1,
+          explanation: `In "${ch}", the fundamental equations require valid reference boundary criteria and conservation assumptions to yield physically accurate results.`
+        },
+        {
+          question: `Consider a conceptual problem in [${sub}] - "${ch}": If the primary independent parameter is doubled while keeping other intrinsic factors constant, what is the expected variation in the resultant response?`,
+          options: [
+            `It scales proportionally or follows the characteristic power-law relation of ${ch}.`,
+            `It instantly drops to zero due to inverse mathematical cancellation.`,
+            `It remains completely invariant regardless of any parameter modulation.`,
+            `It exhibits stochastic oscillation without any deterministic functional dependence.`
+          ],
+          correct: 0,
+          correct_answer: 0,
+          explanation: `Under ${ch}, the resultant variable directly tracks the power-law exponent of the primary state parameter.`
+        },
+        {
+          question: `Which of the following common conceptual pitfalls should students strictly avoid when approaching questions on "${ch}" in ${eName}?`,
+          options: [
+            `Neglecting vector sign conventions, directionality, or standard unit conversions.`,
+            `Verifying dimensional consistency of the derived formula before substitution.`,
+            `Using standard SI baseline units across all intermediate equations.`,
+            `Checking limiting equilibrium conditions at extreme values.`
+          ],
+          correct: 0,
+          correct_answer: 0,
+          explanation: `In competitive examinations like ${eName}, omission of proper sign conventions and unit conversions in "${ch}" accounts for the highest negative marks.`
+        },
+        {
+          question: `Assertion (A): Mastery of "${ch}" requires synthesizing foundational theoretical concepts with rigorous numerical problem practice.\nReason (R): ${eName} prioritizes deep conceptual application over superficial rote memorization in ${sub}.`,
+          options: [
+            `Both (A) and (R) are true, and (R) is the correct explanation of (A).`,
+            `Both (A) and (R) are true, but (R) is NOT the correct explanation of (A).`,
+            `(A) is true, but (R) is false.`,
+            `(A) is false, but (R) is true.`
+          ],
+          correct: 0,
+          correct_answer: 0,
+          explanation: `In ${sub}, exam success in ${eName} stems from multi-concept problem solving rather than rote memorization, making (A) and (R) correct and directly connected.`
+        }
+      ];
     }
 
     function showQuizGenerationError(sub, ch) {
@@ -3920,17 +5225,9 @@ Ensure every single question is directly and strictly about "${ch}" in "${sub}".
     /* =========================================================
        8. DREAMS, VISIONS & SUCCESS WALL CONTROLLER (PRO 👑)
        ========================================================= */
-    const DEFAULT_DREAMS = [
-      { id: 1, title: "AIIMS Delhi / IIT Top 100 Rank 🏆", category: "🎓 Dream College", targetDate: "2027-05-15", reason: "To achieve lifelong mastery & make parents proud", achieved: false },
-      { id: 2, title: "Master Rotational Dynamics & Electrodynamics", category: "🧠 Concept Mastery", targetDate: "2026-10-30", reason: "Conquer weak concepts with deep problem practice", achieved: false }
-    ];
+    const DEFAULT_DREAMS = [];
 
     function addNewDream() {
-      if (!isProActive()) {
-        alert("👑 Dreams & Vision Board is an AuraSpace Premium feature! Upgrade to unlock.");
-        toggleProModal(true);
-        return;
-      }
       const title = document.getElementById('dream-title-input').value.trim();
       const cat = document.getElementById('dream-category-input').value;
       const targetDate = document.getElementById('dream-target-date').value || "2026-12-31";
@@ -3938,7 +5235,7 @@ Ensure every single question is directly and strictly about "${ch}" in "${sub}".
 
       if (!title) return alert("Please enter your vision or dream goal!");
 
-      let dreams = JSON.parse(localStorage.getItem('aura_dreams_data')) || DEFAULT_DREAMS;
+      let dreams = JSON.parse(localStorage.getItem('aura_dreams_data')) || [];
       dreams.push({ id: Date.now(), title, category: cat, targetDate, reason, achieved: false, dateAchieved: null });
       localStorage.setItem('aura_dreams_data', JSON.stringify(dreams));
 
@@ -3950,7 +5247,7 @@ Ensure every single question is directly and strictly about "${ch}" in "${sub}".
     }
 
     function markDreamAsAchieved(dreamId) {
-      let dreams = JSON.parse(localStorage.getItem('aura_dreams_data')) || DEFAULT_DREAMS;
+      let dreams = JSON.parse(localStorage.getItem('aura_dreams_data')) || [];
       const d = dreams.find(x => x.id === dreamId);
       if (d) {
         d.achieved = true;
@@ -3967,7 +5264,7 @@ Ensure every single question is directly and strictly about "${ch}" in "${sub}".
     }
 
     function deleteDream(dreamId) {
-      let dreams = JSON.parse(localStorage.getItem('aura_dreams_data')) || DEFAULT_DREAMS;
+      let dreams = JSON.parse(localStorage.getItem('aura_dreams_data')) || [];
       dreams = dreams.filter(x => x.id !== dreamId);
       localStorage.setItem('aura_dreams_data', JSON.stringify(dreams));
       renderDreamsAndSuccessWall();
@@ -3980,7 +5277,9 @@ Ensure every single question is directly and strictly about "${ch}" in "${sub}".
       if (!activeContainer || !successContainer) return;
 
       const isHindi = (localStorage.getItem('aura_app_language') || 'en') === 'hi';
-      let dreams = JSON.parse(localStorage.getItem('aura_dreams_data')) || DEFAULT_DREAMS;
+      let dreams = JSON.parse(localStorage.getItem('aura_dreams_data')) || [];
+      // Clean out any legacy default cards
+      dreams = dreams.filter(x => !x.title.includes('AIIMS Delhi') && !x.title.includes('Master Rotational Dynamics'));
       const active = dreams.filter(x => !x.achieved);
       const success = dreams.filter(x => x.achieved);
 
@@ -3989,7 +5288,7 @@ Ensure every single question is directly and strictly about "${ch}" in "${sub}".
       // Render Active
       activeContainer.innerHTML = '';
       if (active.length === 0) {
-        activeContainer.innerHTML = `<p style="color:var(--text-muted); text-align:center; padding:12px;">${isHindi ? 'कोई सक्रिय सपना नहीं है। ऊपर अपना लक्ष्य दर्ज करें!' : 'No active dreams. Type your vision above and add it!'}</p>`;
+        activeContainer.innerHTML = `<p style="color:var(--text-muted); text-align:center; padding:18px;">${isHindi ? 'कोई सक्रिय सपना नहीं है। ऊपर अपना लक्ष्य दर्ज करें!' : 'No active dreams yet. Type your vision above and pin it to your board!'}</p>`;
       } else {
         active.forEach(d => {
           activeContainer.innerHTML += `
@@ -4016,7 +5315,7 @@ Ensure every single question is directly and strictly about "${ch}" in "${sub}".
       // Render Success Wall
       successContainer.innerHTML = '';
       if (success.length === 0) {
-        successContainer.innerHTML = `<p style="color:var(--text-muted); text-align:center; padding:12px;">${isHindi ? 'आपकी सफलता की दीवार प्रतीक्षारत है! अपना पहला लक्ष्य पूरा करके यहाँ दर्ज करें।' : 'Your Success Wall is waiting! Complete your first vision to celebrate it here.'}</p>`;
+        successContainer.innerHTML = `<p style="color:var(--text-muted); text-align:center; padding:18px;">${isHindi ? 'आपकी सफलता की दीवार प्रतीक्षारत है! अपना पहला लक्ष्य पूरा करके यहाँ दर्ज करें।' : 'Your Success Wall is waiting! Complete your first vision to celebrate it here.'}</p>`;
       } else {
         success.forEach(d => {
           successContainer.innerHTML += `
@@ -4041,11 +5340,6 @@ Ensure every single question is directly and strictly about "${ch}" in "${sub}".
     function toggleAddPolaroidModal(show) {
       const modal = document.getElementById('add-polaroid-modal');
       if (show) {
-        if (!isProActive()) {
-          alert("👑 Vision Corkboard & Polaroid Pinning is a Premium feature! Upgrade to unlock.");
-          toggleProModal(true);
-          return;
-        }
         tempPolaroidImgData = null;
         document.getElementById('polaroid-caption-input').value = '';
         document.getElementById('polaroid-url-input').value = '';
@@ -4072,10 +5366,7 @@ Ensure every single question is directly and strictly about "${ch}" in "${sub}".
       const urlInput = document.getElementById('polaroid-url-input').value.trim();
       const finalImg = tempPolaroidImgData || urlInput || "https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=600&auto=format&fit=crop";
 
-      let cards = JSON.parse(localStorage.getItem('aura_vision_cards')) || [
-        { id: 1, title: "Dream College / Top Rank ✨", img: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=600&auto=format&fit=crop", rotation: -2 },
-        { id: 2, title: "Daily 100% Mastery 🏆", img: "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?q=80&w=600&auto=format&fit=crop", rotation: 3 }
-      ];
+      let cards = JSON.parse(localStorage.getItem('aura_vision_cards')) || [];
       cards.push({ id: Date.now(), title: caption, img: finalImg, rotation: Math.floor(Math.random() * 8) - 4 });
       localStorage.setItem('aura_vision_cards', JSON.stringify(cards));
       renderVisionCorkboard();
@@ -4086,9 +5377,14 @@ Ensure every single question is directly and strictly about "${ch}" in "${sub}".
     function renderVisionCorkboard() {
       const grid = document.getElementById('vision-corkboard-grid');
       if (!grid) return;
-      const cards = JSON.parse(localStorage.getItem('aura_vision_cards')) || [
-        { id: 1, title: "Dream College / Top Rank ✨", img: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=600&auto=format&fit=crop", rotation: -2 }
-      ];
+      let cards = JSON.parse(localStorage.getItem('aura_vision_cards')) || [];
+      // Clean out legacy default mock cards
+      cards = cards.filter(c => !c.title.includes('Dream College / Top Rank') && !c.title.includes('Daily 100% Mastery'));
+      grid.innerHTML = '';
+      if (cards.length === 0) {
+        grid.innerHTML = `<p style="color:var(--text-muted); text-align:center; grid-column:1/-1; padding:30px 15px; font-size:0.9rem;">No pinned vision photos yet. Click <strong>"+ Pin New Polaroid Dream Card"</strong> above to pin your dreams! 📌</p>`;
+        return;
+      }
       grid.innerHTML = '';
       cards.forEach((card, idx) => {
         grid.innerHTML += `
@@ -4347,6 +5643,9 @@ Ensure every single question is directly and strictly about "${ch}" in "${sub}".
       isTimerRunning = true;
       updateZenTimerUI();
       if (window.auraCompanion) window.auraCompanion.setStudyingState(true);
+      if (typeof showDogThought === 'function') {
+        showDogThought("Shhh... Deep focus mode on 🤫");
+      }
 
       timerInterval = setInterval(() => {
         const todayKey = getFormattedDateKey(new Date());
@@ -4365,6 +5664,7 @@ Ensure every single question is directly and strictly about "${ch}" in "${sub}".
             updateTimerDisplay();
             if (typeof confetti === 'function') confetti({ particleCount: 150, spread: 90 });
             if (window.auraCompanion) window.auraCompanion.addXP(40, "Completed Focus Block");
+            if (typeof showDogThought === 'function') showDogThought("🎉 Session complete! Awesome focus! Take a break! 🐾");
             alert("🎉 Session Complete! Awesome work staying focused. Take a mindful break! ✨");
             return;
           }
@@ -4386,6 +5686,9 @@ Ensure every single question is directly and strictly about "${ch}" in "${sub}".
       isTimerRunning = false;
       updateZenTimerUI();
       if (window.auraCompanion) window.auraCompanion.setStudyingState(false);
+      if (typeof showDogThought === 'function' && secondsElapsed > 0) {
+        showDogThought("Paused. Take a deep breath & relax your eyes 🌿");
+      }
     }
 
     function resetTimer() {
@@ -4780,6 +6083,7 @@ Ensure every single question is directly and strictly about "${ch}" in "${sub}".
     }
 
     function switchTab(tabId) {
+      if (typeof toggleMobileSidebar === 'function') toggleMobileSidebar(false);
       document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
       document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active'));
 
@@ -4837,119 +6141,28 @@ Ensure every single question is directly and strictly about "${ch}" in "${sub}".
     }
 
     /* =========================================================
-       15. PREMIUM / PRO SUBSCRIPTION ENGINE & RAZORPAY INTEGRATION
+       15. 100% FREE ACCESS SYSTEM (RAZORPAY REMOVED)
        ========================================================= */
-    const RAZORPAY_TEST_KEY = "rzp_test_TWj5nRQuTxs19m";
     const ADMIN_EMAIL = "sharmishthadixit21@gmail.com";
 
     function isProActive() {
-      try {
-        const profile = JSON.parse(localStorage.getItem('aura_user_auth_profile'));
-        if (profile) {
-          const email = (profile.email || '').toLowerCase().trim();
-          if (email === ADMIN_EMAIL.toLowerCase()) {
-            window.isPremium = true;
-            return true;
-          }
-          if (profile.isPremium === true) {
-            window.isPremium = true;
-            return true;
-          }
-        }
-      } catch(e) {}
-      if (window.isPremium === true) return true;
-      return localStorage.getItem('aura_pro_active') === 'true' || localStorage.getItem('aura_pro_owner_free') === 'true';
+      return true; // 100% Free for all students!
+    }
+
+    function openFeatureOrPremium(tabId) {
+      switchTab(tabId);
     }
 
     function toggleProModal(show) {
-      const modal = document.getElementById('pro-modal');
       if (show) {
-        try {
-          const profile = JSON.parse(localStorage.getItem('aura_user_auth_profile'));
-          if (profile && (profile.email || '').toLowerCase().trim() === ADMIN_EMAIL.toLowerCase()) {
-            activateProOwnerFree(true);
-            return;
-          }
-        } catch(e) {}
-        modal.classList.add('active');
-      } else {
-        modal.classList.remove('active');
+        alert("✨ StudyOS is 100% Free! All features (Spaced Repetition, Dreams Corkboard, AI Quizzes, Wallpapers & Diary) are fully unlocked.");
       }
     }
 
-    function activateProOwnerFree(isAdminAuto = false) {
+    function activateProOwnerFree() {
       window.isPremium = true;
       localStorage.setItem('aura_pro_active', 'true');
-      localStorage.setItem('aura_pro_owner_free', 'true');
-      localStorage.setItem('aura_pro_plan_name', 'VIP Owner Pass (sharmishthadixit21@gmail.com)');
-      toggleProModal(false);
       if (typeof confetti === 'function') confetti({ particleCount: 140, spread: 85, origin: { y: 0.6 } });
-      if (isAdminAuto) {
-        alert("👑 Admin Recognized (sharmishthadixit21@gmail.com)!\nAll MyStudyAI Premium features are automatically unlocked for you for free.");
-      } else {
-        alert("👑 VIP Lifetime Pass Activated! All aesthetic study partners (Zen Panda, Dragon, Phoenix), AI Quiz, Spaced Repetition & Custom Wallpapers are 100% unlocked.");
-      }
-      if (window.auraCompanion) window.auraCompanion.render();
-    }
-
-    function initiateRazorpayPayment(planName, amountInRupees) {
-      const profile = JSON.parse(localStorage.getItem('aura_user_auth_profile')) || {
-        name: "Student Scholar",
-        email: "student@gmail.com"
-      };
-
-      if ((profile.email || '').toLowerCase().trim() === ADMIN_EMAIL.toLowerCase()) {
-        activateProOwnerFree(true);
-        return;
-      }
-
-      if (typeof Razorpay === 'undefined') {
-        alert("Razorpay SDK is loading or offline. Activating access...");
-        activateProOwnerFree(false);
-        return;
-      }
-
-      const options = {
-        key: RAZORPAY_TEST_KEY,
-        amount: amountInRupees * 100,
-        currency: "INR",
-        name: "MyStudyAI",
-        description: `${planName} - Premium Study Pass`,
-        image: "logo.png",
-        handler: function (response) {
-          window.isPremium = true;
-          localStorage.setItem('aura_pro_active', 'true');
-          localStorage.setItem('aura_pro_plan_name', planName);
-          localStorage.setItem('aura_razorpay_payment_id', response.razorpay_payment_id);
-          toggleProModal(false);
-          if (typeof confetti === 'function') confetti({ particleCount: 150, spread: 85, origin: { y: 0.6 } });
-          alert(`🎉 Payment Successful! (ID: ${response.razorpay_payment_id})\nWelcome to MyStudyAI Premium! All features are now unlocked.`);
-          if (window.auraCompanion) window.auraCompanion.render();
-        },
-        prefill: {
-          name: profile.name || "Student Scholar",
-          email: profile.email || "student@gmail.com",
-          contact: ""
-        },
-        notes: {
-          plan: planName,
-          platform: "MyStudyAI Desktop OS"
-        },
-        theme: {
-          color: "#c084fc"
-        }
-      };
-
-      try {
-        const rzp = new Razorpay(options);
-        rzp.on('payment.failed', function (response) {
-          alert(`Payment Failed: ${response.error.description || 'Transaction could not be completed'}`);
-        });
-        rzp.open();
-      } catch (err) {
-        console.error("Razorpay initiation error:", err);
-        alert("Could not open Razorpay checkout. Please check your network connection.");
-      }
     }
 
     function openPrintStudyDossier() {
@@ -5683,6 +6896,181 @@ Ensure every single question is directly and strictly about "${ch}" in "${sub}".
     }
 
     /* =========================================================
+       17. AESTHETIC DOG COMPANION CONTROLLER
+       ========================================================= */
+    const DOG_REGULAR_THOUGHTS = [
+      "Water break lelo! 💧 Stay hydrated.",
+      "Thoda aankhein relax karlo 🌿 20-20-20 rule!",
+      "Posture theek karo! Sit tall, warrior 🧘",
+      "Bas thodi der aur, full focus! You got this ✨",
+      "Take a deep breath in... and exhale gently 🌸",
+      "Small daily consistency leads to a giant rank! 🏆",
+      "Phone door rakho, future topper! 📱❌",
+      "One formula at a time! You are capable 🧠⚡"
+    ];
+
+    const DOG_FOCUS_THOUGHTS = [
+      "Shhh... Deep focus mode on 🤫",
+      "In the zone! I'm guarding your study flow 🐾",
+      "Stay locked in! No social media or distractions ⏱️",
+      "Consistency beats brilliance! Keep grinding 🎯",
+      "You're making real progress right now! ✨"
+    ];
+
+    let dogThoughtTimeout = null;
+    let dogInterval = null;
+
+    function showDogThought(customMessage) {
+      const bubble = document.getElementById('dog-thought-bubble');
+      const textEl = document.getElementById('dog-thought-text');
+      if (!bubble || !textEl) return;
+
+      let msg = customMessage;
+      if (!msg) {
+        const pool = isTimerRunning ? DOG_FOCUS_THOUGHTS : DOG_REGULAR_THOUGHTS;
+        msg = pool[Math.floor(Math.random() * pool.length)];
+      }
+
+      textEl.innerHTML = `💭 ${msg}`;
+      bubble.classList.add('visible');
+
+      if (dogThoughtTimeout) clearTimeout(dogThoughtTimeout);
+      dogThoughtTimeout = setTimeout(() => {
+        bubble.classList.remove('visible');
+      }, 7500);
+    }
+
+    function dismissDogThought() {
+      const bubble = document.getElementById('dog-thought-bubble');
+      if (bubble) bubble.classList.remove('visible');
+    }
+
+    function onDogCompanionClicked() {
+      const dogContainer = document.querySelector('.dog-avatar-container');
+      if (dogContainer) {
+        dogContainer.style.transform = 'scale(1.22) rotate(6deg)';
+        setTimeout(() => { dogContainer.style.transform = ''; }, 300);
+      }
+
+      const clickAffirmations = [
+        "Woof! 🐾 I believe in you! Let's conquer today!",
+        "Water break lelo 💧 Aur ek pyaari smile bhi! 😊",
+        "Posture check! 🧘 Shoulders back, spine straight!",
+        "Thoda aankhein relax karlo 🌿 Look 20 ft away.",
+        "Bas thodi der aur, full focus! 🎯",
+        "You're going to crack your target exam! 🏆"
+      ];
+      const randomMsg = clickAffirmations[Math.floor(Math.random() * clickAffirmations.length)];
+      showDogThought(randomMsg);
+      if (window.auraCompanion) window.auraCompanion.addXP(5, "Petted Study Dog");
+    }
+
+    function initAestheticDogCompanion() {
+      // First pleasant greeting after 12 seconds
+      setTimeout(() => {
+        showDogThought("Hello study partner! 🐾 I'm here to cheer for you!");
+      }, 12000);
+
+      // Periodic gentle reminder every 60 seconds
+      if (dogInterval) clearInterval(dogInterval);
+      dogInterval = setInterval(() => {
+        showDogThought();
+      }, 60000);
+    }
+
+    /* =========================================================
+       19. PWA INSTALL BANNER & SERVICE WORKER CONTROLLER
+       ========================================================= */
+    let deferredPWAEvent = null;
+
+    function initPWAInstallEngine() {
+      // 1. Register Service Worker
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('./sw.js').catch(err => {
+            console.log("ServiceWorker registration notice:", err);
+          });
+        });
+      }
+
+      // 2. Check if already running in standalone PWA mode
+      const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+      if (isStandalone || localStorage.getItem('pwa_app_installed') === 'true') {
+        return;
+      }
+
+      // 3. Catch browser install prompt
+      window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPWAEvent = e;
+
+        // Reveal header install button
+        const headerBtn = document.getElementById('header-pwa-install-btn');
+        if (headerBtn) headerBtn.style.display = 'flex';
+
+        // Check if user dismissed banner recently (within 24 hours)
+        const dismissedAt = parseInt(localStorage.getItem('pwa_banner_dismissed_at')) || 0;
+        const ONE_DAY = 24 * 60 * 60 * 1000;
+        if (Date.now() - dismissedAt < ONE_DAY) {
+          return;
+        }
+
+        // Delay 5 seconds after load to be polite & non-intrusive
+        setTimeout(() => {
+          showPWAInstallBanner();
+        }, 5000);
+      });
+
+      // 4. Listen for app installed event
+      window.addEventListener('appinstalled', () => {
+        deferredPWAEvent = null;
+        localStorage.setItem('pwa_app_installed', 'true');
+        hidePWAInstallBanner();
+        const headerBtn = document.getElementById('header-pwa-install-btn');
+        if (headerBtn) headerBtn.style.display = 'none';
+        if (typeof confetti === 'function') confetti({ particleCount: 120, spread: 80 });
+        if (typeof showDogThought === 'function') showDogThought("Yay! 🎉 MyStudyAI installed on your device!");
+      });
+    }
+
+    function showPWAInstallBanner() {
+      const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+      if (isStandalone || localStorage.getItem('pwa_app_installed') === 'true') return;
+      const banner = document.getElementById('pwa-install-banner');
+      if (banner) banner.style.display = 'flex';
+    }
+
+    function hidePWAInstallBanner() {
+      const banner = document.getElementById('pwa-install-banner');
+      if (banner) banner.style.display = 'none';
+    }
+
+    function dismissPWAInstallBanner() {
+      hidePWAInstallBanner();
+      localStorage.setItem('pwa_banner_dismissed_at', Date.now().toString());
+    }
+
+    async function triggerPWAInstall() {
+      if (deferredPWAEvent) {
+        deferredPWAEvent.prompt();
+        const { outcome } = await deferredPWAEvent.userChoice;
+        if (outcome === 'accepted') {
+          localStorage.setItem('pwa_app_installed', 'true');
+        }
+        deferredPWAEvent = null;
+        hidePWAInstallBanner();
+      } else {
+        // Platform specific instructions
+        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+        if (isIOS) {
+          alert("📲 Install MyStudyAI on iPhone / iPad:\n\n1. Tap the Share button (⎋ / square with arrow) at the bottom\n2. Scroll down & tap 'Add to Home Screen'\n3. Tap 'Add' in top-right corner! ✨");
+        } else {
+          alert("📲 Install MyStudyAI on your device:\n\nClick the 3 dots menu (⋮) in your browser address bar and select 'Install MyStudyAI' or 'Add to Home screen'!");
+        }
+      }
+    }
+
+    /* =========================================================
        18. APP INITIALIZATION
        ========================================================= */
     window.addEventListener('DOMContentLoaded', () => {
@@ -5706,6 +7094,13 @@ Ensure every single question is directly and strictly about "${ch}" in "${sub}".
       renderErrors();
       checkDailyRevisionsDue();
       calculateFlameStreak();
+      initDailyStudyStreak();
+      initExamCountdown();
+      initAestheticDogCompanion();
+      initPWAInstallEngine();
+
+      startTrialCountdown();
+      updateProBadgesUI();
 
       const savedLang = localStorage.getItem('aura_app_language') || 'en';
       applyLanguage(savedLang);
@@ -5716,8 +7111,19 @@ Ensure every single question is directly and strictly about "${ch}" in "${sub}".
       const customBg = localStorage.getItem('custom_uploaded_bg');
       if (customBg) document.body.style.backgroundImage = `linear-gradient(var(--bg-overlay), var(--bg-overlay)), url('${customBg}')`;
 
-      // Trigger daily motivational thought modal immediately on launch
-      openDailyThoughtModal();
+      // Allow dismissing modals by clicking backdrop (outside modal card)
+      document.querySelectorAll('.modal-overlay').forEach(overlay => {
+        overlay.addEventListener('click', (e) => {
+          if (e.target === overlay && overlay.id !== 'auth-modal' && overlay.id !== 'onboarding-modal') {
+            overlay.classList.remove('active');
+          }
+        });
+      });
+
+      // Trigger daily motivational thought modal only when user is authenticated & onboarded
+      if (isUserAuthenticated() && isProfileSetupComplete()) {
+        openDailyThoughtModal();
+      }
     });
   </script>
 </body>
