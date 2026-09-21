@@ -2636,11 +2636,16 @@
       </div>
 
       <div class="section-card">
-        <h3>⚡ Google Gemini AI Key (Optional)</h3>
-        <p style="color: var(--text-muted); font-size:0.85rem; margin-bottom:10px;">AI Quiz Arena automatically generates MCQs. You can also paste your Google AI Studio key (starts with <code>AIzaSy...</code>) to connect directly to Gemini 2.5:</p>
-        <div style="display:flex; gap:10px; flex-wrap:wrap;">
-          <input type="password" id="gemini-api-key-input" placeholder="AIzaSy..." style="flex:1; min-width:240px;">
-          <button class="btn-primary" onclick="saveGeminiApiKey()">Save Key 🔑</button>
+        <div style="display:flex; align-items:center; gap:10px; margin-bottom:6px;">
+          <span style="font-size:1.4rem;">🛡️</span>
+          <h3 style="margin-bottom:0;">AI Security & Serverless Protection</h3>
+        </div>
+        <p style="color: var(--text-muted); font-size:0.85rem; margin-bottom:12px;">
+          AI Quiz Arena and Doubt Solver are handled securely through backend serverless API routes using server-side environment variables (<code>GEMINI_API_KEY</code>). All API keys are completely protected and never exposed to the client browser.
+        </p>
+        <div style="display:inline-flex; align-items:center; gap:8px; padding:7px 16px; border-radius:20px; background:rgba(52,211,153,0.15); border:1px solid rgba(52,211,153,0.3); color:#34d399; font-size:0.82rem; font-weight:600;">
+          <span>🔒</span>
+          <span>Server-Side Protected • Zero Client Key Exposure</span>
         </div>
       </div>
 
@@ -4598,6 +4603,8 @@
         }
 
         const explanation = item.explanation || item.explain || item.reason || "Correct conceptual reasoning based on standard curriculum.";
+        const mistakeAnalysis = item.mistake_analysis || item.mistakeAnalysis || item.misconception || item.trap || "Watch out for common pitfalls: verify boundary assumptions and standard units before calculating.";
+        const keyTakeaway = item.key_takeaway || item.keyTakeaway || item.goldenRule || item.summary || "Always double-check formulas and dimensional consistency before finalizing your answer.";
 
         // Ensure strictly 4 options (pad or slice if necessary)
         const finalOptions = opts.map(o => String(o).trim());
@@ -4609,10 +4616,12 @@
           options: finalOptions,
           correct_answer: correctIdx,
           correct: correctIdx,
-          explanation: String(explanation).trim()
+          explanation: String(explanation).trim(),
+          mistake_analysis: String(mistakeAnalysis).trim(),
+          key_takeaway: String(keyTakeaway).trim()
         });
       }
-      return clean.length > 0 ? clean : null;
+      return clean.length >= 3 ? clean : null;
     }
 
     function safeClientJsonParse(rawText) {
@@ -4633,6 +4642,21 @@
       }
     }
 
+    function escapeJs(str) {
+      if (!str) return "";
+      return String(str).replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/"/g, '&quot;');
+    }
+
+    function escapeHtml(str) {
+      if (!str) return "";
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
     async function generateQuiz() {
       const examEl = document.getElementById('quiz-target-exam');
       const examText = examEl ? examEl.options[examEl.selectedIndex].text : 'Competitive Exam';
@@ -4646,186 +4670,63 @@
       container.innerHTML = `
         <div class="section-card" style="text-align:center; padding:40px 20px;">
           <span style="font-size:2.8rem; display:inline-block; animation:bounce 1.5s infinite;">⚡</span>
-          <h3 style="margin-top:12px; color:var(--accent-pastel); font-size:1.15rem;">Generating Real Dynamic MCQs with Gemini AI...</h3>
-          <p style="margin-top:6px; color:var(--text-muted); font-size:0.86rem;">Crafting 5 brand-new, high-yield questions for <strong>[${examText}] ${sub}: ${ch}</strong> (${diff})</p>
+          <h3 style="margin-top:12px; color:var(--accent-pastel); font-size:1.15rem;">Analyzing Topic & Generating Dynamic AI MCQs...</h3>
+          <p style="margin-top:6px; color:var(--text-muted); font-size:0.86rem;">Google Gemini AI is evaluating syllabus complexity and tailoring dynamic questions with mistake analysis for <strong>[${escapeHtml(examText)}] ${escapeHtml(sub)}: ${escapeHtml(ch)}</strong> (${escapeHtml(diff)})</p>
         </div>
       `;
 
+      let questions = null;
+      let apiError = "";
+
       try {
-        let questions = null;
-        const nonce = Math.random().toString(36).substring(2, 8) + '-' + Date.now();
+        // Secure Serverless Backend Call (/api/quiz)
+        // Strictly uses server-side process.env.GEMINI_API_KEY. Zero client keys exposed.
+        const proxyRes = await fetch('/api/quiz', {
+          method: 'POST',
+          headers: { 
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            subject: sub,
+            chapter: ch,
+            difficulty: diff,
+            targetExam: examText
+          })
+        });
 
-        const systemInstructionText = `You are an elite academic examination setter for top-tier competitive and board examinations (such as CBSE Board, NEET, JEE, UPSC, SAT, etc.).
-You MUST ALWAYS generate and return ONLY a valid raw JSON array containing exactly 5 Multiple Choice Questions (MCQs).
+        const pData = await proxyRes.json().catch(() => null);
 
-STRICT PEDAGOGICAL & QUESTION DIVERSITY RULES:
-1. NO FIXED SENTENCE TEMPLATES OR FORMULAIC PHRASINGS:
-   - NEVER use boilerplate intros such as "In [Subject] under '[Topic]', which statement represents...", "When solving high-yield analytical problems...", "Consider a conceptual problem in...", "Which of the following common conceptual pitfalls...".
-   - Every single question MUST begin with a unique, direct, and natural sentence structure. Dive straight into the specific physical, chemical, mathematical, biological, or historical concept.
-2. DIVERSE QUESTION ARCHETYPES (Each of the 5 questions MUST use a different archetype):
-   - Question 1 (Numerical / Calculation / Value Relationship): A problem involving formula application, proportionality, calculating an unknown value, or interpreting a numerical relation.
-   - Question 2 (Causal Reasoning / "What happens if..."): Analyzing what occurs when physical parameters, reagents, variables, or conditions are modified.
-   - Question 3 (Specific Law / Mechanism / Theorem): Testing a precise definition, rule, reaction pathway, or governing scientific principle with authentic terminology.
-   - Question 4 (Comparative / Distinguishing Analysis): Discerning the difference between two phenomena, materials, processes, or identifying correct vs incorrect statements.
-   - Question 5 (Real-World Application / Experimental Observation): Everyday phenomenon, laboratory test/result, or practical application directly tied to the topic.
-3. AUTHENTIC, PLAUSIBLE OPTIONS:
-   - Provide EXACTLY 4 distinct options per question.
-   - All options must be concrete, subject-specific, and plausible answers (e.g. realistic values with SI units, actual chemical formulas, specific biological terms, accurate historical events).
-   - NEVER use abstract pseudo-academic filler options (e.g., "The primary state variables obey direct proportional conservation").
-   - NEVER use "All of the above", "None of the above", or "Both A and B" unless scientifically necessary.
-4. SCHEMA & OUTPUT FORMAT:
-   - Return ONLY a valid, parseable raw JSON array containing exactly 5 objects.
-   - No markdown backticks, no conversation, no extra text.
-   - Schema:
-     [
-       {
-         "question": "Direct, authentic question text",
-         "options": ["Option A", "Option B", "Option C", "Option D"],
-         "correct_answer": 0,
-         "explanation": "Clear 1-2 sentence explanation of why this option is correct citing the specific scientific law/fact/formula."
-       }
-     ]`;
-
-        const quizUserPrompt = `Generate 5 completely fresh, unique, non-repetitive MCQs on:
-- Subject: "${sub}"
-- Topic/Chapter: "${ch}"
-- Target Exam: "${examText}"
-- Difficulty: "${diff}"
-- Unique Session Nonce: "${nonce}"
-
-MANDATORY INSTRUCTIONS:
-- Every question must test a different specific sub-concept or formula of "${ch}" in "${sub}".
-- Do NOT use any repetitive sentence starters or rigid sentence templates.
-- Write natural, engaging, standard exam questions as seen in real ${examText} papers.
-- Ensure all 4 options are distinct, realistic, and contain authentic subject-matter facts/values.`;
-
-        const userCustomKey = localStorage.getItem('gemini_custom_api_key');
-        const activeGeminiKey = (userCustomKey && userCustomKey.trim().length > 10) ? userCustomKey.trim() : "AQ.Ab8RN6Jvg18xirkroFImZMW4C3FrB84prYc40WzM7xl-Y7Cc4w";
-
-        // 1. Primary Call: Secure Serverless API Proxy (/api/quiz)
-        try {
-          const proxyRes = await fetch('/api/quiz', {
-            method: 'POST',
-            headers: { 
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-              subject: sub,
-              chapter: ch,
-              difficulty: diff,
-              targetExam: examText
-            })
-          });
-          if (proxyRes.ok) {
-            const pData = await proxyRes.json();
-            if (pData.success && Array.isArray(pData.questions) && pData.questions.length >= 1) {
-              questions = normalizeClientQuizQuestions(pData.questions);
-            }
-          }
-        } catch(e) {}
-
-        // 2. Direct Browser Call to Google Gemini API (if proxy not reachable)
-        if (!questions || !questions.length) {
-          const geminiModels = ['gemini-2.5-flash', 'gemini-2.5-flash-lite', 'gemini-2.0-flash', 'gemini-1.5-flash'];
-          for (const model of geminiModels) {
-            try {
-              const geminiRes = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${activeGeminiKey}`, {
-                method: 'POST',
-                headers: { 
-                  'Content-Type': 'application/json',
-                  'x-goog-api-key': activeGeminiKey
-                },
-                body: JSON.stringify({
-                  contents: [
-                    {
-                      parts: [
-                        { text: `${systemInstructionText}\n\n${quizUserPrompt}` }
-                      ]
-                    }
-                  ],
-                  generationConfig: {
-                    responseMimeType: "application/json",
-                    temperature: 0.7
-                  }
-                })
-              });
-
-              if (geminiRes.ok) {
-                const gData = await geminiRes.json();
-                const text = gData.candidates?.[0]?.content?.parts?.[0]?.text || "";
-                const parsed = safeClientJsonParse(text);
-                if (parsed) {
-                  questions = normalizeClientQuizQuestions(parsed);
-                  if (questions && questions.length >= 1) break;
-                }
-              }
-            } catch(e) {}
-          }
-        }
-
-        // 3. Free Live AI Provider (Pollinations AI) if proxy/gemini not available
-        if (!questions || !questions.length) {
-          try {
-            const polRes = await fetch('https://text.pollinations.ai/', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({
-                messages: [
-                  { role: "system", content: systemInstructionText },
-                  { role: "user", content: quizUserPrompt }
-                ],
-                model: "openai",
-                jsonMode: true
-              })
-            });
-            if (polRes.ok) {
-              const pText = await polRes.text();
-              const parsed = safeClientJsonParse(pText);
-              if (parsed) {
-                questions = normalizeClientQuizQuestions(parsed);
-              }
-            }
-          } catch(e) {}
-        }
-
-        // 4. Fallback: On-the-spot High-Yield Question Generator (Guaranteed 5 MCQs without error)
-        if (!questions || questions.length === 0) {
-          questions = generateSmartFallbackMCQs(sub, ch, examText, diff);
-        }
-
-        if (questions && questions.length > 0) {
-          currentQuizQuestions = questions;
-          currentQuizStudentAnswers = {};
-          quizStartTime = Date.now();
-          renderInteractiveQuizArena(sub, ch, questions, examText, diff);
-          if (window.auraCompanion) window.auraCompanion.addXP(30, "Generated AI Quiz");
+        if (proxyRes.ok && pData && pData.success && Array.isArray(pData.questions) && pData.questions.length >= 1) {
+          questions = normalizeClientQuizQuestions(pData.questions);
         } else {
-          showQuizGenerationError(sub, ch);
+          apiError = (pData && (pData.tip || pData.error)) || `Server returned status ${proxyRes.status}`;
         }
-      } catch(err) {
-        console.warn("Quiz Generation API notice, utilizing dynamic generator:", err);
-        const fallbackQs = generateSmartFallbackMCQs(sub, ch, examText, diff);
-        currentQuizQuestions = fallbackQs;
+      } catch(e) {
+        if (window.location.protocol === 'file:') {
+          apiError = "You opened StudyOS.html directly as a local file (file:///). The backend API route (/api/quiz) runs on Vercel. Please open your live Vercel deployment URL (e.g. https://your-site.vercel.app) to generate real Gemini AI questions!";
+        } else {
+          apiError = `Unable to connect to /api/quiz backend: ${e.message}`;
+        }
+      }
+
+      if (questions && questions.length > 0) {
+        currentQuizQuestions = questions;
         currentQuizStudentAnswers = {};
         quizStartTime = Date.now();
-        renderInteractiveQuizArena(sub, ch, fallbackQs, examText, diff);
+        renderInteractiveQuizArena(sub, ch, questions, examText, diff);
+        if (window.auraCompanion) window.auraCompanion.addXP(30, "Generated AI Quiz");
+      } else {
+        showQuizGenerationError(sub, ch, apiError);
       }
     }
 
     function saveGeminiApiKey() {
-      const input = document.getElementById('gemini-api-key-input');
-      if (!input) return;
-      const key = input.value.trim();
-      if (!key) {
-        localStorage.removeItem('gemini_custom_api_key');
-        alert("Gemini key cleared! Default generator will be used.");
-        return;
-      }
-      localStorage.setItem('gemini_custom_api_key', key);
-      alert("🔑 Google Gemini API Key saved successfully!");
+      // Retained for backward compatibility; Gemini API is securely managed via server environment variables
     }
 
     function generateSmartFallbackMCQs(sub, ch, examText, diff) {
+      // Hardcoded fallback permanently disabled; questions strictly generated via Gemini AI
+      return null;
       const s = String(sub || '').toLowerCase().trim();
       const c = String(ch || '').toLowerCase().trim();
       const eName = examText || "Target Exam";
@@ -5227,16 +5128,21 @@ MANDATORY INSTRUCTIONS:
       ];
     }
 
-    function showQuizGenerationError(sub, ch) {
+    function showQuizGenerationError(sub, ch, errorDetail = "") {
       const container = document.getElementById('quiz-container');
       if (!container) return;
       container.innerHTML = `
         <div class="section-card" style="text-align:center; padding:35px 20px; border-color:var(--danger-red);">
           <span style="font-size:2.5rem; display:inline-block; margin-bottom:10px;">⚠️</span>
-          <h3 style="color:var(--danger-red); font-size:1.2rem; margin-bottom:8px;">Failed to generate quiz, please try again</h3>
-          <p style="color:var(--text-muted); font-size:0.9rem; max-width:500px; margin:0 auto 18px auto; line-height:1.5;">
-            Could not generate MCQs for <strong>${sub}: ${ch}</strong> right now. Please check your internet connection and try again.
+          <h3 style="color:var(--danger-red); font-size:1.2rem; margin-bottom:8px;">AI Quiz Generation Notice</h3>
+          <p style="color:var(--text-muted); font-size:0.9rem; max-width:550px; margin:0 auto 14px auto; line-height:1.5;">
+            Could not generate dynamic MCQs with Gemini AI for <strong>${escapeHtml(sub)}: ${escapeHtml(ch)}</strong>.
           </p>
+          ${errorDetail ? `
+            <div style="background:rgba(239,68,68,0.12); border:1px solid rgba(239,68,68,0.3); border-radius:10px; padding:14px 18px; max-width:550px; margin:0 auto 18px auto; text-align:left; font-size:0.86rem; color:#fca5a5; line-height:1.55;">
+              <strong>ℹ️ Diagnostic Notice:</strong><br>${escapeHtml(errorDetail)}
+            </div>
+          ` : ''}
           <div style="display:flex; justify-content:center; gap:10px; flex-wrap:wrap;">
             <button class="btn-primary" onclick="generateQuiz()" style="padding:10px 22px;">🔄 Retry Quiz Generation</button>
           </div>
@@ -5262,7 +5168,7 @@ MANDATORY INSTRUCTIONS:
             </div>
             <div style="display:flex; gap:8px; align-items:center;">
               ${diffBadge}
-              <span class="tag-badge" style="background:rgba(52,211,153,0.15); color:#34d399; font-weight:700;">${questions.length} AI MCQs</span>
+              <span class="tag-badge" style="background:rgba(52,211,153,0.15); color:#34d399; font-weight:700;">${questions.length} Dynamic AI MCQs</span>
             </div>
           </div>
       `;
@@ -5361,6 +5267,7 @@ MANDATORY INSTRUCTIONS:
                 <strong style="color:#34d399; font-size:0.95rem;">✓ Correct (+4 Marks)</strong>
               </div>
               <p style="font-size:0.86rem; color:var(--text-main); line-height:1.45;"><strong>Explanation:</strong> ${q.explanation}</p>
+              ${q.key_takeaway ? `<div style="margin-top:8px; padding:8px 12px; background:rgba(52,211,153,0.12); border-radius:8px; font-size:0.83rem; color:#6ee7b7;"><strong>💡 Golden Rule / Key Takeaway:</strong> ${q.key_takeaway}</div>` : ''}
             `;
           } else {
             explainBox.style.background = 'rgba(239, 68, 68, 0.12)';
@@ -5369,9 +5276,19 @@ MANDATORY INSTRUCTIONS:
               <div style="margin-bottom:6px;">
                 <strong style="color:#fca5a5; font-size:0.95rem;">✕ Incorrect (Your choice: ${selected !== undefined ? String.fromCharCode(65 + selected) : 'Unattempted'} • Correct: ${String.fromCharCode(65 + q.correct)})</strong>
               </div>
-              <p style="font-size:0.86rem; color:var(--text-main); line-height:1.45;"><strong>1-Sentence Explanation:</strong> ${q.explanation}</p>
+              <div style="margin-bottom:8px; font-size:0.86rem; color:var(--text-main); line-height:1.45;">
+                <strong>✓ Step-by-Step Solution:</strong> ${q.explanation}
+              </div>
+              ${q.mistake_analysis ? `
+              <div style="margin-bottom:8px; padding:10px 12px; background:rgba(239,68,68,0.16); border-left:3px solid #ef4444; border-radius:6px; font-size:0.84rem; color:#fca5a5; line-height:1.45;">
+                <strong>🧠 AI Tutor Mistake Analysis:</strong> ${q.mistake_analysis}
+              </div>` : ''}
+              ${q.key_takeaway ? `
+              <div style="margin-bottom:10px; padding:8px 12px; background:rgba(251,191,36,0.12); border-left:3px solid #f59e0b; border-radius:6px; font-size:0.84rem; color:#fcd34d; line-height:1.45;">
+                <strong>💡 Golden Rule / Key Takeaway:</strong> ${q.key_takeaway}
+              </div>` : ''}
               <div style="display:flex; gap:8px; margin-top:10px; flex-wrap:wrap;">
-                <button class="btn-primary" style="font-size:0.75rem; padding:6px 14px; background:rgba(239,68,68,0.35); border:1px solid rgba(239,68,68,0.5);" onclick="saveDirectToMistakeVault('${escapeJs(sub)}', '${escapeJs(q.question || q.q)}', '${escapeJs(q.explanation)}')">📖 Save to Mistake Vault</button>
+                <button class="btn-primary" style="font-size:0.75rem; padding:6px 14px; background:rgba(239,68,68,0.35); border:1px solid rgba(239,68,68,0.5);" onclick="saveDirectToMistakeVault('${escapeJs(sub)}', '${escapeJs(q.question || q.q)}', '${escapeJs(q.explanation)}', '${escapeJs(q.mistake_analysis || '')}')">📖 Save to Mistake Vault</button>
                 <button class="btn-primary" style="font-size:0.75rem; padding:6px 14px;" onclick="openAIDoubtChat('${escapeJs(sub)}', '${escapeJs(q.question || q.q)}')">💬 Ask AI Study Mentor to Clarify</button>
               </div>
             `;
@@ -5396,13 +5313,16 @@ MANDATORY INSTRUCTIONS:
       if (window.auraCompanion) window.auraCompanion.addXP(40, "Completed Quiz");
     }
 
-    function saveDirectToMistakeVault(sub, qText, explanation) {
+    function saveDirectToMistakeVault(sub, qText, explanation, mistakeAnalysis = "") {
       let errors = JSON.parse(localStorage.getItem('error_log_data')) || [];
+      const fullDesc = mistakeAnalysis 
+        ? `Q: ${qText} ➔ Correct Solution: ${explanation} | 🧠 AI Mistake Analysis: ${mistakeAnalysis}`
+        : `Q: ${qText} ➔ Correct Solution: ${explanation}`;
       errors.push({
         id: Date.now(),
         sub: sub,
         tag: "AI Quiz Mistake",
-        desc: `Q: ${qText} ➔ Correct Concept: ${explanation}`,
+        desc: fullDesc,
         resolved: false
       });
       localStorage.setItem('error_log_data', JSON.stringify(errors));
@@ -5411,16 +5331,13 @@ MANDATORY INSTRUCTIONS:
     }
 
     async function openAIDoubtChat(sub, questionContext) {
-      const doubt = prompt(`💬 AI Doubt Solver for [${sub}]:\nWhat concept or step did you find confusing?`, "Can you explain this concept in 2 simple sentences with an easy analogy?");
+      const doubt = prompt(`💬 AI Tutor Doubt Solver for [${sub}]:\nWhat concept or step did you find confusing?`, "Can you explain this concept in simple steps with an easy analogy?");
       if (!doubt) return;
 
       try {
-        const promptText = `You are a supportive, genius AI study mentor on AuraSpace. Explain concepts clearly in friendly language with step-by-step logic, easy analogies, and key formulas. Topic: ${sub}, Context Question: ${questionContext}. Student Doubt: ${doubt}`;
-        
         let reply = "";
-        const GEMINI_CONFIG_KEY = "AQ.Ab8RN6Jvg18xirkroFImZMW4C3FrB84prYc40WzM7xl-Y7Cc4w";
 
-        // 1. Primary: Serverless Backend /api/quiz
+        // Primary: Secure Serverless Backend /api/quiz (Uses server-side environment variables)
         try {
           const proxyRes = await fetch('/api/quiz', {
             method: 'POST',
@@ -5432,52 +5349,22 @@ MANDATORY INSTRUCTIONS:
               subject: sub,
               chapter: sub,
               targetExam: 'General',
-              userDoubt: `${promptText}`
+              userDoubt: `Context: ${questionContext}\nStudent Question: ${doubt}`
             })
           });
           if (proxyRes.ok) {
             const data = await proxyRes.json();
-            reply = data.reply;
+            if (data.reply) reply = data.reply;
           }
         } catch(e) {}
-
-        // 2. Secondary: Direct fetch to Gemini API
-        if (!reply) {
-          const geminiModels = ['gemini-2.5-flash', 'gemini-2.5-flash-lite', 'gemini-2.0-flash', 'gemini-1.5-flash'];
-          for (const model of geminiModels) {
-            try {
-              const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${GEMINI_CONFIG_KEY}`, {
-                method: 'POST',
-                headers: { 
-                  'Content-Type': 'application/json',
-                  'x-goog-api-key': GEMINI_CONFIG_KEY
-                },
-                body: JSON.stringify({
-                  contents: [
-                    {
-                      parts: [
-                        { text: `You are a supportive, genius AI study mentor on AuraSpace. Explain concepts clearly in friendly language with step-by-step logic, easy analogies, and key formulas.\n\n${promptText}` }
-                      ]
-                    }
-                  ]
-                })
-              });
-              if (res.ok) {
-                const gData = await res.json();
-                reply = gData.candidates?.[0]?.content?.parts?.[0]?.text;
-                if (reply) break;
-              }
-            } catch(e) {}
-          }
-        }
 
         if (reply) {
           alert(`💡 AI Study Mentor Explanation:\n\n${reply}`);
         } else {
-          alert("💡 Concept Tip: Review the core formula, check the sign convention, and substitute standard SI units step-by-step!");
+          alert(`💡 Concept Tip for [${sub}]:\n1. Identify the fundamental formula and known variables.\n2. Watch for typical exam traps: sign conventions and standard SI units.\n3. Follow the step-by-step solution to master the logic!`);
         }
       } catch(err) {
-        alert("💡 Concept Tip: Review the core formula, check the sign convention, and substitute standard SI units step-by-step!");
+        alert(`💡 Concept Tip for [${sub}]:\n1. Identify the fundamental formula and known variables.\n2. Watch for typical exam traps: sign conventions and standard SI units.\n3. Follow the step-by-step solution to master the logic!`);
       }
     }
 
