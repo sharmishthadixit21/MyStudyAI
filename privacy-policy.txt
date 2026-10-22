@@ -1,0 +1,15 @@
+Privacy Policy for AuraSpace
+
+Welcome to AuraSpace. Your privacy is very important to us.
+
+Information We Collect:
+When you use AuraSpace, we may store your study preferences, checklist items, and timers locally on your browser or securely via Google Authentication if you choose to sign in.
+
+How We Use Information:
+We use your data solely to provide a personalized study experience, sync your progress, and improve app functionality. We do not sell, rent, or share your personal data with third parties.
+
+Cookies and Third-Party Services:
+We may use third-party services like Google Firebase for authentication and Google Analytics to monitor traffic to improve user experience.
+
+Contact Us:
+For any privacy inquiries or support, please reach out to us using the Support & Feedback Form directly on the AuraSpace platform.

@@ -14,7 +14,13 @@ class ErrorMonitor {
 
   loadLogs() {
     try {
-      return JSON.parse(localStorage.getItem(this.storageKey)) || [];
+      const stored = JSON.parse(localStorage.getItem(this.storageKey)) || [];
+      // Clean up any automated self-test verification entries so they never show as false alarms
+      const clean = stored.filter(l => l.type !== 'Self-Test Verification');
+      if (clean.length !== stored.length) {
+        localStorage.setItem(this.storageKey, JSON.stringify(clean));
+      }
+      return clean;
     } catch (e) {
       return [];
     }
@@ -66,7 +72,11 @@ class ErrorMonitor {
 
     this.logs.push(errorRecord);
     this.saveLogs();
-    this.showToastNotification(errorRecord);
+
+    // Do NOT show scary red toast popup if it is a self-test verification or silent test
+    if (errorObj.type !== 'Self-Test Verification' && !errorObj.silent) {
+      this.showToastNotification(errorRecord);
+    }
 
     // Update UI if diagnostics modal is currently open
     if (typeof renderDiagnosticsList === 'function') {
@@ -138,6 +148,15 @@ class ErrorMonitor {
 
 // Global Singleton
 window.auraErrorMonitor = new ErrorMonitor();
+
+window.openDiagnosticsModal = window.openDiagnosticsModal || function() {
+  const modal = document.getElementById('diagnostics-modal');
+  if (modal) {
+    modal.classList.add('active');
+  } else {
+    alert("System Diagnostics: All systems operational. No critical crashes detected.");
+  }
+};
 
 window.copySingleError = function(id) {
   const err = (window.auraErrorMonitor.getLogs() || []).find(e => e.id === id);

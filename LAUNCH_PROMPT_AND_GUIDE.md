@@ -14,19 +14,18 @@ Hello! I am building and launching "AuraSpace" (an aesthetic, all-in-one persona
 Target Launch Date: Before 28th August 2026.
 
 === PROJECT OVERVIEW & ARCHITECTURE ===
-- Tech Stack: Pure Vanilla HTML5, CSS3 Glassmorphism, Native Web Audio API Synthesizers, JavaScript (ES6+), Serverless API Proxy for Vercel/Netlify.
+- Tech Stack: Pure Vanilla HTML5, CSS3 Glassmorphism, Native Web Audio API Synthesizers, JavaScript (ES6+), 100% Client-Side Architecture.
 - Storage: Client-first architecture with LocalStorage + 1-Click JSON Backup/Restore + PWA mobile installability.
 - Main Entrypoint Files in Project Root:
   1. `StudyOS.html` (Complete core web app OS with 15+ tabs)
-  2. `ambient-audio.js` (15+ procedural study soundscapes synthesized offline via Web Audio API)
-  3. `aura-companion.js` (Aura Pet Haven virtual companion engine with 3 evolution stages, desk animation & focus coins shop)
+  2. `ambient-audio.js` (15+ procedural study soundscapes synthesized offline via Web Audio API + custom audio upload)
+  3. `aura-companion.js` (Aura Pet Haven virtual companion engine with 3 evolution stages, desk animation & focus consistency)
   4. `error-monitor.js` (Self-healing error and crash diagnostics monitor)
-  5. `vercel.json` (Vercel routing, security headers & API rewrites)
+  5. `vercel.json` (Vercel routing & security headers)
   6. `manifest.json` (PWA mobile installation configuration)
-  7. `api/quiz.js` (Secure serverless API proxy for AI chapter quizzes using Groq LLaMA 3.3)
 
 === ALREADY COMPLETED & VERIFIED FEATURES ===
-1. VIP Owner Pass: 100% Free lifetime access bypass for the app owner; 3-tier subscription model (₹99/mo, ₹499/yr, ₹4,999 lifetime) for public users.
+1. VIP Owner Pass: 100% Free lifetime access bypass for the app owner; 3-tier subscription model (₹49/mo, ₹499/yr, ₹4,999 lifetime) for public users.
 2. Ambient Audio: 15+ rich soundscapes (Rain, Kyoto Cafe, Oxford Library, 10Hz Alpha Binaural, Brown Noise, Space Drone, Fireplace, etc.).
 3. Chapter-Wise Syllabus Mastery: CBSE 10, CBSE 12, JEE, NEET, UPSC, SSC, CA Foundation presets with student focus priorities & predictive exam readiness score.
 4. Spaced Repetition (Day 1, 7, 15, 30 active recall schedules).
@@ -65,16 +64,14 @@ Aapko kisi bhi AI ki zaroorat nahi padegi agar aap ye 5 simple steps follow kare
    - `error-monitor.js`
    - `vercel.json`
    - `manifest.json`
-   - `api/quiz.js`
+   - `logo.png` / `logo.html`
+   - `sw.js`
 4. Click **Commit changes**.
 
 ### Step 2: Deploy Free on Vercel (1 Minute)
 1. Go to [vercel.com](https://vercel.com) ➔ Sign in with your **GitHub**.
 2. Click **"Add New Project"** ➔ Select your `MyStudyAI` repository.
-3. Under **Environment Variables**, add:
-   - Key: `GEMINI_API_KEY`
-   - Value: `your_gemini_api_key_here`
-4. Click **"Deploy"** 🚀!
+3. No environment variables needed! Click **"Deploy"** 🚀!
 
 **Result**: 30 seconds ke andar aapka app live ho jayega aur aapko ek link mil jayega:
 👉 `https://mystudyai.vercel.app` (ya jo bhi naam aap chahein).

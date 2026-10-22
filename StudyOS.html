@@ -865,6 +865,149 @@
       box-shadow: 0 6px 20px rgba(192, 132, 252, 0.25);
     }
 
+    
+
+        /* =========================================================
+       NATIVE MOBILE POLISH & BOTTOM NAVIGATION HUD
+       ========================================================= */
+    .mobile-bottom-nav {
+      display: none;
+    }
+    .mobile-sidebar-close {
+      display: none;
+    }
+
+    @media (max-width: 768px) {
+      html, body {
+        -webkit-tap-highlight-color: transparent;
+        touch-action: manipulation;
+      }
+
+      #main-content {
+        padding: 64px 12px 88px 12px !important;
+        min-height: 100vh;
+        width: 100%;
+        max-width: 100vw;
+        overflow-x: hidden;
+      }
+
+      /* Native Mobile Bottom Navigation Bar */
+      .mobile-bottom-nav {
+        display: flex;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 64px;
+        background: rgba(15, 23, 42, 0.94);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border-top: 1px solid var(--card-border);
+        z-index: 10002;
+        justify-content: space-around;
+        align-items: center;
+        padding-bottom: env(safe-area-inset-bottom, 0px);
+        box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.45);
+      }
+
+      .mobile-nav-item {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background: transparent;
+        border: none;
+        color: var(--text-muted);
+        padding: 6px 2px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        text-decoration: none;
+        border-radius: 8px;
+        -webkit-user-select: none;
+        user-select: none;
+      }
+
+      .mobile-nav-item.active {
+        color: var(--accent-pastel);
+      }
+
+      .mobile-nav-item.active .mob-icon {
+        transform: translateY(-2px);
+        filter: drop-shadow(0 2px 8px rgba(192, 132, 252, 0.5));
+      }
+
+      .mob-icon {
+        font-size: 1.25rem;
+        line-height: 1;
+        margin-bottom: 3px;
+        transition: transform 0.2s ease;
+      }
+
+      .mob-label {
+        font-size: 0.68rem;
+        font-weight: 600;
+        letter-spacing: 0.3px;
+      }
+
+      /* Mobile Close button in Sidebar Header */
+      .mobile-sidebar-close {
+        display: inline-flex !important;
+        align-items: center;
+        justify-content: center;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid var(--card-border);
+        color: var(--text-main);
+        font-size: 1rem;
+        cursor: pointer;
+        position: absolute;
+        right: 14px;
+        top: 18px;
+      }
+
+      /* Scaling Stopwatch for mobile */
+      #stopwatch-display,
+      #main-timer-display {
+        font-size: 3.2rem !important;
+        letter-spacing: 1px !important;
+      }
+
+      /* Responsive Touch Targets */
+      .nav-btn {
+        min-height: 44px;
+        padding: 11px 14px;
+        font-size: 0.9rem;
+      }
+
+      /* Responsive Grid Cards */
+      .hubs-grid,
+      .hub-cards-grid {
+        grid-template-columns: 1fr !important;
+        gap: 14px;
+      }
+
+      .section-card {
+        padding: 16px 14px !important;
+        border-radius: 16px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      #stopwatch-display,
+      #main-timer-display {
+        font-size: 2.3rem !important;
+      }
+      .home-title {
+        font-size: 1.65rem !important;
+      }
+      .hub-title {
+        font-size: 1.35rem !important;
+      }
+    }
+
     /* POLAROID CORKBOARD */
     .corkboard {
       display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; padding: 10px 0;
@@ -881,25 +1024,7 @@
     .polaroid-caption { font-family: 'Playfair Display', serif; font-size: 0.95rem; font-weight: 600; }
     .polaroid-pin { position: absolute; top: -10px; left: 50%; transform: translateX(-50%); font-size: 1.2rem; }
 
-    /* QUIZ ARENA STYLES */
-    .quiz-card {
-      background: rgba(255, 255, 255, 0.05); border: 1px solid var(--card-border);
-      padding: 20px; border-radius: 16px; margin-bottom: 16px;
-    }
-    .quiz-option-btn {
-      background: rgba(255, 255, 255, 0.06); border: 1px solid var(--card-border);
-      color: var(--text-main); padding: 12px 16px; border-radius: 10px; text-align: left;
-      cursor: pointer; transition: all 0.2s ease; width: 100%; font-size: 0.9rem;
-    }
-    .quiz-option-btn:hover:not(:disabled) {
-      background: var(--card-hover); border-color: var(--accent-pastel);
-    }
-    .quiz-option-btn.selected-correct {
-      background: rgba(52, 211, 153, 0.25) !important; border-color: #34d399 !important; color: #6ee7b7 !important; font-weight: 600;
-    }
-    .quiz-option-btn.selected-wrong {
-      background: rgba(239, 68, 68, 0.25) !important; border-color: #ef4444 !important; color: #fca5a5 !important;
-    }
+    
 
     /* HEATMAP */
     .heatmap-grid {
@@ -1275,33 +1400,82 @@
           <input type="text" id="onboard-name" placeholder="Enter your full name (e.g. Aryan Sharma)" style="width:100%;" required>
         </div>
 
+        <!-- Academic Category Selector (School & Competitive vs College & Higher Ed) -->
         <div>
-          <label style="font-size:0.8rem; color:var(--text-muted); display:block; margin-bottom:4px;">Academic Stage / Class: *</label>
-          <select id="onboard-class" style="width:100%;">
-            <option value="Dropper">Dropper</option>
-            <option value="Class 12">Class 12th</option>
-            <option value="Class 11">Class 11th</option>
-            <option value="Class 10">Class 10th</option>
-            <option value="Class 9">Class 9th</option>
-            <option value="College / University Student">College / University Student</option>
-            <option value="UPSC / Government Job Aspirant">UPSC / Government Job Aspirant</option>
-            <option value="CA / Professional Aspirant">CA / Professional Aspirant</option>
-            <option value="Self-Study Learner">Self-Study Learner</option>
-          </select>
+          <label style="font-size:0.8rem; color:var(--text-muted); display:block; margin-bottom:6px;">Academic Path / Category: *</label>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:10px;">
+            <button type="button" id="onboard-cat-btn-school" class="btn-primary" style="padding:9px 8px; font-size:0.8rem; font-weight:600; text-align:center; border-radius:10px;" onclick="setOnboardAcademicCategory('school_competitive')">
+              🏫 School & Competitive
+            </button>
+            <button type="button" id="onboard-cat-btn-college" class="btn-primary btn-outline" style="padding:9px 8px; font-size:0.8rem; font-weight:600; text-align:center; border-radius:10px;" onclick="setOnboardAcademicCategory('college_higher')">
+              🎓 College & Higher Ed
+            </button>
+          </div>
+          <input type="hidden" id="onboard-academic-category" value="school_competitive">
         </div>
 
-        <div>
-          <label style="font-size:0.8rem; color:var(--text-muted); display:block; margin-bottom:4px;">Primary Target Exam / Goal: *</label>
-          <select id="onboard-target-exam" style="width:100%;">
-            <option value="jee">JEE Main & Advanced</option>
-            <option value="neet">NEET UG</option>
-            <option value="cbse12">CBSE 12th Board</option>
-            <option value="cbse10">CBSE 10th Board</option>
-            <option value="upsc">UPSC CSE Prelims</option>
-            <option value="ssc">SSC CGL & Banking</option>
-            <option value="ca">CA Foundation</option>
-            <option value="custom">🛠️ Custom / Self-Study Goal</option>
-          </select>
+        <!-- 1. CATEGORY 1: School & Competitive Exams Form -->
+        <div id="onboard-school-section">
+          <div style="margin-bottom:12px;">
+            <label style="font-size:0.8rem; color:var(--text-muted); display:block; margin-bottom:4px;">Academic Stage / Class: *</label>
+            <select id="onboard-class" style="width:100%;">
+              <option value="Class 10">Class 10th</option>
+              <option value="Class 12">Class 12th</option>
+              <option value="Class 11">Class 11th</option>
+              <option value="Class 9">Class 9th</option>
+              <option value="Dropper">12th Pass / Dropper 🎯</option>
+              <option value="UPSC / Government Job Aspirant">UPSC / Government Job Aspirant</option>
+              <option value="CA / Professional Aspirant">CA / Professional Aspirant</option>
+              <option value="Self-Study Learner">Self-Study Learner</option>
+            </select>
+          </div>
+
+          <div>
+            <label style="font-size:0.8rem; color:var(--text-muted); display:block; margin-bottom:4px;">Primary Target Exam / Goal: *</label>
+            <select id="onboard-target-exam" style="width:100%;">
+              <option value="jee">JEE Main & Advanced</option>
+              <option value="neet">NEET UG</option>
+              <option value="cbse12">CBSE 12th Board</option>
+              <option value="cbse10">CBSE 10th Board</option>
+              <option value="upsc">UPSC CSE Prelims</option>
+              <option value="ssc">SSC CGL & Banking</option>
+              <option value="ca">CA Foundation</option>
+              <option value="custom">🛠️ Custom / Self-Study Goal</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- 2. CATEGORY 2: College & Higher Education Form -->
+        <div id="onboard-college-section" style="display:none;">
+          <div style="margin-bottom:12px;">
+            <label style="font-size:0.8rem; color:var(--text-muted); display:block; margin-bottom:4px;">Discipline / Stream: *</label>
+            <select id="onboard-college-stream" style="width:100%;" onchange="onOnboardStreamChange(this.value)">
+              <option value="engineering" selected>💻 Engineering & Tech</option>
+              <option value="medical">🩺 Medical & Healthcare</option>
+              <option value="sciences">🔬 Sciences</option>
+              <option value="commerce">💼 Commerce & Business</option>
+              <option value="arts">🎨 Arts & Humanities</option>
+              <option value="law">⚖️ Law</option>
+              <option value="vocational">🛠️ Other Professional & Vocational Courses</option>
+              <option value="custom">✏️ Other / Custom Course</option>
+            </select>
+          </div>
+
+          <div style="margin-bottom:12px;">
+            <label style="font-size:0.8rem; color:var(--text-muted); display:block; margin-bottom:4px;">Degree / Academic Program: *</label>
+            <select id="onboard-college-degree" style="width:100%;" onchange="onOnboardDegreeChange(this.value)">
+              <option value="btech">💻 B.Tech / B.E. (Engineering & Tech)</option>
+              <option value="mtech">💻 M.Tech (Master of Technology)</option>
+              <option value="bca">💻 BCA (Bachelor of Computer Applications)</option>
+              <option value="mca">💻 MCA (Master of Computer Applications)</option>
+              <option value="custom_college">💻 Other Engineering / Tech Course</option>
+            </select>
+          </div>
+
+          <div id="onboard-custom-course-wrapper" style="display:none; margin-bottom:4px;">
+            <label style="font-size:0.8rem; color:var(--accent-pastel); display:block; margin-bottom:4px;">✏️ Specify Your Degree / Course Name: *</label>
+            <input type="text" id="onboard-custom-course-input" placeholder="e.g. B.Arch, M.Phil, Aviation, Data Science Diploma..." style="width:100%;">
+          </div>
         </div>
 
         <div>
@@ -1452,32 +1626,81 @@
           <label style="font-size:0.8rem; color:var(--text-muted); display:block; margin-bottom:4px;">Full Name:</label>
           <input type="text" id="edit-name-input" style="width:100%;">
         </div>
+        <!-- Academic Category Selector for Edit Modal -->
         <div>
-          <label style="font-size:0.8rem; color:var(--text-muted); display:block; margin-bottom:4px;">Class / Academic Stage:</label>
-          <select id="edit-class-input" style="width:100%;">
-            <option value="Dropper">Dropper</option>
-            <option value="Class 12">Class 12th</option>
-            <option value="Class 11">Class 11th</option>
-            <option value="Class 10">Class 10th</option>
-            <option value="Class 9">Class 9th</option>
-            <option value="College / University Student">College / University Student</option>
-            <option value="UPSC / Government Job Aspirant">UPSC / Government Job Aspirant</option>
-            <option value="CA / Professional Aspirant">CA / Professional Aspirant</option>
-            <option value="Self-Study Learner">Self-Study Learner</option>
-          </select>
+          <label style="font-size:0.8rem; color:var(--text-muted); display:block; margin-bottom:6px;">Academic Path / Category:</label>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:10px;">
+            <button type="button" id="edit-cat-btn-school" class="btn-primary" style="padding:9px 8px; font-size:0.8rem; font-weight:600; text-align:center; border-radius:10px;" onclick="setEditAcademicCategory('school_competitive')">
+              🏫 School & Competitive
+            </button>
+            <button type="button" id="edit-cat-btn-college" class="btn-primary btn-outline" style="padding:9px 8px; font-size:0.8rem; font-weight:600; text-align:center; border-radius:10px;" onclick="setEditAcademicCategory('college_higher')">
+              🎓 College & Higher Ed
+            </button>
+          </div>
+          <input type="hidden" id="edit-academic-category" value="school_competitive">
         </div>
-        <div>
-          <label style="font-size:0.8rem; color:var(--text-muted); display:block; margin-bottom:4px;">Target Exam / Goal:</label>
-          <select id="edit-exam-input" style="width:100%;">
-            <option value="jee">JEE Main & Advanced</option>
-            <option value="neet">NEET UG</option>
-            <option value="cbse12">CBSE 12th Board</option>
-            <option value="cbse10">CBSE 10th Board</option>
-            <option value="upsc">UPSC CSE Prelims</option>
-            <option value="ssc">SSC CGL & Banking</option>
-            <option value="ca">CA Foundation</option>
-            <option value="custom">🛠️ Custom / Self-Study Goal</option>
-          </select>
+
+        <!-- Category 1: School & Competitive in Edit Modal -->
+        <div id="edit-school-section">
+          <div style="margin-bottom:12px;">
+            <label style="font-size:0.8rem; color:var(--text-muted); display:block; margin-bottom:4px;">Class / Academic Stage:</label>
+            <select id="edit-class-input" style="width:100%;">
+              <option value="Class 10">Class 10th</option>
+              <option value="Class 12">Class 12th</option>
+              <option value="Class 11">Class 11th</option>
+              <option value="Class 9">Class 9th</option>
+              <option value="Dropper">12th Pass / Dropper 🎯</option>
+              <option value="UPSC / Government Job Aspirant">UPSC / Government Job Aspirant</option>
+              <option value="CA / Professional Aspirant">CA / Professional Aspirant</option>
+              <option value="Self-Study Learner">Self-Study Learner</option>
+            </select>
+          </div>
+          <div>
+            <label style="font-size:0.8rem; color:var(--text-muted); display:block; margin-bottom:4px;">Target Exam / Goal:</label>
+            <select id="edit-exam-input" style="width:100%;">
+              <option value="jee">JEE Main & Advanced</option>
+              <option value="neet">NEET UG</option>
+              <option value="cbse12">CBSE 12th Board</option>
+              <option value="cbse10">CBSE 10th Board</option>
+              <option value="upsc">UPSC CSE Prelims</option>
+              <option value="ssc">SSC CGL & Banking</option>
+              <option value="ca">CA Foundation</option>
+              <option value="custom">🛠️ Custom / Self-Study Goal</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Category 2: College & Higher Ed in Edit Modal -->
+        <div id="edit-college-section" style="display:none;">
+          <div style="margin-bottom:12px;">
+            <label style="font-size:0.8rem; color:var(--text-muted); display:block; margin-bottom:4px;">Discipline / Stream:</label>
+            <select id="edit-college-stream" style="width:100%;" onchange="onEditStreamChange(this.value)">
+              <option value="engineering" selected>💻 Engineering & Tech</option>
+              <option value="medical">🩺 Medical & Healthcare</option>
+              <option value="sciences">🔬 Sciences</option>
+              <option value="commerce">💼 Commerce & Business</option>
+              <option value="arts">🎨 Arts & Humanities</option>
+              <option value="law">⚖️ Law</option>
+              <option value="vocational">🛠️ Other Professional & Vocational Courses</option>
+              <option value="custom">✏️ Other / Custom Course</option>
+            </select>
+          </div>
+
+          <div style="margin-bottom:12px;">
+            <label style="font-size:0.8rem; color:var(--text-muted); display:block; margin-bottom:4px;">Degree / Academic Program:</label>
+            <select id="edit-college-degree" style="width:100%;" onchange="onEditDegreeChange(this.value)">
+              <option value="btech">💻 B.Tech / B.E. (Engineering & Tech)</option>
+              <option value="mtech">💻 M.Tech (Master of Technology)</option>
+              <option value="bca">💻 BCA (Bachelor of Computer Applications)</option>
+              <option value="mca">💻 MCA (Master of Computer Applications)</option>
+              <option value="custom_college">💻 Other Engineering / Tech Course</option>
+            </select>
+          </div>
+
+          <div id="edit-custom-course-wrapper" style="display:none; margin-bottom:4px;">
+            <label style="font-size:0.8rem; color:var(--accent-pastel); display:block; margin-bottom:4px;">✏️ Specify Your Degree / Course Name:</label>
+            <input type="text" id="edit-custom-course-input" placeholder="e.g. B.Arch, M.Phil, Aviation, Data Science Diploma..." style="width:100%;">
+          </div>
         </div>
         <div>
           <label style="font-size:0.8rem; color:var(--text-muted); display:block; margin-bottom:4px;">Tentative Exam / Goal Date:</label>
@@ -1521,8 +1744,8 @@
         <p style="margin-bottom:12px;">By accessing and using <strong>AuraSpace Personal Study OS</strong>, you agree to comply with the following terms:</p>
         <h4 style="color:var(--accent-pastel); margin:12px 0 4px;">1. License & Personal Use</h4>
         <p style="margin-bottom:10px; color:var(--text-muted);">AuraSpace grants you a personal, non-exclusive license to use the platform for academic preparation, productivity, and self-study purposes.</p>
-        <h4 style="color:var(--accent-pastel); margin:12px 0 4px;">2. AI Generated Practice Content</h4>
-        <p style="margin-bottom:10px; color:var(--text-muted);">Quizzes, explanations, and coaching dialogues are generated using Google Gemini AI and assistive algorithms designed for student practice. Students are encouraged to cross-reference with official curriculum textbooks.</p>
+        <h4 style="color:var(--accent-pastel); margin:12px 0 4px;">2. Academic Study Tools & Timers</h4>
+        <p style="margin-bottom:10px; color:var(--text-muted);">StudyOS provides student productivity tools including focus timers, syllabus trackers, habit heatmaps, and soundscapes designed to support peaceful, distraction-free self-study.</p>
         <h4 style="color:var(--accent-pastel); margin:12px 0 4px;">3. Affiliate Disclosure</h4>
         <p style="margin-bottom:10px; color:var(--text-muted);">Recommended books and tools may contain affiliate links. If you purchase through these links, AuraSpace may earn a small affiliate commission at no extra cost to you, helping maintain and improve the platform.</p>
       </div>
@@ -1599,8 +1822,7 @@
       </div>
     </div>
   </div>
-
-  <!-- 12. ZEN FOCUS HUD -->
+<!-- 12. ZEN FOCUS HUD -->
   <div id="zen-focus-overlay">
     <div style="position:absolute; top:24px; right:28px; display:flex; gap:10px;">
       <button class="widget-pill" id="zen-fullscreen-btn" onclick="toggleZenFullscreen()">⛶ Fullscreen</button>
@@ -1698,6 +1920,7 @@
        SIDEBAR NAVIGATION
        ========================================================= -->
   <div id="sidebar" class="hidden-on-dashboard">
+    <button class="mobile-sidebar-close" onclick="toggleMobileSidebar(false)" aria-label="Close Menu">&times;</button>
     <div class="sidebar-title" onclick="switchTab('home')">
       <span>✨ AuraSpace</span>
     </div>
@@ -1713,7 +1936,6 @@
     <button class="nav-btn" id="nav-btn-spaced-rep" onclick="switchTab('spaced-rep')"><span class="nav-icon">🔁</span> <span class="nav-label" data-i18n="navSpacedRep">Spaced Repetition</span></button>
     <button class="nav-btn" id="nav-btn-analytics" onclick="switchTab('analytics')"><span class="nav-icon">📊</span> <span class="nav-label" data-i18n="navAnalytics">Mock Analytics</span></button>
     <button class="nav-btn" id="nav-btn-error-log" onclick="switchTab('error-log')"><span class="nav-icon">📖</span> <span class="nav-label" data-i18n="navMistakeVault">Mistake Vault & Fixer</span></button>
-    <button class="nav-btn" id="nav-btn-quiz" onclick="switchTab('quiz')"><span class="nav-icon">📝</span> <span class="nav-label" data-i18n="navQuiz">AI Study Quiz Arena</span></button>
     <button class="nav-btn" id="nav-btn-todo" onclick="switchTab('todo')"><span class="nav-icon">✅</span> <span class="nav-label" data-i18n="navTodo">Focus Checklist</span></button>
     <button class="nav-btn" id="nav-btn-calendar" onclick="switchTab('calendar')"><span class="nav-icon">📅</span> <span class="nav-label" data-i18n="navCalendar">Dynamic Calendar</span></button>
     <button class="nav-btn" id="nav-btn-timer" onclick="switchTab('timer')"><span class="nav-icon">⏱️</span> <span class="nav-label" data-i18n="navTimer">Stopwatch & Timer</span></button>
@@ -1766,7 +1988,7 @@
                  <div class="hub-icon-wrapper hub-study-icon-bg">
                    <span>⚡</span>
                  </div>
-                 <span class="hub-badge hub-badge-study">9 Academic Tools</span>
+                 <span class="hub-badge hub-badge-study">7 Academic Tools</span>
                </div>
                <h2 class="hub-title">
                  <span>Study OS</span>
@@ -1774,7 +1996,7 @@
                </h2>
                <div class="hub-subtitle">Academic & Learning Tools</div>
                <p class="hub-desc">
-                 High-yield curriculum tracker, AI-powered chapter quizzes, test score analytics, active recall scheduler, error fixer, and deep focus timers.
+                 High-yield curriculum tracker, test score analytics, active recall scheduler, error fixer, and deep focus timers.
                </p>
                <div class="hub-tags-row">
                  <span class="hub-tag-chip">📚 Syllabus Mastery</span>
@@ -1898,21 +2120,6 @@
           </div>
           <div class="feature-card-footer">
             <span>Review Errors</span>
-            <span>Open →</span>
-          </div>
-        </div>
-
-        <div class="feature-card" onclick="switchTab('quiz')">
-          <div>
-            <div class="feature-card-header">
-              <span class="feature-card-icon">📝</span>
-              <span class="tag-badge" style="background:rgba(52,211,153,0.15); color:#34d399;">Gemini AI</span>
-            </div>
-            <h3 class="feature-card-title">AI Study Quiz Arena</h3>
-            <p class="feature-card-desc">Generate real exam-level chapter quizzes with instant 1-sentence explanations & AI doubt mentor.</p>
-          </div>
-          <div class="feature-card-footer">
-            <span>Practice MCQs</span>
             <span>Open →</span>
           </div>
         </div>
@@ -2084,6 +2291,34 @@
         </div>
       </div>
 
+      <!-- Custom Sounds Upload & Management Section -->
+      <div class="section-card" style="margin-top:16px; margin-bottom:18px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; flex-wrap:wrap; gap:10px;">
+          <div>
+            <div style="display:flex; align-items:center; gap:8px;">
+              <h3 style="font-family:'Playfair Display', serif; font-size:1.15rem; margin:0;">📁 My Custom Sounds</h3>
+              <span id="custom-sounds-count-badge" style="font-size:0.75rem; background:rgba(192,132,252,0.18); color:var(--accent-pastel); padding:2px 10px; border-radius:12px; font-weight:600; border:1px solid rgba(192,132,252,0.3);">0 Tracks</span>
+            </div>
+            <p style="font-size:0.8rem; color:var(--text-muted); margin:4px 0 0 0;">Upload your own audio tracks, lofi beats, or nature recordings (MP3, WAV, AAC, M4A, OGG). Saved permanently in your browser.</p>
+          </div>
+          <div>
+            <input type="file" id="custom-sound-file-input" accept="audio/*,.mp3,.wav,.ogg,.m4a,.aac,.flac" style="display:none;" onchange="handleCustomSoundUpload(event)">
+            <button class="btn-primary" style="display:inline-flex; align-items:center; gap:6px; padding:9px 18px; font-size:0.85rem; font-weight:600; border-radius:10px; cursor:pointer;" onclick="document.getElementById('custom-sound-file-input').click()">
+              <span>➕ Add Custom Sound</span>
+            </button>
+          </div>
+        </div>
+
+        <div id="custom-sounds-grid" style="display:grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap:12px;">
+          <!-- Dynamically populated by renderCustomSoundsUI() -->
+        </div>
+      </div>
+
+      <h3 style="font-family:'Playfair Display', serif; font-size:1.15rem; margin-top:24px; margin-bottom:12px; color:var(--text-main); display:flex; align-items:center; gap:8px;">
+        <span>🌿 Built-in Procedural Soundscapes</span>
+        <span style="font-size:0.75rem; background:rgba(255,255,255,0.08); color:var(--text-muted); padding:2px 8px; border-radius:12px; font-weight:normal;">15+ Presets (Offline Synthesizer)</span>
+      </h3>
+
       <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap:12px;" id="soundscape-cards-grid">
         <div class="sound-card-item" id="snd-card-rain" onclick="playAuraSound('rain')">
           <div><strong>🌧️ Soft Rain & Drizzle</strong><div style="font-size:0.75rem; color:var(--text-muted);">Calming Glass Patter</div></div>
@@ -2159,16 +2394,72 @@
 
       <div class="section-card">
         <h3 style="font-family:'Playfair Display', serif; font-size:1.1rem; margin-bottom:10px; color:var(--accent-pastel);">⚡ Select Target Exam Preset</h3>
+        
+        <!-- Category Filter Pills -->
+        <div style="display:flex; gap:6px; margin-bottom:12px; flex-wrap:wrap;">
+          <button type="button" id="syllabus-filter-all" class="btn-primary" style="padding:5px 12px; font-size:0.75rem; border-radius:8px;" onclick="filterSyllabusPresets('all')">🌟 All Curricula</button>
+          <button type="button" id="syllabus-filter-school" class="btn-primary btn-outline" style="padding:5px 12px; font-size:0.75rem; border-radius:8px;" onclick="filterSyllabusPresets('school')">🏫 School & Competitive</button>
+          <button type="button" id="syllabus-filter-college" class="btn-primary btn-outline" style="padding:5px 12px; font-size:0.75rem; border-radius:8px;" onclick="filterSyllabusPresets('college')">🎓 College & Higher Education</button>
+        </div>
+
         <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
           <select id="preset-exam-select" style="flex:2; min-width:240px;" onchange="switchExamPreset(this.value)">
-            <option value="custom">🛠️ Custom / Self-Study Goal (Build Your Own)</option>
-            <option value="cbse10">🏫 CBSE Class 10 (Science, Maths, SST, English)</option>
-            <option value="cbse12">🎓 CBSE Class 12 Science (Physics, Chemistry, Maths, Biology)</option>
-            <option value="jee">⚡ JEE Main & Advanced (Physics, Chemistry, Mathematics)</option>
-            <option value="neet">🩺 NEET UG (Physics, Chemistry, Botany, Zoology)</option>
-            <option value="upsc">🏛️ UPSC CSE Prelims (Polity, History, Geo, Economy, Env)</option>
-            <option value="ssc">💼 SSC CGL & Banking (Quant, Reasoning, English, GA)</option>
-            <option value="ca">📖 CA Foundation (Accounts, Law, Quant, Business Economics)</option>
+            <optgroup label="🏫 Category 1: School & Competitive Exams" data-category="school">
+              <option value="cbse10">🏫 CBSE Class 10 (Science, Maths, SST, English)</option>
+              <option value="cbse12">🎓 CBSE Class 12 Science (Physics, Chemistry, Maths, Biology)</option>
+              <option value="jee">⚡ JEE Main & Advanced (Physics, Chemistry, Mathematics)</option>
+              <option value="neet">🩺 NEET UG (Physics, Chemistry, Botany, Zoology)</option>
+              <option value="upsc">🏛️ UPSC CSE Prelims (Polity, History, Geo, Economy, Env)</option>
+              <option value="ssc">💼 SSC CGL & Banking (Quant, Reasoning, English, GA)</option>
+              <option value="ca">📖 CA Foundation (Accounts, Law, Quant, Business Economics)</option>
+              <option value="custom">🛠️ Custom / Self-Study Goal (Build Your Own)</option>
+            </optgroup>
+            
+            <optgroup label="🩺 Category 2: Medical & Healthcare" data-category="college">
+              <option value="mbbs">🩺 MBBS (Anatomy, Physiology, Biochemistry, Pathology, Pharmacology)</option>
+              <option value="bds">🦷 BDS (Dental Anatomy, Materials, Pathology, Prosthodontics)</option>
+              <option value="nursing">💉 B.Sc Nursing (Foundations, Anat & Phys, Med-Surg, Community)</option>
+              <option value="paramedical">🔬 Paramedical Sciences (Lab Tech, Radiology, Emergency Care)</option>
+              <option value="bams">🌿 BAMS (Ayurveda - Sharir Rachana & Kriya, Samhita, Chikitsa)</option>
+              <option value="bhms">🌱 BHMS (Homoeopathy - Organon, Materia Medica, Pharmacy)</option>
+              <option value="bpharm">💊 B.Pharm (Pharmaceutics, Chemistry, Pharmacology, Pharmacognosy)</option>
+              <option value="dpharm">📦 D.Pharm (Diploma in Pharmacy - Formulations, Chem, Social Pharmacy)</option>
+            </optgroup>
+
+            <optgroup label="💻 Category 2: Engineering & Technology" data-category="college">
+              <option value="btech">💻 B.Tech / B.E. (DSA, Operating Systems, DBMS, Networks, Maths)</option>
+              <option value="mtech">🚀 M.Tech (Advanced Algorithms, ML/AI, Cloud & Distributed, Research)</option>
+              <option value="bca">📱 BCA (Programming C/Java, Data Structures, Web, DBMS, SE)</option>
+              <option value="mca">🌐 MCA (Modern Frameworks, Cloud & DevOps, AI & Data Science, Security)</option>
+            </optgroup>
+
+            <optgroup label="🔬 Category 2: Sciences" data-category="college">
+              <option value="bsc">🔬 B.Sc (Physical Sciences, Mathematics, Biological Sciences, Lab)</option>
+              <option value="msc">🧬 M.Sc (Specialized Core Science, Spectroscopy, Research Dissertation)</option>
+            </optgroup>
+
+            <optgroup label="🎨 Category 2: Arts & Humanities" data-category="college">
+              <option value="ba">📚 B.A. (History, Political Science, Sociology, Psychology, Literature)</option>
+              <option value="ma">🖋️ M.A. (Advanced Domain Theory, Specialized Seminars, Research Methods)</option>
+            </optgroup>
+
+            <optgroup label="💼 Category 2: Commerce & Business" data-category="college">
+              <option value="bcom">📊 B.Com (Financial & Corporate Accounting, Business Law, Costing, Tax)</option>
+              <option value="mcom">📈 M.Com (Advanced Financial Mgmt, Corporate Strategy, International Business)</option>
+              <option value="bba">🏢 BBA (Management Principles, Marketing, Finance, HR, Business Analytics)</option>
+              <option value="mba">🎯 MBA (Strategic Mgmt, Marketing Strategy, Corporate Finance, Supply Chain)</option>
+            </optgroup>
+
+            <optgroup label="⚖️ Category 2: Law" data-category="college">
+              <option value="integrated_llb">⚖️ Integrated LL.B (5-Yr - Constitutional, Torts, Crimes IPC/BNS, Contracts)</option>
+              <option value="llb">📜 LL.B (3-Yr - Jurisprudence, CrPC/BNSS, CPC, Evidence, Admin Law)</option>
+              <option value="llm">🏛️ LL.M (Comparative Constitutional, International Trade, Jurisprudence, Thesis)</option>
+            </optgroup>
+
+            <optgroup label="🛠️ Category 2: Other Professional, Vocational & Custom" data-category="college">
+              <option value="vocational_other">🛠️ Professional & Vocational Courses (Core Domain, Workshop, Project)</option>
+              <option value="custom_college">✏️ Other / Custom College Course (Custom Degree Curriculum)</option>
+            </optgroup>
           </select>
           <button class="btn-primary" onclick="resetActiveExamToDefaultPreset()">Load / Reset Exam 🚀</button>
           <button class="btn-delete-icon" onclick="clearCurrentSyllabus()">Clear All</button>
@@ -2258,54 +2549,6 @@
       </div>
 
       <div id="error-display-list"></div>
-    </div>
-
-    <!-- 8. AI STUDY QUIZ ARENA & DOUBT SOLVER -->
-    <div id="tab-quiz" class="tab-content">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; flex-wrap:wrap; gap:10px;">
-        <h2 style="font-family:'Playfair Display', serif;" data-i18n="quizTitle">AI Study Quiz Arena & Doubt Mentor 📝</h2>
-        <span class="tag-badge" style="background:rgba(52,211,153,0.15); color:#34d399;">⚡ GEMINI AI POWERED</span>
-      </div>
-      <p style="color:var(--text-muted); margin-bottom:20px;" data-i18n="quizSubtitle">Generate intelligent exam-level MCQs based on your chosen chapter. Submit to check marks and see 1-sentence explanations for mistakes!</p>
-
-      <div class="section-card">
-        <h4 style="margin-bottom:10px; font-size:0.95rem; color:var(--accent-pastel);" data-i18n="quizConfigTitle">⚡ Configure & Generate AI Quiz</h4>
-        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap:10px; margin-bottom:12px;">
-          <div>
-            <label style="font-size:0.78rem; color:var(--text-muted); display:block; margin-bottom:4px;">🎯 Target Exam / Pattern:</label>
-            <select id="quiz-target-exam" style="width:100%;">
-              <option value="jee_main">🎯 JEE Main</option>
-              <option value="jee_adv">🏆 JEE Advanced</option>
-              <option value="neet">🩺 NEET UG</option>
-              <option value="cbse12">📚 CBSE 12th Board</option>
-              <option value="cbse10">📖 CBSE 10th Board</option>
-              <option value="upsc">🏛️ UPSC CSE Prelims</option>
-              <option value="ssc">💼 SSC CGL & Banking</option>
-              <option value="ca">📊 CA Foundation</option>
-              <option value="general">🌟 General Competitive</option>
-            </select>
-          </div>
-          <div>
-            <label style="font-size:0.78rem; color:var(--text-muted); display:block; margin-bottom:4px;">📚 Subject:</label>
-            <input type="text" id="quiz-subject" placeholder="Subject (e.g. Physics / Chemistry)" style="width:100%;">
-          </div>
-          <div>
-            <label style="font-size:0.78rem; color:var(--text-muted); display:block; margin-bottom:4px;">📖 Chapter / Topic:</label>
-            <input type="text" id="quiz-chapter" placeholder="Chapter / Topic (e.g. Optics / Organic)" style="width:100%;" onkeydown="if(event.key==='Enter') generateQuiz()">
-          </div>
-          <div>
-            <label style="font-size:0.78rem; color:var(--text-muted); display:block; margin-bottom:4px;">⚡ Difficulty Level:</label>
-            <select id="quiz-difficulty" style="width:100%;">
-              <option value="standard">⚡ Moderate / Exam Standard</option>
-              <option value="foundation">🌟 Foundation & Basics</option>
-              <option value="advanced">🎯 Advanced High-Yield</option>
-            </select>
-          </div>
-        </div>
-        <button class="btn-primary" style="width:100%; padding:12px;" onclick="generateQuiz()" data-i18n="generateQuizBtn">Generate Real AI Quiz 🚀</button>
-      </div>
-
-      <div id="quiz-container" style="display:none;"></div>
     </div>
 
     <!-- 9. FOCUS CHECKLIST TAB (With Inline Prev/Today/Next Controls) -->
@@ -2633,20 +2876,6 @@
         <h3 data-i18n="passcodeCardTitle">🔒 Security Passcode Lock (Optional)</h3>
         <p style="color: var(--text-muted); font-size:0.85rem; margin-bottom:14px;" data-i18n="passcodeCardSubtitle">Set an optional PIN passcode to protect your private notes and diary.</p>
         <button class="btn-primary" onclick="togglePasswordModal(true)" data-i18n="configurePasscodeBtn">Configure Passcode Lock 🔒</button>
-      </div>
-
-      <div class="section-card">
-        <div style="display:flex; align-items:center; gap:10px; margin-bottom:6px;">
-          <span style="font-size:1.4rem;">🛡️</span>
-          <h3 style="margin-bottom:0;">AI Security & Serverless Protection</h3>
-        </div>
-        <p style="color: var(--text-muted); font-size:0.85rem; margin-bottom:12px;">
-          AI Quiz Arena and Doubt Solver are handled securely through backend serverless API routes using server-side environment variables (<code>GEMINI_API_KEY</code>). All API keys are completely protected and never exposed to the client browser.
-        </p>
-        <div style="display:inline-flex; align-items:center; gap:8px; padding:7px 16px; border-radius:20px; background:rgba(52,211,153,0.15); border:1px solid rgba(52,211,153,0.3); color:#34d399; font-size:0.82rem; font-weight:600;">
-          <span>🔒</span>
-          <span>Server-Side Protected • Zero Client Key Exposure</span>
-        </div>
       </div>
 
       <div class="section-card">
@@ -3190,6 +3419,231 @@
       reader.readAsDataURL(file);
     }
 
+    /* =========================================================
+       2A. HIERARCHICAL ACADEMIC DEGREE & COLLEGE DATA ENGINE
+       ========================================================= */
+    const COLLEGE_COURSES_DATA = {
+      engineering: {
+        streamName: "Engineering & Tech",
+        icon: "💻",
+        degrees: [
+          { id: "btech", name: "B.Tech / B.E. (Engineering & Tech)" },
+          { id: "mtech", name: "M.Tech (Master of Technology)" },
+          { id: "bca", name: "BCA (Bachelor of Computer Applications)" },
+          { id: "mca", name: "MCA (Master of Computer Applications)" },
+          { id: "custom_college", name: "Other Engineering / Tech Course" }
+        ]
+      },
+      medical: {
+        streamName: "Medical & Healthcare",
+        icon: "🩺",
+        degrees: [
+          { id: "mbbs", name: "MBBS (Bachelor of Medicine, Bachelor of Surgery)" },
+          { id: "bds", name: "BDS (Bachelor of Dental Surgery)" },
+          { id: "nursing", name: "B.Sc Nursing / General Nursing" },
+          { id: "paramedical", name: "Paramedical & Allied Health Sciences" },
+          { id: "bams", name: "BAMS (Ayurvedic Medicine & Surgery)" },
+          { id: "bhms", name: "BHMS (Homoeopathic Medicine & Surgery)" },
+          { id: "bpharm", name: "B.Pharm (Bachelor of Pharmacy)" },
+          { id: "dpharm", name: "D.Pharm (Diploma in Pharmacy)" },
+          { id: "custom_college", name: "Other Medical / Healthcare Course" }
+        ]
+      },
+      sciences: {
+        streamName: "Sciences",
+        icon: "🔬",
+        degrees: [
+          { id: "bsc", name: "B.Sc (Physics, Chemistry, Maths, Biology, Biotech)" },
+          { id: "msc", name: "M.Sc (Physics, Chemistry, Life Sciences, Biotech)" },
+          { id: "custom_college", name: "Other Science Degree" }
+        ]
+      },
+      arts: {
+        streamName: "Arts & Humanities",
+        icon: "🎨",
+        degrees: [
+          { id: "ba", name: "B.A. (History, Polity, Sociology, Psychology, Lit)" },
+          { id: "ma", name: "M.A. (Arts, Humanities & Social Sciences)" },
+          { id: "custom_college", name: "Other Arts / Humanities Degree" }
+        ]
+      },
+      commerce: {
+        streamName: "Commerce & Business",
+        icon: "💼",
+        degrees: [
+          { id: "bcom", name: "B.Com (Bachelor of Commerce)" },
+          { id: "mcom", name: "M.Com (Master of Commerce)" },
+          { id: "bba", name: "BBA (Bachelor of Business Administration)" },
+          { id: "mba", name: "MBA (Master of Business Administration)" },
+          { id: "custom_college", name: "Other Commerce / Business Course" }
+        ]
+      },
+      law: {
+        streamName: "Law",
+        icon: "⚖️",
+        degrees: [
+          { id: "integrated_llb", name: "Integrated LL.B (5-Year Law Course)" },
+          { id: "llb", name: "LL.B (3-Year Bachelor of Laws)" },
+          { id: "llm", name: "LL.M (Master of Laws)" },
+          { id: "custom_college", name: "Other Law Degree" }
+        ]
+      },
+      vocational: {
+        streamName: "Other Professional & Vocational Courses",
+        icon: "🛠️",
+        degrees: [
+          { id: "vocational_other", name: "Professional & Vocational Courses" },
+          { id: "custom_college", name: "Polytechnic / Diploma / Other Vocational" }
+        ]
+      },
+      custom: {
+        streamName: "Other / Custom Course",
+        icon: "✏️",
+        degrees: [
+          { id: "custom_college", name: "Other / Custom Course (Specify Below)" }
+        ]
+      }
+    };
+
+    function populateDegreeSelectOptions(selectEl, streamKey, selectedDegreeId) {
+      if (!selectEl) return;
+      selectEl.innerHTML = '';
+      const stream = COLLEGE_COURSES_DATA[streamKey] || COLLEGE_COURSES_DATA.engineering;
+      stream.degrees.forEach(deg => {
+        const opt = document.createElement('option');
+        opt.value = deg.id;
+        opt.textContent = `${stream.icon} ${deg.name}`;
+        if (selectedDegreeId && deg.id === selectedDegreeId) {
+          opt.selected = true;
+        }
+        selectEl.appendChild(opt);
+      });
+    }
+
+    function setOnboardAcademicCategory(category) {
+      const hiddenInput = document.getElementById('onboard-academic-category');
+      if (hiddenInput) hiddenInput.value = category;
+
+      const btnSchool = document.getElementById('onboard-cat-btn-school');
+      const btnCollege = document.getElementById('onboard-cat-btn-college');
+      const schoolSec = document.getElementById('onboard-school-section');
+      const collegeSec = document.getElementById('onboard-college-section');
+
+      if (category === 'college_higher') {
+        if (btnCollege) { btnCollege.className = 'btn-primary'; }
+        if (btnSchool) { btnSchool.className = 'btn-primary btn-outline'; }
+        if (schoolSec) schoolSec.style.display = 'none';
+        if (collegeSec) {
+          collegeSec.style.display = 'block';
+          const streamSel = document.getElementById('onboard-college-stream');
+          const degSel = document.getElementById('onboard-college-degree');
+          if (degSel && (!degSel.options || degSel.options.length === 0)) {
+            populateDegreeSelectOptions(degSel, streamSel ? streamSel.value : 'engineering');
+          }
+        }
+      } else {
+        if (btnSchool) { btnSchool.className = 'btn-primary'; }
+        if (btnCollege) { btnCollege.className = 'btn-primary btn-outline'; }
+        if (schoolSec) schoolSec.style.display = 'block';
+        if (collegeSec) collegeSec.style.display = 'none';
+      }
+    }
+
+    function onOnboardStreamChange(streamKey) {
+      const degSel = document.getElementById('onboard-college-degree');
+      populateDegreeSelectOptions(degSel, streamKey);
+      onOnboardDegreeChange(degSel ? degSel.value : '');
+    }
+
+    function onOnboardDegreeChange(degreeVal) {
+      const streamKey = document.getElementById('onboard-college-stream')?.value;
+      const customWrap = document.getElementById('onboard-custom-course-wrapper');
+      if (customWrap) {
+        if (degreeVal === 'custom_college' || streamKey === 'custom') {
+          customWrap.style.display = 'block';
+          const input = document.getElementById('onboard-custom-course-input');
+          if (input) input.focus();
+        } else {
+          customWrap.style.display = 'none';
+        }
+      }
+    }
+
+    function setEditAcademicCategory(category) {
+      const hiddenInput = document.getElementById('edit-academic-category');
+      if (hiddenInput) hiddenInput.value = category;
+
+      const btnSchool = document.getElementById('edit-cat-btn-school');
+      const btnCollege = document.getElementById('edit-cat-btn-college');
+      const schoolSec = document.getElementById('edit-school-section');
+      const collegeSec = document.getElementById('edit-college-section');
+
+      if (category === 'college_higher') {
+        if (btnCollege) { btnCollege.className = 'btn-primary'; }
+        if (btnSchool) { btnSchool.className = 'btn-primary btn-outline'; }
+        if (schoolSec) schoolSec.style.display = 'none';
+        if (collegeSec) {
+          collegeSec.style.display = 'block';
+          const streamSel = document.getElementById('edit-college-stream');
+          const degSel = document.getElementById('edit-college-degree');
+          if (degSel && (!degSel.options || degSel.options.length === 0)) {
+            populateDegreeSelectOptions(degSel, streamSel ? streamSel.value : 'engineering');
+          }
+        }
+      } else {
+        if (btnSchool) { btnSchool.className = 'btn-primary'; }
+        if (btnCollege) { btnCollege.className = 'btn-primary btn-outline'; }
+        if (schoolSec) schoolSec.style.display = 'block';
+        if (collegeSec) collegeSec.style.display = 'none';
+      }
+    }
+
+    function onEditStreamChange(streamKey) {
+      const degSel = document.getElementById('edit-college-degree');
+      populateDegreeSelectOptions(degSel, streamKey);
+      onEditDegreeChange(degSel ? degSel.value : '');
+    }
+
+    function onEditDegreeChange(degreeVal) {
+      const streamKey = document.getElementById('edit-college-stream')?.value;
+      const customWrap = document.getElementById('edit-custom-course-wrapper');
+      if (customWrap) {
+        if (degreeVal === 'custom_college' || streamKey === 'custom') {
+          customWrap.style.display = 'block';
+          const input = document.getElementById('edit-custom-course-input');
+          if (input) input.focus();
+        } else {
+          customWrap.style.display = 'none';
+        }
+      }
+    }
+
+    function filterSyllabusPresets(type) {
+      const select = document.getElementById('preset-exam-select');
+      if (!select) return;
+      const optgroups = select.querySelectorAll('optgroup');
+      optgroups.forEach(og => {
+        const isSchool = og.dataset.category === 'school';
+        const isCollege = og.dataset.category === 'college';
+        if (type === 'all') {
+          og.style.display = '';
+        } else if (type === 'school') {
+          og.style.display = isSchool ? '' : 'none';
+        } else if (type === 'college') {
+          og.style.display = isCollege ? '' : 'none';
+        }
+      });
+
+      const btnAll = document.getElementById('syllabus-filter-all');
+      const btnSchool = document.getElementById('syllabus-filter-school');
+      const btnCollege = document.getElementById('syllabus-filter-college');
+      if (btnAll && btnSchool && btnCollege) {
+        btnAll.className = type === 'all' ? 'btn-primary' : 'btn-primary btn-outline';
+        btnSchool.className = type === 'school' ? 'btn-primary' : 'btn-primary btn-outline';
+        btnCollege.className = type === 'college' ? 'btn-primary' : 'btn-primary btn-outline';
+      }
+    }
+
     function openOnboardingModal(defaultName = "") {
       const modal = document.getElementById('onboarding-modal');
       const nameInput = document.getElementById('onboard-name');
@@ -3197,6 +3651,7 @@
       // Do NOT pre-fill with fake/mock defaults as requested by user
       if (nameInput) nameInput.value = (defaultName && defaultName !== "Student Scholar" && defaultName !== "Aryan Sharma") ? defaultName : '';
       if (dateInput && !dateInput.value) dateInput.value = '';
+      setOnboardAcademicCategory('school_competitive');
       modal.classList.add('active');
     }
 
@@ -3205,8 +3660,35 @@
       const dateInput = document.getElementById('onboard-exam-date');
       const name = nameInput ? nameInput.value.trim() : '';
       const examDate = dateInput ? dateInput.value.trim() : '';
-      const acadClass = document.getElementById('onboard-class') ? document.getElementById('onboard-class').value : 'Dropper';
-      const targetExam = document.getElementById('onboard-target-exam') ? document.getElementById('onboard-target-exam').value : 'jee';
+      
+      const category = document.getElementById('onboard-academic-category') ? document.getElementById('onboard-academic-category').value : 'school_competitive';
+
+      let acadClass = '';
+      let targetExam = '';
+      let collegeStream = '';
+      let customCourse = '';
+
+      if (category === 'college_higher') {
+        const streamSelect = document.getElementById('onboard-college-stream');
+        const degreeSelect = document.getElementById('onboard-college-degree');
+        const customInput = document.getElementById('onboard-custom-course-input');
+
+        const streamKey = streamSelect ? streamSelect.value : 'engineering';
+        const streamObj = COLLEGE_COURSES_DATA[streamKey];
+        collegeStream = streamObj ? streamObj.streamName : 'Engineering & Tech';
+        targetExam = degreeSelect ? degreeSelect.value : 'btech';
+
+        if (targetExam === 'custom_college' || streamKey === 'custom') {
+          customCourse = customInput ? customInput.value.trim() : '';
+          if (!customCourse) customCourse = 'Custom Degree / Course';
+          acadClass = customCourse;
+        } else {
+          acadClass = degreeSelect && degreeSelect.options[degreeSelect.selectedIndex] ? degreeSelect.options[degreeSelect.selectedIndex].text.replace(/^[^\s]+\s*/, '') : 'College Degree';
+        }
+      } else {
+        acadClass = document.getElementById('onboard-class') ? document.getElementById('onboard-class').value : '12th Pass / Dropper 🎯';
+        targetExam = document.getElementById('onboard-target-exam') ? document.getElementById('onboard-target-exam').value : 'jee';
+      }
 
       if (!name) {
         alert("Please enter your Full Name to set up your profile!");
@@ -3222,8 +3704,11 @@
 
       let profile = JSON.parse(localStorage.getItem('aura_user_auth_profile')) || { email: "student@gmail.com", signedIn: true };
       profile.name = name;
+      profile.academicCategory = category;
       profile.academicClass = acadClass;
+      profile.collegeStream = collegeStream;
       profile.targetExam = targetExam;
+      profile.customCourse = customCourse;
       profile.examDate = examDate;
       profile.dailyHours = 6;
       profile.signedIn = true;
@@ -3238,9 +3723,18 @@
       // Save Target Exam Countdown based on this tentative exam date
       const examDisplayNames = {
         jee: "JEE Main", neet: "NEET UG", cbse12: "CBSE 12th Board", cbse10: "CBSE 10th Board",
-        upsc: "UPSC CSE", ssc: "SSC CGL", ca: "CA Foundation", custom: "Target Exam"
+        upsc: "UPSC CSE", ssc: "SSC CGL", ca: "CA Foundation", custom: "Target Exam",
+        mbbs: "MBBS Exams", bds: "BDS Exams", nursing: "B.Sc Nursing Exams",
+        paramedical: "Paramedical Exams", bams: "BAMS Exams", bhms: "BHMS Exams",
+        bpharm: "B.Pharm Exams", dpharm: "D.Pharm Exams",
+        btech: "B.Tech / B.E. Exams", mtech: "M.Tech Exams", bca: "BCA Exams", mca: "MCA Exams",
+        bsc: "B.Sc Exams", msc: "M.Sc Exams", ba: "B.A. Exams", ma: "M.A. Exams",
+        bcom: "B.Com Exams", mcom: "M.Com Exams", bba: "BBA Exams", mba: "MBA Exams",
+        integrated_llb: "Integrated LL.B Exams", llb: "LL.B Exams", llm: "LL.M Exams",
+        vocational_other: "Vocational Exams", custom_college: "Degree Exams"
       };
-      const examName = (examDisplayNames[targetExam] || "Target Exam") + " 2026";
+      const displayTitle = customCourse ? `${customCourse} Exams` : (examDisplayNames[targetExam] || "Target Exam");
+      const examName = `${displayTitle} 2026`;
       const countdownConfig = { name: examName, date: examDate, hours: 500 };
       localStorage.setItem('studyos_exam_countdown', JSON.stringify(countdownConfig));
 
@@ -3268,9 +3762,16 @@
       try {
         if (window.firebaseDb && window.firestoreOps) {
           const { collection, addDoc, serverTimestamp } = window.firestoreOps;
+          let prof = null;
+          try { prof = JSON.parse(localStorage.getItem('aura_user_auth_profile')); } catch(e) {}
           addDoc(collection(window.firebaseDb, "users"), {
             email: email || "student@gmail.com",
             name: name || "Scholar",
+            academicCategory: (prof && prof.academicCategory) || "school_competitive",
+            academicClass: (prof && prof.academicClass) || "",
+            collegeStream: (prof && prof.collegeStream) || "",
+            targetExam: (prof && prof.targetExam) || "",
+            customCourse: (prof && prof.customCourse) || "",
             firstLoginAt: firstLoginAt,
             createdAt: serverTimestamp ? serverTimestamp() : new Date().toISOString()
           }).catch(err => console.warn("Firestore user sync non-fatal:", err));
@@ -3561,7 +4062,32 @@
           upsc: { name: "UPSC CSE Prelims 2026", date: userExamDate, hours: 1000 },
           ssc: { name: "SSC CGL 2026", date: userExamDate, hours: 450 },
           ca: { name: "CA Foundation 2026", date: userExamDate, hours: 500 },
-          custom: { name: "Target Exam 2026", date: userExamDate, hours: 500 }
+          mbbs: { name: "MBBS Professional 2026", date: userExamDate, hours: 650 },
+          bds: { name: "BDS Professional 2026", date: userExamDate, hours: 550 },
+          nursing: { name: "B.Sc Nursing 2026", date: userExamDate, hours: 500 },
+          paramedical: { name: "Paramedical 2026", date: userExamDate, hours: 450 },
+          bams: { name: "BAMS Professional 2026", date: userExamDate, hours: 550 },
+          bhms: { name: "BHMS Professional 2026", date: userExamDate, hours: 550 },
+          bpharm: { name: "B.Pharm Semester 2026", date: userExamDate, hours: 500 },
+          dpharm: { name: "D.Pharm Exams 2026", date: userExamDate, hours: 450 },
+          btech: { name: "B.Tech Semester 2026", date: userExamDate, hours: 500 },
+          mtech: { name: "M.Tech Semester 2026", date: userExamDate, hours: 550 },
+          bca: { name: "BCA Semester 2026", date: userExamDate, hours: 450 },
+          mca: { name: "MCA Semester 2026", date: userExamDate, hours: 500 },
+          bsc: { name: "B.Sc Degree 2026", date: userExamDate, hours: 450 },
+          msc: { name: "M.Sc Degree 2026", date: userExamDate, hours: 500 },
+          ba: { name: "B.A. Degree 2026", date: userExamDate, hours: 400 },
+          ma: { name: "M.A. Degree 2026", date: userExamDate, hours: 450 },
+          bcom: { name: "B.Com Degree 2026", date: userExamDate, hours: 450 },
+          mcom: { name: "M.Com Degree 2026", date: userExamDate, hours: 500 },
+          bba: { name: "BBA Semester 2026", date: userExamDate, hours: 450 },
+          mba: { name: "MBA Semester 2026", date: userExamDate, hours: 550 },
+          integrated_llb: { name: "Integrated LL.B 2026", date: userExamDate, hours: 500 },
+          llb: { name: "LL.B Semester 2026", date: userExamDate, hours: 500 },
+          llm: { name: "LL.M Exams 2026", date: userExamDate, hours: 500 },
+          vocational_other: { name: "Vocational Exams 2026", date: userExamDate, hours: 400 },
+          custom_college: { name: ((profile && profile.customCourse) || "College Degree") + " 2026", date: userExamDate, hours: 500 },
+          custom: { name: ((profile && profile.customCourse) || "Target Exam") + " 2026", date: userExamDate, hours: 500 }
         };
         config = defaultExams[userTarget] || defaultExams.jee;
         localStorage.setItem('studyos_exam_countdown', JSON.stringify(config));
@@ -3917,17 +4443,38 @@
       const emailEl = document.getElementById('drawer-user-email');
       if (emailEl) emailEl.innerText = profile.email || "student@gmail.com";
       const classEl = document.getElementById('drawer-user-class');
-      if (classEl) classEl.innerText = profile.academicClass || "Class 12 / Dropper";
+      if (classEl) {
+        let displayClass = profile.academicClass || "Class 12 / Dropper";
+        if (profile.customCourse) {
+          displayClass = `${profile.customCourse} 🎓`;
+        }
+        classEl.innerText = displayClass;
+      }
       const goalEl = document.getElementById('drawer-daily-goal');
       if (goalEl) goalEl.innerText = `${profile.dailyHours || 6} Hours / Day`;
       
       const examNames = {
         jee: "JEE Main & Advanced", neet: "NEET UG", cbse12: "CBSE 12th Board",
         cbse10: "CBSE 10th Board", upsc: "UPSC CSE", ssc: "SSC CGL & Banking",
-        ca: "CA Foundation", custom: "Custom / Self-Study Goal"
+        ca: "CA Foundation", custom: "Custom / Self-Study Goal",
+        mbbs: "MBBS (Medicine & Surgery)", bds: "BDS (Dental Surgery)",
+        nursing: "B.Sc Nursing", paramedical: "Paramedical Sciences",
+        bams: "BAMS (Ayurveda)", bhms: "BHMS (Homoeopathy)",
+        bpharm: "B.Pharm (Pharmacy)", dpharm: "D.Pharm (Pharmacy)",
+        btech: "B.Tech / B.E. (Engineering)", mtech: "M.Tech (Engineering)",
+        bca: "BCA (Computer Apps)", mca: "MCA (Computer Apps)",
+        bsc: "B.Sc (Sciences)", msc: "M.Sc (Sciences)",
+        ba: "B.A. (Arts & Humanities)", ma: "M.A. (Humanities)",
+        bcom: "B.Com (Commerce)", mcom: "M.Com (Commerce)",
+        bba: "BBA (Business Admin)", mba: "MBA (Management)",
+        integrated_llb: "Integrated LL.B (5-Yr Law)", llb: "LL.B (3-Yr Law)",
+        llm: "LL.M (Master of Laws)", vocational_other: "Professional & Vocational",
+        custom_college: "College Degree / Course"
       };
       const examEl = document.getElementById('drawer-user-exam');
-      if (examEl) examEl.innerText = examNames[profile.targetExam] || "Custom Goal";
+      if (examEl) {
+        examEl.innerText = profile.customCourse || examNames[profile.targetExam] || "Custom Goal";
+      }
 
       const focusSecs = parseInt(localStorage.getItem('aura_total_focus_seconds')) || 0;
       const hoursEl = document.getElementById('drawer-total-hours');
@@ -3960,23 +4507,6 @@
         greeting.innerText = `Good Day, ${profile.name} ✨`;
       }
 
-      const quizExamSelect = document.getElementById('quiz-target-exam');
-      if (quizExamSelect && profile.targetExam) {
-        const examMap = {
-          jee: 'jee_main',
-          neet: 'neet',
-          cbse12: 'cbse12',
-          cbse10: 'cbse10',
-          upsc: 'upsc',
-          ssc: 'ssc',
-          ca: 'ca',
-          custom: 'general'
-        };
-        if (examMap[profile.targetExam] && !quizExamSelect.dataset.userModified) {
-          quizExamSelect.value = examMap[profile.targetExam];
-        }
-      }
-
       if (typeof updateAffiliateAdminUI === 'function') updateAffiliateAdminUI();
     }
 
@@ -3994,8 +4524,56 @@
         targetExam: 'jee'
       };
       document.getElementById('edit-name-input').value = profile.name || '';
-      document.getElementById('edit-class-input').value = profile.academicClass || '12th Pass / Dropper 🎯';
-      document.getElementById('edit-exam-input').value = profile.targetExam || 'jee';
+      if (document.getElementById('edit-exam-date-input')) {
+        document.getElementById('edit-exam-date-input').value = profile.examDate || '';
+      }
+
+      const isCollege = profile.academicCategory === 'college_higher' || 
+        ['mbbs', 'bds', 'nursing', 'paramedical', 'bams', 'bhms', 'bpharm', 'dpharm',
+         'btech', 'mtech', 'bca', 'mca', 'bsc', 'msc', 'ba', 'ma', 'bcom', 'mcom',
+         'bba', 'mba', 'integrated_llb', 'llb', 'llm', 'vocational_other', 'custom_college'].includes(profile.targetExam) ||
+        !!profile.collegeStream;
+
+      setEditAcademicCategory(isCollege ? 'college_higher' : 'school_competitive');
+
+      if (isCollege) {
+        let streamKey = 'engineering';
+        if (profile.collegeStream) {
+          for (const k of Object.keys(COLLEGE_COURSES_DATA)) {
+            if (COLLEGE_COURSES_DATA[k].streamName.toLowerCase() === profile.collegeStream.toLowerCase() || k === profile.collegeStream) {
+              streamKey = k;
+              break;
+            }
+          }
+        } else {
+          for (const [k, v] of Object.entries(COLLEGE_COURSES_DATA)) {
+            if (v.degrees.some(d => d.id === profile.targetExam)) {
+              streamKey = k;
+              break;
+            }
+          }
+        }
+        const streamSelect = document.getElementById('edit-college-stream');
+        if (streamSelect) streamSelect.value = streamKey;
+        const degSelect = document.getElementById('edit-college-degree');
+        populateDegreeSelectOptions(degSelect, streamKey, profile.targetExam || 'btech');
+
+        const customWrap = document.getElementById('edit-custom-course-wrapper');
+        const customInp = document.getElementById('edit-custom-course-input');
+        if (profile.customCourse || profile.targetExam === 'custom_college' || streamKey === 'custom') {
+          if (customWrap) customWrap.style.display = 'block';
+          if (customInp) customInp.value = profile.customCourse || '';
+        } else {
+          if (customWrap) customWrap.style.display = 'none';
+        }
+      } else {
+        if (document.getElementById('edit-class-input')) {
+          document.getElementById('edit-class-input').value = profile.academicClass || '12th Pass / Dropper 🎯';
+        }
+        if (document.getElementById('edit-exam-input')) {
+          document.getElementById('edit-exam-input').value = profile.targetExam || 'jee';
+        }
+      }
       
       const previewBox = document.getElementById('edit-avatar-preview-box');
       if (previewBox) {
@@ -4111,12 +4689,69 @@
         dailyHours: 6
       };
       profile.name = document.getElementById('edit-name-input').value.trim() || profile.name || "Student Scholar";
-      profile.academicClass = document.getElementById('edit-class-input').value;
-      profile.targetExam = document.getElementById('edit-exam-input').value;
+      const category = document.getElementById('edit-academic-category') ? document.getElementById('edit-academic-category').value : 'school_competitive';
+      profile.academicCategory = category;
+
+      let acadClass = '';
+      let targetExam = '';
+      let collegeStream = '';
+      let customCourse = '';
+
+      if (category === 'college_higher') {
+        const streamSelect = document.getElementById('edit-college-stream');
+        const degreeSelect = document.getElementById('edit-college-degree');
+        const customInput = document.getElementById('edit-custom-course-input');
+
+        const streamKey = streamSelect ? streamSelect.value : 'engineering';
+        const streamObj = COLLEGE_COURSES_DATA[streamKey];
+        collegeStream = streamObj ? streamObj.streamName : 'Engineering & Tech';
+        targetExam = degreeSelect ? degreeSelect.value : 'btech';
+
+        if (targetExam === 'custom_college' || streamKey === 'custom') {
+          customCourse = customInput ? customInput.value.trim() : '';
+          if (!customCourse) customCourse = 'Custom Degree / Course';
+          acadClass = customCourse;
+        } else {
+          acadClass = degreeSelect && degreeSelect.options[degreeSelect.selectedIndex] ? degreeSelect.options[degreeSelect.selectedIndex].text.replace(/^[^\s]+\s*/, '') : 'College Degree';
+        }
+      } else {
+        acadClass = document.getElementById('edit-class-input') ? document.getElementById('edit-class-input').value : '12th Pass / Dropper 🎯';
+        targetExam = document.getElementById('edit-exam-input') ? document.getElementById('edit-exam-input').value : 'jee';
+      }
+
+      profile.academicClass = acadClass;
+      profile.collegeStream = collegeStream;
+      profile.targetExam = targetExam;
+      profile.customCourse = customCourse;
+
+      const examDateInp = document.getElementById('edit-exam-date-input');
+      if (examDateInp && examDateInp.value) {
+        profile.examDate = examDateInp.value;
+      }
       profile.signedIn = true;
       
       localStorage.setItem('aura_user_auth_profile', JSON.stringify(profile));
       localStorage.setItem('aura_active_exam_id', profile.targetExam);
+
+      const examDisplayNames = {
+        jee: "JEE Main", neet: "NEET UG", cbse12: "CBSE 12th Board", cbse10: "CBSE 10th Board",
+        upsc: "UPSC CSE", ssc: "SSC CGL", ca: "CA Foundation", custom: "Target Exam",
+        mbbs: "MBBS Exams", bds: "BDS Exams", nursing: "B.Sc Nursing Exams",
+        paramedical: "Paramedical Exams", bams: "BAMS Exams", bhms: "BHMS Exams",
+        bpharm: "B.Pharm Exams", dpharm: "D.Pharm Exams",
+        btech: "B.Tech / B.E. Exams", mtech: "M.Tech Exams", bca: "BCA Exams", mca: "MCA Exams",
+        bsc: "B.Sc Exams", msc: "M.Sc Exams", ba: "B.A. Exams", ma: "M.A. Exams",
+        bcom: "B.Com Exams", mcom: "M.Com Exams", bba: "BBA Exams", mba: "MBA Exams",
+        integrated_llb: "Integrated LL.B Exams", llb: "LL.B Exams", llm: "LL.M Exams",
+        vocational_other: "Vocational Exams", custom_college: "Degree Exams"
+      };
+      const displayTitle = customCourse ? `${customCourse} Exams` : (examDisplayNames[profile.targetExam] || "Target Exam");
+      const examName = `${displayTitle} 2026`;
+      if (profile.examDate) {
+        const cdConfig = { name: examName, date: profile.examDate, hours: 500 };
+        localStorage.setItem('studyos_exam_countdown', JSON.stringify(cdConfig));
+        renderExamCountdownUI(cdConfig);
+      }
       
       const examSelect = document.getElementById('preset-exam-select');
       if (examSelect) examSelect.value = profile.targetExam;
@@ -4214,6 +4849,242 @@
           "Accounting": ["Accounting Process & BRS", "Depreciation & Final Accounts", "Partnership & Company Accounts"],
           "Business Law": ["Indian Contract Act, 1872", "Sale of Goods & Partnership Act", "Companies Act, 2013"],
           "Quantitative & Economics": ["Ratio, Time Value of Money & Sequence", "Demand, Supply & Production Theory", "Statistics & Business Cycles"]
+        }
+      },
+      // Category 2: Medical & Healthcare Presets
+      mbbs: {
+        name: "MBBS (Medicine & Surgery)",
+        subjects: {
+          "Human Anatomy": ["Gross Anatomy & Osteology", "Neuroanatomy & Cranial Nerves", "General Embryology & Histology", "Thorax, Abdomen & Pelvis", "Upper & Lower Extremities"],
+          "Human Physiology": ["General & Cellular Physiology", "Hematology & Blood", "Cardiovascular & Respiratory Systems", "Renal & Gastrointestinal Systems", "Neurophysiology & Endocrine System"],
+          "Biochemistry": ["Biomolecules & Enzymes", "Metabolism (Carbs, Lipids, Proteins)", "Molecular Biology & Genetics", "Clinical Biochemistry & Acid-Base Balance"],
+          "Pathology & Microbiology": ["General Pathology & Inflammation", "Systemic Pathology & Neoplasia", "Bacteriology & Virology", "Immunology & Parasitology"],
+          "Pharmacology": ["General Pharmacology & Pharmacokinetics", "Autonomic & Central Nervous System", "Chemotherapeutic Drugs & Antibiotics", "Cardiovascular & Renal Drugs"]
+        }
+      },
+      bds: {
+        name: "BDS (Bachelor of Dental Surgery)",
+        subjects: {
+          "Dental Anatomy & Histology": ["Tooth Morphology & Pulp Anatomy", "Oral Histology & Embryology", "Occlusion & TMJ Anatomy"],
+          "Dental Materials": ["Impression Materials & Gypsum", "Dental Resins & Polymers", "Dental Ceramics & Cements", "Metals & Dental Alloys"],
+          "General Pathology & Microbiology": ["Cell Injury & Healing", "Infections & Microbial Stains", "Oral Microflora & Dental Caries"],
+          "Oral Pathology & Medicine": ["Odontogenic Cysts & Tumours", "Pre-cancerous Lesions & Biopsy", "Salivary Gland Disorders"],
+          "Prosthodontics & Conservative Dentistry": ["Complete & Removable Dentures", "Cavity Preparation & Restorations", "Endodontic Principles"]
+        }
+      },
+      nursing: {
+        name: "B.Sc Nursing / General Nursing",
+        subjects: {
+          "Nursing Foundations": ["Introduction to Nursing Science", "Vital Signs & Patient Assessment", "Documentation & Infection Control", "Medication Administration & Safety"],
+          "Anatomy & Physiology": ["Skeletal & Muscular System", "Circulatory & Respiratory Functions", "Digestive & Excretory System", "Nervous & Sensory Organs"],
+          "Medical-Surgical Nursing": ["Cardiovascular & Respiratory Nursing", "Gastrointestinal Disorders Care", "Oncology & Post-Op Care", "Emergency & Critical Care Nursing"],
+          "Community Health & Nutrition": ["Epidemiology & Primary Health", "Maternal & Child Health Care", "Nutritional Requirements & Deficiencies"]
+        }
+      },
+      paramedical: {
+        name: "Paramedical & Allied Health Sciences",
+        subjects: {
+          "Clinical Laboratory Techniques": ["Hematology & Blood Banking", "Clinical Biochemistry Testing", "Histopathology & Tissue Processing", "Microbiological Culture & Staining"],
+          "Imaging & Radiology": ["Radiation Physics & Safety", "X-Ray & Radiographic Positioning", "CT & MRI Principles", "Ultrasound Diagnostics"],
+          "Emergency & Patient Care": ["Basic Life Support (BLS) & First Aid", "Sterilization & Aseptic Techniques", "Medical Ethics & Bio-Waste Management"]
+        }
+      },
+      bams: {
+        name: "BAMS (Ayurvedic Medicine & Surgery)",
+        subjects: {
+          "Rachana & Kriya Sharir": ["Sharir Rachana (Pramana & Asthi)", "Dosha-Dhatu-Mala Vigyan", "Prakriti & Agni Pariksha"],
+          "Maulik Siddhant & Samhita": ["Padartha Vigyan & Darshana", "Charaka Samhita (Sutra Sthana)", "Ashtanga Hridaya Sutras"],
+          "Dravyaguna & Rasashastra": ["Dravya Vargikarana (Pharmacognosy)", "Rasa, Guna, Virya, Vipaka", "Bhasma & Rasa Aushadhi Preparation"],
+          "Rog Nidan & Kaya Chikitsa": ["Nidan Panchaka & Vyadhi Hetu", "Panchakarma Fundamentals", "Principles of Kaya Chikitsa"]
+        }
+      },
+      bhms: {
+        name: "BHMS (Homoeopathic Medicine & Surgery)",
+        subjects: {
+          "Organon of Medicine & Philosophy": ["Fundamental Principles of Homoeopathy", "Aphorisms & Law of Similars", "Chronic Diseases & Miasms", "Vital Force & Susceptibility"],
+          "Homoeopathic Materia Medica": ["Polychrest Remedies", "Drug Proving & Keynotes", "Comparative Study of Drugs", "Repertory & Case Taking"],
+          "Anatomy & Physiology": ["General Anatomy & Organ Systems", "Human Physiology & Biochemical Regulation"],
+          "Homoeopathic Pharmacy": ["Sources & Preparation of Homoeopathic Medicines", "Potentisation (Trituration & Succussion)", "Posology & Prescription Writing"]
+        }
+      },
+      bpharm: {
+        name: "B.Pharm (Bachelor of Pharmacy)",
+        subjects: {
+          "Pharmaceutics": ["Dosage Forms & Drug Delivery", "Physical Pharmaceutics", "Industrial Pharmacy & Quality Control", "Biopharmaceutics & Pharmacokinetics"],
+          "Pharmaceutical Chemistry & Analysis": ["Inorganic Pharmaceutical Chemistry", "Medicinal Chemistry (SAR)", "Organic Chemistry of Drugs", "Spectroscopic & Chromatographic Analysis"],
+          "Pharmacology": ["General Pharmacodynamics & Pharmacokinetics", "Drugs Acting on Nervous Systems", "Chemotherapy & Antimicrobials", "Toxicology & Clinical Pharmacy"],
+          "Pharmacognosy & Phytochemistry": ["Classification of Crude Drugs", "Plant Secondary Metabolites (Alkaloids, Glycosides)", "Herbal Drug Technology"]
+        }
+      },
+      dpharm: {
+        name: "D.Pharm (Diploma in Pharmacy)",
+        subjects: {
+          "Pharmaceutics": ["Packaging & Dosage Form Formulation", "Sterilization & Injections", "Prescription Handling & Dispensing"],
+          "Pharmaceutical Chemistry": ["Identification Tests & Purity Limits", "Classification of Inorganic & Organic Drugs", "Antibiotics & Sulfonamides"],
+          "Pharmacognosy & Social Pharmacy": ["Study of Crude Drugs & Adulteration", "Public Health & Preventive Medicine", "Community Pharmacy Management"],
+          "Human Anatomy & Pharmacology": ["Basic Human Organ Systems", "Drug Categories, Dosages & Common Side Effects"]
+        }
+      },
+      // Category 2: Engineering & Tech Presets
+      btech: {
+        name: "B.Tech / B.E. (Engineering & Tech)",
+        subjects: {
+          "Data Structures & Algorithms": ["Arrays, Linked Lists, Stacks & Queues", "Trees, Heaps & Binary Search Trees", "Graph Algorithms (BFS/DFS, Dijkstra)", "Dynamic Programming & Greedy Algorithms", "Time & Space Complexity Analysis"],
+          "Operating Systems & Architecture": ["Processes, Threads & Concurrency", "CPU Scheduling & Synchronization", "Memory Management & Paging", "File Systems & Virtualization"],
+          "Database Management Systems": ["Relational Model & SQL", "Normalization (1NF to BCNF)", "Transactions, ACID & Concurrency Control", "Indexing, B-Trees & NoSQL"],
+          "Computer Networks": ["OSI & TCP/IP Protocol Suite", "Data Link Layer & Routing Protocols", "Transport Layer (TCP, UDP, Congestion)", "Application Layer (DNS, HTTP/S, Sockets)"],
+          "Engineering Mathematics": ["Linear Algebra & Matrix Operations", "Differential & Integral Calculus", "Probability & Numerical Methods"]
+        }
+      },
+      mtech: {
+        name: "M.Tech (Master of Technology)",
+        subjects: {
+          "Advanced Algorithms & Complexity": ["NP-Completeness & Approximation Algorithms", "Randomized & Parallel Algorithms", "Computational Geometry & Graph Optimization"],
+          "Machine Learning & AI": ["Supervised & Unsupervised Learning", "Deep Learning & Neural Architectures", "Natural Language Processing & Transformers"],
+          "Distributed Systems & Cloud": ["Consensus Protocols (Raft, Paxos)", "Microservices & Distributed Storage", "Cloud Virtualization & Scalability"],
+          "Research Methodology": ["Literature Review & Technical Writing", "Experimental Design & Statistical Analysis", "Patent Filing & Research Ethics"]
+        }
+      },
+      bca: {
+        name: "BCA (Bachelor of Computer Applications)",
+        subjects: {
+          "Programming in C/C++/Java": ["Control Structures & Functions", "Object-Oriented Programming (OOP)", "Inheritance, Polymorphism & Interfaces", "Exception Handling & Collections"],
+          "Data Structures": ["Arrays, Stacks & Queues", "Linked Lists & Binary Trees", "Sorting & Searching Algorithms"],
+          "Web Technologies": ["HTML5, CSS3 & Responsive Design", "JavaScript ES6+ & DOM Manipulation", "REST APIs & Backend Integration"],
+          "Database Systems": ["Database Design & ER Modeling", "Relational Algebra & Structured Query Language (SQL)", "PL/SQL Triggers & Procedures"],
+          "Software Engineering": ["Software Development Life Cycle (SDLC)", "Agile & Scrum Methodologies", "Software Testing & QA"]
+        }
+      },
+      mca: {
+        name: "MCA (Master of Computer Applications)",
+        subjects: {
+          "Advanced Java & Web Frameworks": ["Spring Boot & Microservices Architecture", "Enterprise JavaBeans & JPA/Hibernate", "Full-Stack Development (React/Angular + Node)"],
+          "Cloud Computing & DevOps": ["Docker Containers & Kubernetes", "CI/CD Pipelines & Cloud Deployment", "Serverless & Distributed Computing"],
+          "Artificial Intelligence & Data Science": ["Machine Learning Models & Scikit-Learn", "Data Wrangling & Statistical Analysis", "Neural Networks & Deep Learning"],
+          "Information Security & Cryptography": ["Symmetric & Asymmetric Encryption", "Network Vulnerabilities & Penetration Testing", "Authentication (JWT, OAuth) & App Security"]
+        }
+      },
+      // Category 2: Sciences Presets
+      bsc: {
+        name: "B.Sc (Bachelor of Science)",
+        subjects: {
+          "Physical Sciences (Physics/Chemistry)": ["Classical Mechanics & Thermodynamics", "Electromagnetism & Wave Optics", "Atomic Structure & Chemical Bonding", "Organic Reaction Mechanisms"],
+          "Mathematical Sciences": ["Calculus & Differential Equations", "Linear Algebra & Matrices", "Vector Analysis & Probability"],
+          "Biological Sciences": ["Cell Biology & Genetics", "Plant & Animal Physiology", "Biochemistry & Microbiology"],
+          "Scientific Lab Practicals": ["Experimental Methodology & Measurements", "Error Analysis & Laboratory Reporting"]
+        }
+      },
+      msc: {
+        name: "M.Sc (Master of Science)",
+        subjects: {
+          "Advanced Core Specialization": ["Advanced Theoretical Foundations", "Quantum Mechanics / Advanced Reaction Dynamics", "Molecular Biology & Genetic Engineering", "Abstract Algebra & Real Analysis"],
+          "Analytical Instrumentation": ["Spectroscopy (NMR, IR, UV-Vis)", "Chromatographic Techniques (HPLC, GC)", "Statistical Data Modeling"],
+          "Research Dissertation": ["Research Formulation & Literature Survey", "Experimental Data Collection & Thesis Writing"]
+        }
+      },
+      // Category 2: Arts & Humanities Presets
+      ba: {
+        name: "B.A. (Bachelor of Arts)",
+        subjects: {
+          "History & Civilization": ["Ancient, Medieval & Modern Indian History", "World History & Revolutions", "Historiography & Sources"],
+          "Political Science": ["Political Theory & Ideologies", "Indian Constitution & Governance", "International Relations & Global Politics"],
+          "Sociology": ["Sociological Thinkers & Concepts", "Indian Social Structure & Caste System", "Social Movements & Change"],
+          "Psychology": ["Foundations of Human Behavior", "Cognitive Processes & Memory", "Psychological Assessment & Health"],
+          "English Literature": ["Poetry, Drama & Prose Analysis", "Literary Criticism & Theory", "History of English Literature"]
+        }
+      },
+      ma: {
+        name: "M.A. (Master of Arts)",
+        subjects: {
+          "Advanced Domain Theory": ["Contemporary Theoretical Paradigms", "Critical Discourse & Epistemology", "Comparative Cultural & Social Analysis"],
+          "Specialized Sub-fields": ["Advanced Research Seminars", "Global Perspectives & Specialized Case Studies"],
+          "Research Methodology & Dissertation": ["Qualitative & Quantitative Research Methods", "Primary Source Analysis & Master's Thesis"]
+        }
+      },
+      // Category 2: Commerce & Business Presets
+      bcom: {
+        name: "B.Com (Bachelor of Commerce)",
+        subjects: {
+          "Financial & Corporate Accounting": ["Accounting Standards & Ledger Balancing", "Company Accounts, Shares & Debentures", "Cash Flow Statements & Final Accounts"],
+          "Business Law & Ethics": ["Indian Contract Act, 1872", "Negotiable Instruments Act", "Consumer Protection Act & Corporate Governance"],
+          "Cost & Management Accounting": ["Cost Sheet & Marginal Costing", "Budgetary Control & Standard Costing", "Variance Analysis"],
+          "Business Economics & Statistics": ["Micro & Macro Economic Analysis", "Measures of Central Tendency & Dispersion", "Correlation, Regression & Index Numbers"],
+          "Income Tax & GST": ["Heads of Income & Deductions", "Assessment of Individuals", "GST Framework & Input Tax Credit"]
+        }
+      },
+      mcom: {
+        name: "M.Com (Master of Commerce)",
+        subjects: {
+          "Advanced Financial Management": ["Capital Budgeting & Cost of Capital", "Capital Structure Theories & Dividend Policy", "Working Capital Management"],
+          "Strategic Corporate Management": ["Corporate Governance & Business Ethics", "Strategic Formulation & Implementation", "Mergers, Acquisitions & Corporate Restructuring"],
+          "International Business & Finance": ["Global Trading Environment & WTO", "Foreign Exchange Risk Management", "International Financial Institutions"],
+          "Advanced Auditing & Tax Planning": ["Auditing Standards & Forensic Audit", "Corporate Tax Planning & Management", "International Taxation & Transfer Pricing"]
+        }
+      },
+      bba: {
+        name: "BBA (Bachelor of Business Administration)",
+        subjects: {
+          "Principles of Management & OB": ["Management Functions & Leadership Styles", "Individual & Group Behavior in Organizations", "Motivation Theories & Organizational Culture"],
+          "Marketing Management": ["Marketing Mix (4Ps) & Market Segmentation", "Consumer Behavior & Product Lifecycle", "Digital & Brand Marketing"],
+          "Financial Management": ["Time Value of Money & Financial Statements", "Working Capital & Ratio Analysis", "Capital Budgeting Basics"],
+          "Human Resource Management": ["Recruitment, Selection & Training", "Performance Appraisal & Compensation", "Industrial Relations & Labor Welfare"],
+          "Business Analytics & Operations": ["Business Statistics & Excel Modeling", "Supply Chain & Operations Basics"]
+        }
+      },
+      mba: {
+        name: "MBA (Master of Business Administration)",
+        subjects: {
+          "Strategic Management": ["Industry & Competitive Analysis (Porter's)", "Resource-Based View & Core Competencies", "Corporate Strategy & Digital Transformation"],
+          "Marketing Strategy & Analytics": ["Strategic Brand Management", "Customer Lifetime Value & CRM", "Omnichannel Marketing Strategy"],
+          "Corporate Finance & Valuation": ["DCF Valuation & Financial Modeling", "M&A Strategy & Due Diligence", "Risk Management & Derivatives"],
+          "Operations & Supply Chain": ["Lean, Six Sigma & Quality Management", "Supply Chain Optimization & Logistics", "Project Management (Agile/CPM)"],
+          "Leadership & Change Management": ["Transformational Leadership", "Negotiation & Conflict Resolution", "Organizational Change & Innovation"]
+        }
+      },
+      // Category 2: Law Presets
+      integrated_llb: {
+        name: "Integrated LL.B (5-Year Law Course)",
+        subjects: {
+          "Constitutional Law": ["Preamble & Fundamental Rights (Part III)", "Directive Principles & Fundamental Duties", "Union & State Executive and Judiciary", "Emergency Provisions & Constitutional Amendments"],
+          "Law of Torts & Consumer Protection": ["Principles of Tortious Liability & Negligence", "Defamation, Nuisance & Strict Liability", "Consumer Protection Act, 2019"],
+          "Law of Crimes (IPC / BNS)": ["General Principles of Criminal Liability", "Offences Against Human Body (Murder, Culpable Homicide)", "Offences Against Property (Theft, Extortion, Robbery)", "New Bharatiya Nyaya Sanhita (BNS) Updates"],
+          "Law of Contracts": ["Offer, Acceptance & Consideration", "Legality of Object & Void Agreements", "Breach of Contract & Remedies", "Special Contracts (Indemnity, Guarantee, Bailment)"],
+          "Family Law": ["Marriage, Divorce & Maintenance under Personal Laws", "Succession, Inheritance & Coparcenary", "Adoption & Guardianship Laws"]
+        }
+      },
+      llb: {
+        name: "LL.B (3-Year Bachelor of Laws)",
+        subjects: {
+          "Jurisprudence & Legal Theory": ["Schools of Jurisprudence (Natural, Analytical, Historical)", "Sources of Law, Custom & Precedent", "Concepts of Rights, Duties, Ownership & Possession"],
+          "Criminal Procedure & Evidence (CrPC/BNSS & BSA)": ["Arrest, Bail & Investigation Procedures", "Trial Procedures & Framing of Charges", "Relevancy of Facts, Admissions & Confessions", "Burden of Proof & Examination of Witnesses"],
+          "Civil Procedure Code & Limitation": ["Jurisdiction of Civil Courts & Res Judicata", "Pleadings, Plaint & Written Statement", "Interim Injunctions & Execution of Decrees", "Law of Limitation Principles"],
+          "Administrative & Public Law": ["Delegated Legislation & Judicial Review", "Principles of Natural Justice", "Writs (Habeas Corpus, Mandamus, Certiorari)"],
+          "Company & Corporate Law": ["Incorporation of Companies & MOA/AOA", "Directors' Duties & Corporate Governance", "Winding Up & Insolvency (IBC 2016)"]
+        }
+      },
+      llm: {
+        name: "LL.M (Master of Laws)",
+        subjects: {
+          "Comparative Constitutional Law": ["Constitutionalism & Rule of Law", "Separation of Powers & Judicial Review in US, UK, India", "Federalism & Fundamental Human Rights"],
+          "International Trade & Business Law": ["WTO Law & Dispute Settlement", "International Commercial Arbitration", "Cross-Border Investment & Corporate Governance"],
+          "Advanced Jurisprudence & Legal Research": ["Critical Legal Studies & Feminist Jurisprudence", "Legal Research Methodology & Quantitative Analysis", "Law and Economics Paradigm"],
+          "LL.M Dissertation": ["Research Thesis Formulation & Defense"]
+        }
+      },
+      // Category 2: Other Professional, Vocational & Custom Presets
+      vocational_other: {
+        name: "Professional & Vocational Courses",
+        subjects: {
+          "Professional Core Foundation": ["Foundational Industry Principles", "Core Domain Concepts & Tools", "Standards, Regulations & Safety Practices"],
+          "Applied Technical & Lab Work": ["Hands-on Laboratory Work & Practical Training", "Technical Workshop & Equipment Operation", "Troubleshooting & Industry Problem Solving"],
+          "Project, Internship & Communication": ["Applied Capstone Project", "Professional Workplace Communication & Ethics", "Field Internship & Portfolio Development"]
+        }
+      },
+      custom_college: {
+        name: "Custom College / Degree Curriculum",
+        subjects: {
+          "Core Discipline Major": ["Core Theory & Foundational Principles", "Advanced Major Concepts & Applications"],
+          "Elective / Allied Studies": ["Interdisciplinary Electives", "Practical Projects & Research Notes"]
         }
       },
       custom: {
@@ -4454,7 +5325,7 @@
       el.innerText = `${readiness}% Ready`;
     }
 
-    /* =========================================================
+        /* =========================================================
        5. SPACED REPETITION SCHEDULER (Pro Feature 👑)
        ========================================================= */
     function addSpacedRepetition() {
@@ -4559,812 +5430,6 @@
         `).join('');
       } else {
         card.style.display = 'none';
-      }
-    }
-
-    /* =========================================================
-       6. REAL AI QUIZ ARENA (POWERED BY GOOGLE GEMINI API)
-       ========================================================= */
-    let currentQuizQuestions = [];
-    let currentQuizStudentAnswers = {};
-    let quizStartTime = null;
-
-    function normalizeClientQuizQuestions(arr) {
-      if (!Array.isArray(arr)) return null;
-      const clean = [];
-      for (const item of arr) {
-        if (!item) continue;
-        const qText = item.question || item.q || item.statement || "";
-        let opts = item.options;
-        if (!Array.isArray(opts) && typeof opts === 'object') opts = Object.values(opts);
-        if (!Array.isArray(opts) || opts.length < 2) continue;
-
-        let correctIdx = 0;
-        if (typeof item.correct_answer === 'number' && item.correct_answer >= 0 && item.correct_answer < opts.length) {
-          correctIdx = item.correct_answer;
-        } else if (typeof item.correct === 'number' && item.correct >= 0 && item.correct < opts.length) {
-          correctIdx = item.correct;
-        } else if (typeof item.correct_answer === 'string') {
-          const letterIdx = ['a', 'b', 'c', 'd'].indexOf(item.correct_answer.trim().toLowerCase().replace(/[^a-d]/g, ''));
-          if (letterIdx !== -1 && letterIdx < opts.length) {
-            correctIdx = letterIdx;
-          } else {
-            const found = opts.findIndex(o => String(o).trim().toLowerCase() === item.correct_answer.trim().toLowerCase());
-            if (found !== -1) correctIdx = found;
-          }
-        } else if (typeof item.correct === 'string') {
-          const letterIdx = ['a', 'b', 'c', 'd'].indexOf(item.correct.trim().toLowerCase().replace(/[^a-d]/g, ''));
-          if (letterIdx !== -1 && letterIdx < opts.length) {
-            correctIdx = letterIdx;
-          } else {
-            const found = opts.findIndex(o => String(o).trim().toLowerCase() === item.correct.trim().toLowerCase());
-            if (found !== -1) correctIdx = found;
-          }
-        }
-
-        const explanation = item.explanation || item.explain || item.reason || "Correct conceptual reasoning based on standard curriculum.";
-        const mistakeAnalysis = item.mistake_analysis || item.mistakeAnalysis || item.misconception || item.trap || "Watch out for common pitfalls: verify boundary assumptions and standard units before calculating.";
-        const keyTakeaway = item.key_takeaway || item.keyTakeaway || item.goldenRule || item.summary || "Always double-check formulas and dimensional consistency before finalizing your answer.";
-
-        // Ensure strictly 4 options (pad or slice if necessary)
-        const finalOptions = opts.map(o => String(o).trim());
-        if (finalOptions.length > 4) finalOptions.length = 4;
-
-        clean.push({
-          question: String(qText).trim(),
-          q: String(qText).trim(),
-          options: finalOptions,
-          correct_answer: correctIdx,
-          correct: correctIdx,
-          explanation: String(explanation).trim(),
-          mistake_analysis: String(mistakeAnalysis).trim(),
-          key_takeaway: String(keyTakeaway).trim()
-        });
-      }
-      return clean.length >= 3 ? clean : null;
-    }
-
-    function safeClientJsonParse(rawText) {
-      if (!rawText) return null;
-      const clean = rawText.replace(/```json/gi, '').replace(/```/g, '').trim();
-      const match = clean.match(/\[[\s\S]*\]/);
-      if (!match) return null;
-      const jsonStr = match[0];
-      try {
-        return JSON.parse(jsonStr);
-      } catch (e) {
-        try {
-          const fixed = jsonStr.replace(/\\(?!["\\/bfnrtu]|u[0-9a-fA-F]{4})/g, '\\\\');
-          return JSON.parse(fixed);
-        } catch (e2) {
-          return null;
-        }
-      }
-    }
-
-    function escapeJs(str) {
-      if (!str) return "";
-      return String(str).replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/"/g, '&quot;');
-    }
-
-    function escapeHtml(str) {
-      if (!str) return "";
-      return String(str)
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;')
-        .replace(/'/g, '&#039;');
-    }
-
-    async function generateQuiz() {
-      const examEl = document.getElementById('quiz-target-exam');
-      const examText = examEl ? examEl.options[examEl.selectedIndex].text : 'Competitive Exam';
-      const sub = document.getElementById('quiz-subject').value.trim();
-      const ch = document.getElementById('quiz-chapter').value.trim();
-      const diff = document.getElementById('quiz-difficulty').value;
-      if (!sub || !ch) return alert('Please enter both Subject and Chapter / Topic!');
-      
-      const container = document.getElementById('quiz-container');
-      container.style.display = 'block';
-      container.innerHTML = `
-        <div class="section-card" style="text-align:center; padding:40px 20px;">
-          <span style="font-size:2.8rem; display:inline-block; animation:bounce 1.5s infinite;">⚡</span>
-          <h3 style="margin-top:12px; color:var(--accent-pastel); font-size:1.15rem;">Analyzing Topic & Generating Dynamic AI MCQs...</h3>
-          <p style="margin-top:6px; color:var(--text-muted); font-size:0.86rem;">Google Gemini AI is evaluating syllabus complexity and tailoring dynamic questions with mistake analysis for <strong>[${escapeHtml(examText)}] ${escapeHtml(sub)}: ${escapeHtml(ch)}</strong> (${escapeHtml(diff)})</p>
-        </div>
-      `;
-
-      let questions = null;
-      let apiError = "";
-
-      try {
-        // Secure Serverless Backend Call (/api/quiz)
-        // Strictly uses server-side process.env.GEMINI_API_KEY. Zero client keys exposed.
-        const proxyRes = await fetch('/api/quiz', {
-          method: 'POST',
-          headers: { 
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            subject: sub,
-            chapter: ch,
-            difficulty: diff,
-            targetExam: examText
-          })
-        });
-
-        const pData = await proxyRes.json().catch(() => null);
-
-        if (proxyRes.ok && pData && pData.success && Array.isArray(pData.questions) && pData.questions.length >= 1) {
-          questions = normalizeClientQuizQuestions(pData.questions);
-        } else {
-          apiError = (pData && (pData.tip || pData.error)) || `Server returned status ${proxyRes.status}`;
-        }
-      } catch(e) {
-        if (window.location.protocol === 'file:') {
-          apiError = "You opened StudyOS.html directly as a local file (file:///). The backend API route (/api/quiz) runs on Vercel. Please open your live Vercel deployment URL (e.g. https://your-site.vercel.app) to generate real Gemini AI questions!";
-        } else {
-          apiError = `Unable to connect to /api/quiz backend: ${e.message}`;
-        }
-      }
-
-      if (questions && questions.length > 0) {
-        currentQuizQuestions = questions;
-        currentQuizStudentAnswers = {};
-        quizStartTime = Date.now();
-        renderInteractiveQuizArena(sub, ch, questions, examText, diff);
-        if (window.auraCompanion) window.auraCompanion.addXP(30, "Generated AI Quiz");
-      } else {
-        showQuizGenerationError(sub, ch, apiError);
-      }
-    }
-
-    function saveGeminiApiKey() {
-      // Retained for backward compatibility; Gemini API is securely managed via server environment variables
-    }
-
-    function generateSmartFallbackMCQs(sub, ch, examText, diff) {
-      // Hardcoded fallback permanently disabled; questions strictly generated via Gemini AI
-      return null;
-      const s = String(sub || '').toLowerCase().trim();
-      const c = String(ch || '').toLowerCase().trim();
-      const eName = examText || "Target Exam";
-
-      // Physics: Light / Optics / Reflection / Refraction
-      if (c.includes('light') || c.includes('optic') || c.includes('reflect') || c.includes('refract') || c.includes('lens') || c.includes('mirror')) {
-        return [
-          {
-            question: "When a ray of light passes obliquely from an optically denser medium into a rarer medium, how does its propagation change?",
-            options: [
-              "It bends away from the normal and its speed increases",
-              "It bends towards the normal and its speed decreases",
-              "It continues straight without any angular deviation",
-              "It reflects completely back regardless of angle of incidence"
-            ],
-            correct: 0,
-            correct_answer: 0,
-            explanation: "As light enters an optically rarer medium, the wave speed increases, which refracts the ray away from the normal."
-          },
-          {
-            question: "An object is placed at a distance of 20 cm in front of a concave mirror of focal length 15 cm. What is the nature and position of the image formed?",
-            options: [
-              "Real, inverted, and located at v = -60 cm (magnified, m = -3)",
-              "Virtual, erect, and located at v = +60 cm (magnified, m = +3)",
-              "Real, inverted, and located at v = -30 cm (diminished, m = -0.5)",
-              "Virtual, erect, and located at v = +15 cm (diminished, m = +0.5)"
-            ],
-            correct: 0,
-            correct_answer: 0,
-            explanation: "Using the mirror formula 1/f = 1/v + 1/u: 1/(-15) = 1/v - 1/20, which gives v = -60 cm and magnification m = -v/u = -3."
-          },
-          {
-            question: "What is the refractive index of a diamond if the speed of light in vacuum is 3 × 10⁸ m/s and in diamond it is 1.24 × 10⁸ m/s?",
-            options: [
-              "2.42",
-              "1.50",
-              "1.33",
-              "0.41"
-            ],
-            correct: 0,
-            correct_answer: 0,
-            explanation: "Absolute refractive index n = c / v = (3 × 10⁸) / (1.24 × 10⁸) ≈ 2.42."
-          },
-          {
-            question: "Why does the sun appear reddish during early sunrise and late sunset?",
-            options: [
-              "Shorter blue wavelengths scatter away over long atmospheric paths, allowing longer red wavelengths to reach the observer",
-              "Atmospheric air selectively absorbs red wavelengths more than violet",
-              "Total internal reflection inside upper clouds disperses high-energy photons",
-              "Atmospheric refraction completely filters out yellow and orange spectra"
-            ],
-            correct: 0,
-            correct_answer: 0,
-            explanation: "Rayleigh scattering intensity is inversely proportional to λ⁴. Shorter blue light scatters away, leaving red light dominant."
-          },
-          {
-            question: "A convex lens has a focal length of 25 cm (+0.25 m). What is its optical power in dioptres?",
-            options: [
-              "+4.0 D",
-              "-4.0 D",
-              "+0.25 D",
-              "+2.5 D"
-            ],
-            correct: 0,
-            correct_answer: 0,
-            explanation: "Power P = 1 / f (in meters) = 1 / 0.25 = +4.0 Dioptres."
-          }
-        ];
-      }
-
-      // Physics: Electricity / Magnetism / Circuits
-      if (c.includes('electr') || c.includes('circuit') || c.includes('current') || c.includes('magnet') || c.includes('ohm') || c.includes('potential') || c.includes('charge')) {
-        return [
-          {
-            question: "According to Ohm's Law, what remains strictly constant for a metallic conductor kept at constant temperature?",
-            options: [
-              "The ratio of potential difference across its terminals to the electric current flowing through it (V / I)",
-              "The product of potential difference and electric current (V × I)",
-              "The drift speed of electrons regardless of the applied voltage",
-              "The electrical power dissipated per unit volume"
-            ],
-            correct: 0,
-            correct_answer: 0,
-            explanation: "Ohm's Law states V ∝ I under constant temperature, meaning the resistance ratio V / I remains constant."
-          },
-          {
-            question: "Two cylindrical copper wires have identical lengths, but wire B has twice the diameter of wire A. What is the ratio of their resistances (R_A : R_B)?",
-            options: [
-              "4 : 1",
-              "2 : 1",
-              "1 : 2",
-              "1 : 4"
-            ],
-            correct: 0,
-            correct_answer: 0,
-            explanation: "R = ρL/A. Area is proportional to the square of diameter. Doubling diameter quadruples area, making R_A / R_B = 4 : 1."
-          },
-          {
-            question: "Three resistors of 6 Ω, 3 Ω, and 2 Ω are connected in parallel across a 12 V power supply. What is the total current drawn?",
-            options: [
-              "12 A",
-              "6 A",
-              "2 A",
-              "1 A"
-            ],
-            correct: 0,
-            correct_answer: 0,
-            explanation: "1/R_eq = 1/6 + 1/3 + 1/2 = 6/6 = 1 Ω. Total current I = V / R_eq = 12 V / 1 Ω = 12 A."
-          },
-          {
-            question: "Which directional rule determines the magnetic field orientation circling a straight current-carrying wire?",
-            options: [
-              "Right-Hand Thumb Rule",
-              "Fleming's Left-Hand Rule",
-              "Fleming's Right-Hand Rule",
-              "Lenz's Induction Law"
-            ],
-            correct: 0,
-            correct_answer: 0,
-            explanation: "Pointing the right thumb in the current direction curls the fingers along the concentric magnetic field lines."
-          },
-          {
-            question: "An electric heater rated at 1000 W runs for 2 hours every day. How many kilowatt-hours (commercial units) does it consume over 30 days?",
-            options: [
-              "60 kWh",
-              "30 kWh",
-              "120 kWh",
-              "2000 kWh"
-            ],
-            correct: 0,
-            correct_answer: 0,
-            explanation: "Energy = 1 kW × (2 hours/day × 30 days) = 60 kWh."
-          }
-        ];
-      }
-
-      // Chemistry: Reactions, Acids/Bases, Metals, Carbon
-      if (c.includes('acid') || c.includes('base') || c.includes('salt') || c.includes('react') || c.includes('metal') || c.includes('carbon') || c.includes('periodic') || s.includes('chem')) {
-        return [
-          {
-            question: "What distinct gas is liberated when granulated zinc reacts with dilute sulfuric acid?",
-            options: [
-              "Hydrogen gas, which extinguishes a flame with a sharp pop sound",
-              "Sulfur dioxide gas, producing a choking burning odor",
-              "Carbon dioxide gas, which turns lime water milky",
-              "Oxygen gas, which reignites a glowing wooden splint"
-            ],
-            correct: 0,
-            correct_answer: 0,
-            explanation: "Zn + H₂SO₄ → ZnSO₄ + H₂↑. Hydrogen burns explosively on contact with flame, yielding a distinct pop sound."
-          },
-          {
-            question: "Which synthetic indicator changes from colorless to vivid pink in a basic sodium hydroxide solution?",
-            options: [
-              "Phenolphthalein",
-              "Methyl orange",
-              "Litmus solution",
-              "Universal indicator paper"
-            ],
-            correct: 0,
-            correct_answer: 0,
-            explanation: "Phenolphthalein is clear/colorless in acidic and neutral media and turns deep pink in alkaline pH."
-          },
-          {
-            question: "An aqueous solution has a pH of 3. What is its hydronium ion concentration [H₃O⁺]?",
-            options: [
-              "1 × 10⁻³ mol/L",
-              "1 × 10⁻¹¹ mol/L",
-              "3 × 10⁻¹ mol/L",
-              "1 × 10³ mol/L"
-            ],
-            correct: 0,
-            correct_answer: 0,
-            explanation: "By definition, pH = -log₁₀[H⁺], so [H⁺] = 10^(-pH) = 1 × 10⁻³ mol/L."
-          },
-          {
-            question: "Why are alkali metals like sodium and potassium stored submerged under kerosene oil?",
-            options: [
-              "They react vigorously and exothermically with ambient moisture and oxygen",
-              "They dissolve into toxic nitrogen vapors under standard room temperature",
-              "Kerosene prevents catalytic decay of their atomic nuclei",
-              "They sublime rapidly into hazardous fumes when exposed to light"
-            ],
-            correct: 0,
-            correct_answer: 0,
-            explanation: "Sodium reacts vigorously with airborne moisture to form hydrogen gas and heat, catching fire spontaneously in open air."
-          },
-          {
-            question: "Which functional group characterizes ethanoic acid (CH₃COOH)?",
-            options: [
-              "Carboxylic acid group (-COOH)",
-              "Aldehyde group (-CHO)",
-              "Ketone group (-CO-)",
-              "Hydroxyl alcohol group (-OH)"
-            ],
-            correct: 0,
-            correct_answer: 0,
-            explanation: "Ethanoic acid features a terminal carbonyl group bonded to a hydroxyl group, forming a carboxylic acid (-COOH)."
-          }
-        ];
-      }
-
-      // Biology: Life Processes, Genetics, Reproduction, Environment
-      if (c.includes('life') || c.includes('cell') || c.includes('reproduc') || c.includes('hered') || c.includes('genet') || c.includes('plant') || c.includes('digest') || c.includes('respir') || s.includes('bio')) {
-        return [
-          {
-            question: "Which enzyme present in human saliva begins the chemical digestion of dietary carbohydrates?",
-            options: [
-              "Salivary amylase (Ptyalin)",
-              "Pepsin",
-              "Trypsin",
-              "Pancreatic lipase"
-            ],
-            correct: 0,
-            correct_answer: 0,
-            explanation: "Salivary amylase breaks complex starches down into disaccharide maltose in the oral cavity."
-          },
-          {
-            question: "Where in a eukaryotic cell does the aerobic oxidation of pyruvate into carbon dioxide and ATP take place?",
-            options: [
-              "Mitochondrial matrix",
-              "Cytoplasm",
-              "Endoplasmic reticulum",
-              "Nuclear envelope"
-            ],
-            correct: 0,
-            correct_answer: 0,
-            explanation: "Glycolysis occurs in the cytoplasm, whereas pyruvate decarboxylation and the citric acid cycle occur in mitochondria."
-          },
-          {
-            question: "What phenotypic ratio is observed in the F₂ generation of Mendel's monohybrid cross between homozygous tall and dwarf pea plants?",
-            options: [
-              "3 Tall : 1 Dwarf",
-              "1 Tall : 2 Intermediate : 1 Dwarf",
-              "9 : 3 : 3 : 1",
-              "1 Tall : 1 Dwarf"
-            ],
-            correct: 0,
-            correct_answer: 0,
-            explanation: "The cross produces genotypes 1 TT : 2 Tt : 1 tt, which phenotypically manifests as 3 tall to 1 dwarf."
-          },
-          {
-            question: "Which cellular elements in human blood form a coagulating plug to halt bleeding at wound sites?",
-            options: [
-              "Platelets (Thrombocytes)",
-              "Erythrocytes (Red blood cells)",
-              "Leukocytes (White blood cells)",
-              "Blood serum antibodies"
-            ],
-            correct: 0,
-            correct_answer: 0,
-            explanation: "Platelets release thromboplastin to trigger the coagulation cascade, creating a protective fibrin mesh."
-          },
-          {
-            question: "According to Lindeman's trophic efficiency rule, what percentage of chemical energy is typically transferred to the next higher feeding level in a food chain?",
-            options: [
-              "Approximately 10%",
-              "Approximately 50%",
-              "Approximately 90%",
-              "100% due to energy conservation"
-            ],
-            correct: 0,
-            correct_answer: 0,
-            explanation: "Only about 10% of ingested energy is converted into biomass available for the subsequent consumer level."
-          }
-        ];
-      }
-
-      // Mathematics: Algebra, Trigonometry, Geometry, Statistics
-      if (c.includes('trig') || c.includes('quadrat') || c.includes('calcul') || c.includes('geometr') || c.includes('equat') || c.includes('arith') || s.includes('math')) {
-        return [
-          {
-            question: "For a standard quadratic equation ax² + bx + c = 0 to possess two distinct real roots, what condition must its discriminant (D) meet?",
-            options: [
-              "D = b² - 4ac > 0",
-              "D = b² - 4ac = 0",
-              "D = b² - 4ac < 0",
-              "D = b² + 4ac = 0"
-            ],
-            correct: 0,
-            correct_answer: 0,
-            explanation: "When b² - 4ac > 0, the quadratic formula yields two distinct real solutions."
-          },
-          {
-            question: "What is the evaluated numerical value of the trigonometric expression (sin² 45° + cos² 45°) + tan 45°?",
-            options: [
-              "2",
-              "1",
-              "√2",
-              "0.5"
-            ],
-            correct: 0,
-            correct_answer: 0,
-            explanation: "Using sin²θ + cos²θ = 1 and tan 45° = 1: the sum is 1 + 1 = 2."
-          },
-          {
-            question: "In an Arithmetic Progression with first term a = 4 and common difference d = 3, what is the 12th term (a₁₂)?",
-            options: [
-              "37",
-              "40",
-              "36",
-              "33"
-            ],
-            correct: 0,
-            correct_answer: 0,
-            explanation: "a₁₂ = a + (12 - 1)d = 4 + 11 × 3 = 4 + 33 = 37."
-          },
-          {
-            question: "What is the straight-line distance between the coordinate points (1, 2) and (4, 6)?",
-            options: [
-              "5 units",
-              "7 units",
-              "√7 units",
-              "25 units"
-            ],
-            correct: 0,
-            correct_answer: 0,
-            explanation: "Distance d = √[(4 - 1)² + (6 - 2)²] = √[3² + 4²] = √[9 + 16] = 5 units."
-          },
-          {
-            question: "When rolling a fair standard six-sided die, what is the probability of rolling a prime number?",
-            options: [
-              "1/2",
-              "1/3",
-              "2/3",
-              "1/6"
-            ],
-            correct: 0,
-            correct_answer: 0,
-            explanation: "Prime numbers on a die are 2, 3, and 5 (3 favorable outcomes out of 6 possible). P = 3/6 = 1/2."
-          }
-        ];
-      }
-
-      // Universal Fallback for any other custom topic: completely distinct question styles
-      const cleanSub = sub || "Subject";
-      const cleanCh = ch || "Topic";
-      return [
-        {
-          question: `Which fundamental principle serves as the primary theoretical foundation when analyzing ${cleanCh}?`,
-          options: [
-            `Conservation of foundational parameters under clearly defined boundary conditions`,
-            `Uncontrolled spontaneous creation of energy without thermodynamic limits`,
-            `Complete independence from empirical observation and mathematical proof`,
-            `Continuous divergence of key variables away from steady-state stability`
-          ],
-          correct: 0,
-          correct_answer: 0,
-          explanation: `In ${cleanSub}, understanding ${cleanCh} relies on established conservation laws and physical equilibrium principles.`
-        },
-        {
-          question: `If the primary input parameter governing ${cleanCh} is varied systematically, what predictable response is observed?`,
-          options: [
-            `The system responds predictably according to the governing proportionality relation`,
-            `The response fluctuates with complete unpredictability and no causal connection`,
-            `All system interactions instantly extinguish regardless of external energy`,
-            `The output remains invariant because the variable has no physical influence`
-          ],
-          correct: 0,
-          correct_answer: 0,
-          explanation: `Systematic variation of governing parameters in ${cleanCh} produces reproducible responses aligned with underlying formulas.`
-        },
-        {
-          question: `During an experimental investigation or quantitative analysis of ${cleanCh}, which key condition must be fulfilled to prevent measurement error?`,
-          options: [
-            `Controlling secondary environmental variables and maintaining standard calibration`,
-            `Neglecting zero-error adjustments and ignoring ambient temperature shifts`,
-            `Assuming all real-world components behave with infinite mathematical precision`,
-            `Taking only a single unverified data point without repeating trials`
-          ],
-          correct: 0,
-          correct_answer: 0,
-          explanation: `Rigorous analysis of ${cleanCh} mandates isolating independent variables and calibrating baseline measuring instruments.`
-        },
-        {
-          question: `How is the conceptual framework of ${cleanCh} practically utilized in real-world technology or problem-solving?`,
-          options: [
-            `To design efficient systems, predict behavioral outcomes, and optimize performance`,
-            `To intentionally increase unwanted parasitic losses and system friction`,
-            `To circumvent natural conservation laws in mechanical cycles`,
-            `To introduce unmonitored random variance into industrial operations`
-          ],
-          correct: 0,
-          correct_answer: 0,
-          explanation: `The practical utility of ${cleanCh} lies in leveraging its predictive relations to optimize operational efficiency.`
-        },
-        {
-          question: `What distinguishes a rigorous, accurate interpretation of ${cleanCh} from a common student misconception?`,
-          options: [
-            `Recognizing boundary limits and using precise units rather than superficial intuition`,
-            `Assuming qualitative rules hold universally without mathematical constraints`,
-            `Discarding dimensional consistency when calculating numerical outputs`,
-            `Confusing instantaneous rates of change with cumulative total quantities`
-          ],
-          correct: 0,
-          correct_answer: 0,
-          explanation: `Mastery of ${cleanCh} requires verifying dimensional consistency and recognizing the boundary conditions of the formulation.`
-        }
-      ];
-    }
-
-    function showQuizGenerationError(sub, ch, errorDetail = "") {
-      const container = document.getElementById('quiz-container');
-      if (!container) return;
-      container.innerHTML = `
-        <div class="section-card" style="text-align:center; padding:35px 20px; border-color:var(--danger-red);">
-          <span style="font-size:2.5rem; display:inline-block; margin-bottom:10px;">⚠️</span>
-          <h3 style="color:var(--danger-red); font-size:1.2rem; margin-bottom:8px;">AI Quiz Generation Notice</h3>
-          <p style="color:var(--text-muted); font-size:0.9rem; max-width:550px; margin:0 auto 14px auto; line-height:1.5;">
-            Could not generate dynamic MCQs with Gemini AI for <strong>${escapeHtml(sub)}: ${escapeHtml(ch)}</strong>.
-          </p>
-          ${errorDetail ? `
-            <div style="background:rgba(239,68,68,0.12); border:1px solid rgba(239,68,68,0.3); border-radius:10px; padding:14px 18px; max-width:550px; margin:0 auto 18px auto; text-align:left; font-size:0.86rem; color:#fca5a5; line-height:1.55;">
-              <strong>ℹ️ Diagnostic Notice:</strong><br>${escapeHtml(errorDetail)}
-            </div>
-          ` : ''}
-          <div style="display:flex; justify-content:center; gap:10px; flex-wrap:wrap;">
-            <button class="btn-primary" onclick="generateQuiz()" style="padding:10px 22px;">🔄 Retry Quiz Generation</button>
-          </div>
-        </div>
-      `;
-    }
-
-    function renderInteractiveQuizArena(sub, ch, questions, examText = "", diff = "standard") {
-      const container = document.getElementById('quiz-container');
-      const headerExamBadge = examText ? `<span class="tag-badge" style="background:rgba(192,132,252,0.2); color:var(--accent-pastel); font-weight:700; margin-right:6px;">${examText}</span>` : '';
-      const diffBadge = `<span class="tag-badge" style="background:rgba(251,191,36,0.15); color:var(--gold-accent); font-weight:600; text-transform:capitalize;">${diff}</span>`;
-      
-      let html = `
-        <div class="section-card">
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:18px; flex-wrap:wrap; gap:10px;">
-            <div>
-              <h3 style="font-family:'Playfair Display', serif; color:var(--accent-pastel); font-size:1.35rem;">
-                🎯 ${headerExamBadge}Practice Arena: ${sub} (${ch})
-              </h3>
-              <p style="color:var(--text-muted); font-size:0.85rem; margin-top:2px;">
-                Select your answers for all 4-option MCQs and submit to evaluate your marks and review step-by-step solutions.
-              </p>
-            </div>
-            <div style="display:flex; gap:8px; align-items:center;">
-              ${diffBadge}
-              <span class="tag-badge" style="background:rgba(52,211,153,0.15); color:#34d399; font-weight:700;">${questions.length} Dynamic AI MCQs</span>
-            </div>
-          </div>
-      `;
-
-      questions.forEach((q, qIdx) => {
-        const qStatement = q.question || q.q || `Question Statement`;
-        const optionsList = Array.isArray(q.options) ? q.options : [];
-        
-        html += `
-          <div class="quiz-card" id="quiz-card-${qIdx}">
-            <h4 style="margin-bottom:14px; font-size:0.98rem; line-height:1.5; color:var(--text-main);">
-              <span style="color:var(--accent-pastel); font-weight:700; margin-right:4px;">Q${qIdx + 1}.</span> ${qStatement}
-            </h4>
-            <div style="display:grid; grid-template-columns:1fr; gap:9px;">
-              ${optionsList.map((opt, optIdx) => {
-                const optLetter = String.fromCharCode(65 + optIdx);
-                return `
-                  <button class="quiz-option-btn" id="opt-btn-${qIdx}-${optIdx}" onclick="selectQuizMCQ(${qIdx}, ${optIdx})" style="display:flex; align-items:flex-start; gap:10px; line-height:1.4;">
-                    <span style="font-weight:700; color:var(--accent-pastel); min-width:20px;">${optLetter}.</span>
-                    <span style="flex:1;">${opt}</span>
-                  </button>
-                `;
-              }).join('')}
-            </div>
-            <div id="quiz-explain-${qIdx}" style="display:none; margin-top:14px; padding:14px; border-radius:12px;"></div>
-          </div>
-        `;
-      });
-
-      html += `
-          <button class="btn-primary" id="submit-quiz-btn" style="width:100%; padding:14px; font-size:1rem; margin-top:12px; font-weight:700;" onclick="submitQuizForEvaluation('${escapeJs(sub)}', '${escapeJs(ch)}')">
-            Submit Quiz & Calculate Marks 🚀
-          </button>
-        </div>
-      `;
-
-      container.innerHTML = html;
-    }
-
-    function selectQuizMCQ(qIdx, optIdx) {
-      currentQuizStudentAnswers[qIdx] = optIdx;
-      const card = document.getElementById(`quiz-card-${qIdx}`);
-      if (!card) return;
-      card.querySelectorAll('.quiz-option-btn').forEach((btn, idx) => {
-        if (idx === optIdx) {
-          btn.style.borderColor = 'var(--accent-pastel)';
-          btn.style.background = 'rgba(192,132,252,0.22)';
-          btn.style.boxShadow = '0 0 10px rgba(192,132,252,0.25)';
-        } else {
-          btn.style.borderColor = 'var(--card-border)';
-          btn.style.background = 'rgba(255,255,255,0.06)';
-          btn.style.boxShadow = 'none';
-        }
-      });
-    }
-
-    function submitQuizForEvaluation(sub, ch) {
-      let correctCount = 0;
-      const totalCount = currentQuizQuestions.length;
-      const elapsedSecs = quizStartTime ? Math.round((Date.now() - quizStartTime) / 1000) : 0;
-
-      currentQuizQuestions.forEach((q, qIdx) => {
-        const selected = currentQuizStudentAnswers[qIdx];
-        const isCorrect = selected === q.correct;
-        if (isCorrect) correctCount++;
-
-        const card = document.getElementById(`quiz-card-${qIdx}`);
-        const explainBox = document.getElementById(`quiz-explain-${qIdx}`);
-        
-        if (card) {
-          card.querySelectorAll('.quiz-option-btn').forEach((btn, idx) => {
-            btn.disabled = true;
-            btn.style.cursor = 'default';
-            if (idx === q.correct) {
-              btn.classList.add('selected-correct');
-              btn.style.background = 'rgba(52, 211, 153, 0.25)';
-              btn.style.borderColor = '#34d399';
-              btn.style.color = '#6ee7b7';
-            }
-            if (idx === selected && idx !== q.correct) {
-              btn.classList.add('selected-wrong');
-              btn.style.background = 'rgba(239, 68, 68, 0.25)';
-              btn.style.borderColor = '#ef4444';
-              btn.style.color = '#fca5a5';
-            }
-          });
-        }
-
-        if (explainBox) {
-          explainBox.style.display = 'block';
-          if (isCorrect) {
-            explainBox.style.background = 'rgba(52, 211, 153, 0.15)';
-            explainBox.style.border = '1px solid #34d399';
-            explainBox.innerHTML = `
-              <div style="display:flex; align-items:center; gap:8px; margin-bottom:6px;">
-                <strong style="color:#34d399; font-size:0.95rem;">✓ Correct (+4 Marks)</strong>
-              </div>
-              <p style="font-size:0.86rem; color:var(--text-main); line-height:1.45;"><strong>Explanation:</strong> ${q.explanation}</p>
-              ${q.key_takeaway ? `<div style="margin-top:8px; padding:8px 12px; background:rgba(52,211,153,0.12); border-radius:8px; font-size:0.83rem; color:#6ee7b7;"><strong>💡 Golden Rule / Key Takeaway:</strong> ${q.key_takeaway}</div>` : ''}
-            `;
-          } else {
-            explainBox.style.background = 'rgba(239, 68, 68, 0.12)';
-            explainBox.style.border = '1px solid #ef4444';
-            explainBox.innerHTML = `
-              <div style="margin-bottom:6px;">
-                <strong style="color:#fca5a5; font-size:0.95rem;">✕ Incorrect (Your choice: ${selected !== undefined ? String.fromCharCode(65 + selected) : 'Unattempted'} • Correct: ${String.fromCharCode(65 + q.correct)})</strong>
-              </div>
-              <div style="margin-bottom:8px; font-size:0.86rem; color:var(--text-main); line-height:1.45;">
-                <strong>✓ Step-by-Step Solution:</strong> ${q.explanation}
-              </div>
-              ${q.mistake_analysis ? `
-              <div style="margin-bottom:8px; padding:10px 12px; background:rgba(239,68,68,0.16); border-left:3px solid #ef4444; border-radius:6px; font-size:0.84rem; color:#fca5a5; line-height:1.45;">
-                <strong>🧠 AI Tutor Mistake Analysis:</strong> ${q.mistake_analysis}
-              </div>` : ''}
-              ${q.key_takeaway ? `
-              <div style="margin-bottom:10px; padding:8px 12px; background:rgba(251,191,36,0.12); border-left:3px solid #f59e0b; border-radius:6px; font-size:0.84rem; color:#fcd34d; line-height:1.45;">
-                <strong>💡 Golden Rule / Key Takeaway:</strong> ${q.key_takeaway}
-              </div>` : ''}
-              <div style="display:flex; gap:8px; margin-top:10px; flex-wrap:wrap;">
-                <button class="btn-primary" style="font-size:0.75rem; padding:6px 14px; background:rgba(239,68,68,0.35); border:1px solid rgba(239,68,68,0.5);" onclick="saveDirectToMistakeVault('${escapeJs(sub)}', '${escapeJs(q.question || q.q)}', '${escapeJs(q.explanation)}', '${escapeJs(q.mistake_analysis || '')}')">📖 Save to Mistake Vault</button>
-                <button class="btn-primary" style="font-size:0.75rem; padding:6px 14px;" onclick="openAIDoubtChat('${escapeJs(sub)}', '${escapeJs(q.question || q.q)}')">💬 Ask AI Study Mentor to Clarify</button>
-              </div>
-            `;
-          }
-        }
-      });
-
-      const accuracy = Math.round((correctCount / totalCount) * 100);
-      const totalMarks = totalCount * 4;
-      const scoreMarks = (correctCount * 4) - ((totalCount - correctCount) * 1); // standard +4 / -1
-      const finalMarks = Math.max(0, scoreMarks);
-
-      const submitBtn = document.getElementById('submit-quiz-btn');
-      if (submitBtn) {
-        submitBtn.innerHTML = `🎉 Marks: ${correctCount}/${totalCount} (${accuracy}%) [Score: ${finalMarks}/${totalMarks}] • Time: ${elapsedSecs}s (+40 XP)`;
-        submitBtn.disabled = true;
-      }
-
-      if (accuracy >= 70 && typeof confetti === 'function') {
-        confetti({ particleCount: 130, spread: 80, origin: { y: 0.6 } });
-      }
-      if (window.auraCompanion) window.auraCompanion.addXP(40, "Completed Quiz");
-    }
-
-    function saveDirectToMistakeVault(sub, qText, explanation, mistakeAnalysis = "") {
-      let errors = JSON.parse(localStorage.getItem('error_log_data')) || [];
-      const fullDesc = mistakeAnalysis 
-        ? `Q: ${qText} ➔ Correct Solution: ${explanation} | 🧠 AI Mistake Analysis: ${mistakeAnalysis}`
-        : `Q: ${qText} ➔ Correct Solution: ${explanation}`;
-      errors.push({
-        id: Date.now(),
-        sub: sub,
-        tag: "AI Quiz Mistake",
-        desc: fullDesc,
-        resolved: false
-      });
-      localStorage.setItem('error_log_data', JSON.stringify(errors));
-      if (window.auraCompanion) window.auraCompanion.addXP(15, "Logged Mistake");
-      alert("📖 Saved to your Mistake Vault! Review it anytime under the Mistake Vault tab.");
-    }
-
-    async function openAIDoubtChat(sub, questionContext) {
-      const doubt = prompt(`💬 AI Tutor Doubt Solver for [${sub}]:\nWhat concept or step did you find confusing?`, "Can you explain this concept in simple steps with an easy analogy?");
-      if (!doubt) return;
-
-      try {
-        let reply = "";
-
-        // Primary: Secure Serverless Backend /api/quiz (Uses server-side environment variables)
-        try {
-          const proxyRes = await fetch('/api/quiz', {
-            method: 'POST',
-            headers: { 
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-              action: 'chat_doubt',
-              subject: sub,
-              chapter: sub,
-              targetExam: 'General',
-              userDoubt: `Context: ${questionContext}\nStudent Question: ${doubt}`
-            })
-          });
-          if (proxyRes.ok) {
-            const data = await proxyRes.json();
-            if (data.reply) reply = data.reply;
-          }
-        } catch(e) {}
-
-        if (reply) {
-          alert(`💡 AI Study Mentor Explanation:\n\n${reply}`);
-        } else {
-          alert(`💡 Concept Tip for [${sub}]:\n1. Identify the fundamental formula and known variables.\n2. Watch for typical exam traps: sign conventions and standard SI units.\n3. Follow the step-by-step solution to master the logic!`);
-        }
-      } catch(err) {
-        alert(`💡 Concept Tip for [${sub}]:\n1. Identify the fundamental formula and known variables.\n2. Watch for typical exam traps: sign conventions and standard SI units.\n3. Follow the step-by-step solution to master the logic!`);
       }
     }
 
@@ -6276,6 +6341,287 @@
       }
     }
 
+    /* =========================================================
+       CUSTOM AMBIENT SOUNDS: INDEXEDDB PERSISTENCE ENGINE
+       ========================================================= */
+    const AuraCustomSoundStorage = {
+      dbName: 'AuraSpaceAudioDB',
+      dbVersion: 1,
+      storeName: 'custom_sounds',
+      db: null,
+
+      openDB() {
+        return new Promise((resolve, reject) => {
+          if (this.db) return resolve(this.db);
+          if (typeof indexedDB === 'undefined') {
+            return reject(new Error('IndexedDB is not supported in this browser environment.'));
+          }
+          const request = indexedDB.open(this.dbName, this.dbVersion);
+          request.onupgradeneeded = (e) => {
+            const db = e.target.result;
+            if (!db.objectStoreNames.contains(this.storeName)) {
+              db.createObjectStore(this.storeName, { keyPath: 'id' });
+            }
+          };
+          request.onsuccess = (e) => {
+            this.db = e.target.result;
+            resolve(this.db);
+          };
+          request.onerror = (e) => {
+            console.error('AuraCustomSoundStorage openDB error:', e.target.error);
+            reject(e.target.error);
+          };
+        });
+      },
+
+      async getAllSounds() {
+        try {
+          const db = await this.openDB();
+          return new Promise((resolve, reject) => {
+            const tx = db.transaction(this.storeName, 'readonly');
+            const store = tx.objectStore(this.storeName);
+            const req = store.getAll();
+            req.onsuccess = () => {
+              const list = req.result || [];
+              list.sort((a, b) => (b.dateAdded || 0) - (a.dateAdded || 0));
+              resolve(list);
+            };
+            req.onerror = () => reject(req.error);
+          });
+        } catch (err) {
+          console.warn('AuraCustomSoundStorage getAllSounds error:', err);
+          return [];
+        }
+      },
+
+      async getSound(id) {
+        try {
+          const db = await this.openDB();
+          return new Promise((resolve, reject) => {
+            const tx = db.transaction(this.storeName, 'readonly');
+            const store = tx.objectStore(this.storeName);
+            const req = store.get(id);
+            req.onsuccess = () => resolve(req.result || null);
+            req.onerror = () => reject(req.error);
+          });
+        } catch (err) {
+          console.warn('AuraCustomSoundStorage getSound error:', err);
+          return null;
+        }
+      },
+
+      async saveSound(soundObj) {
+        try {
+          const db = await this.openDB();
+          return new Promise((resolve, reject) => {
+            const tx = db.transaction(this.storeName, 'readwrite');
+            const store = tx.objectStore(this.storeName);
+            const req = store.put(soundObj);
+            req.onsuccess = () => resolve(true);
+            req.onerror = () => reject(req.error);
+          });
+        } catch (err) {
+          console.error('AuraCustomSoundStorage saveSound error:', err);
+          throw err;
+        }
+      },
+
+      async deleteSound(id) {
+        try {
+          const db = await this.openDB();
+          return new Promise((resolve, reject) => {
+            const tx = db.transaction(this.storeName, 'readwrite');
+            const store = tx.objectStore(this.storeName);
+            const req = store.delete(id);
+            req.onsuccess = () => resolve(true);
+            req.onerror = () => reject(req.error);
+          });
+        } catch (err) {
+          console.error('AuraCustomSoundStorage deleteSound error:', err);
+          throw err;
+        }
+      }
+    };
+
+    function formatCustomAudioSize(bytes) {
+      if (!bytes || isNaN(bytes)) return '0 KB';
+      if (bytes < 1024 * 1024) {
+        return (bytes / 1024).toFixed(1) + ' KB';
+      }
+      return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+    }
+
+    async function handleCustomSoundUpload(event) {
+      const file = event.target.files && event.target.files[0];
+      if (!file) return;
+
+      const isAudio = file.type.startsWith('audio/') || /\.(mp3|wav|ogg|m4a|aac|flac|wma)$/i.test(file.name);
+      if (!isAudio) {
+        alert("Please select a valid audio file (e.g. MP3, WAV, AAC, M4A, OGG).");
+        event.target.value = '';
+        return;
+      }
+
+      if (file.size > 120 * 1024 * 1024) {
+        if (!confirm(`This audio file is ${(file.size / (1024 * 1024)).toFixed(1)} MB. Large files may consume substantial device storage. Do you want to proceed?`)) {
+          event.target.value = '';
+          return;
+        }
+      }
+
+      const cleanName = file.name.replace(/\.[^/.]+$/, "").trim() || "Custom Audio Track";
+      const soundId = 'cs_' + Date.now() + '_' + Math.random().toString(36).substring(2, 6);
+
+      const soundRecord = {
+        id: soundId,
+        name: cleanName,
+        fileName: file.name,
+        type: file.type || 'audio/mpeg',
+        size: file.size,
+        dateAdded: Date.now(),
+        loop: true,
+        blob: file
+      };
+
+      try {
+        await AuraCustomSoundStorage.saveSound(soundRecord);
+        event.target.value = '';
+        await renderCustomSoundsUI();
+        await toggleCustomSoundPlay(soundId);
+      } catch (err) {
+        alert("Failed to save audio to storage: " + (err.message || err));
+      }
+    }
+
+    async function toggleCustomSoundPlay(id) {
+      if (!window.auraAudio) return;
+      if (window.auraAudio.isPlaying && window.auraAudio.isCustom && window.auraAudio.customSoundId === id) {
+        window.auraAudio.stop();
+        updateAudioUI();
+        return;
+      }
+
+      try {
+        const sound = await AuraCustomSoundStorage.getSound(id);
+        if (!sound) {
+          alert("Audio track not found in storage.");
+          await renderCustomSoundsUI();
+          return;
+        }
+
+        window.auraAudio.playCustomSound(sound.id, sound.name, sound.blob, sound.loop !== false);
+        updateAudioUI();
+      } catch (err) {
+        console.error("Error playing custom sound:", err);
+      }
+    }
+
+    async function toggleCustomSoundLoop(id, event) {
+      if (event) event.stopPropagation();
+      try {
+        const sound = await AuraCustomSoundStorage.getSound(id);
+        if (!sound) return;
+        sound.loop = !sound.loop;
+        await AuraCustomSoundStorage.saveSound(sound);
+        if (window.auraAudio && window.auraAudio.isCustom && window.auraAudio.customSoundId === id) {
+          window.auraAudio.setCustomLoop(sound.loop);
+        }
+        await renderCustomSoundsUI();
+        updateAudioUI();
+      } catch (err) {
+        console.error("Error toggling loop:", err);
+      }
+    }
+
+    async function deleteCustomSound(id, event) {
+      if (event) event.stopPropagation();
+      if (!confirm("Are you sure you want to remove this custom sound track?")) return;
+
+      if (window.auraAudio && window.auraAudio.isCustom && window.auraAudio.customSoundId === id) {
+        window.auraAudio.stop();
+      }
+
+      try {
+        await AuraCustomSoundStorage.deleteSound(id);
+        await renderCustomSoundsUI();
+        updateAudioUI();
+      } catch (err) {
+        console.error("Error deleting custom sound:", err);
+      }
+    }
+
+    async function renderCustomSoundsUI() {
+      const grid = document.getElementById('custom-sounds-grid');
+      const countBadge = document.getElementById('custom-sounds-count-badge');
+      if (!grid) return;
+
+      try {
+        const sounds = await AuraCustomSoundStorage.getAllSounds();
+        if (countBadge) {
+          countBadge.innerText = `${sounds.length} ${sounds.length === 1 ? 'Track' : 'Tracks'}`;
+        }
+
+        if (sounds.length === 0) {
+          grid.innerHTML = `
+            <div style="grid-column: 1 / -1; text-align:center; padding:28px 16px; border:2px dashed var(--card-border); border-radius:14px; background:rgba(255,255,255,0.02);">
+              <div style="font-size:2.2rem; margin-bottom:8px;">🎧</div>
+              <div style="font-weight:600; font-size:1rem; margin-bottom:4px; color:var(--text-main);">No custom audio tracks uploaded yet</div>
+              <div style="font-size:0.8rem; color:var(--text-muted); margin-bottom:14px; max-width:440px; margin-left:auto; margin-right:auto;">
+                Upload your preferred study music, relaxing lofi beats, rain sounds, or white noise files from your device.
+              </div>
+              <button class="btn-primary btn-outline" style="padding:7px 16px; font-size:0.84rem; border-radius:8px; cursor:pointer;" onclick="document.getElementById('custom-sound-file-input').click()">
+                <span>➕ Choose Audio File (MP3, WAV, AAC, M4A)</span>
+              </button>
+            </div>
+          `;
+          return;
+        }
+
+        const currentlyPlayingId = (window.auraAudio && window.auraAudio.isPlaying && window.auraAudio.isCustom) ? window.auraAudio.customSoundId : null;
+
+        grid.innerHTML = sounds.map(sound => {
+          const isPlayingThis = currentlyPlayingId === sound.id;
+          const activeClass = isPlayingThis ? ' active-sound' : '';
+          const loopActive = sound.loop !== false;
+          const safeName = (sound.name || 'Custom Track').replace(/"/g, '&quot;');
+
+          return `
+            <div class="sound-card-item${activeClass}" id="snd-card-custom_${sound.id}" style="display:flex; flex-direction:column; align-items:stretch; gap:10px; padding:14px;">
+              <div style="display:flex; align-items:center; justify-content:space-between; gap:10px;">
+                <div style="display:flex; align-items:center; gap:10px; overflow:hidden; flex:1; cursor:pointer;" onclick="toggleCustomSoundPlay('${sound.id}')">
+                  <span style="font-size:1.5rem; flex-shrink:0;">🎵</span>
+                  <div style="overflow:hidden; flex:1;">
+                    <strong style="display:block; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; font-size:0.92rem;" title="${safeName}">${safeName}</strong>
+                    <div style="font-size:0.75rem; color:var(--text-muted); display:flex; gap:6px; margin-top:2px;">
+                      <span>${formatCustomAudioSize(sound.size)}</span>
+                      <span>•</span>
+                      <span>${sound.type ? sound.type.split('/')[1]?.toUpperCase() || 'AUDIO' : 'AUDIO'}</span>
+                    </div>
+                  </div>
+                </div>
+                <button class="btn-primary custom-sound-play-btn" id="custom-play-btn-${sound.id}" style="padding:6px 12px; font-size:0.82rem; min-width:38px; border-radius:8px; flex-shrink:0;" onclick="toggleCustomSoundPlay('${sound.id}')" title="${isPlayingThis ? 'Pause' : 'Play'}">
+                  ${isPlayingThis ? '⏸' : '▶'}
+                </button>
+              </div>
+
+              <div style="display:flex; justify-content:space-between; align-items:center; border-top:1px solid rgba(255,255,255,0.06); padding-top:8px; font-size:0.75rem;">
+                <button type="button" onclick="toggleCustomSoundLoop('${sound.id}', event)" style="background:${loopActive ? 'rgba(192,132,252,0.15)' : 'rgba(255,255,255,0.04)'}; border:1px solid ${loopActive ? 'var(--accent-pastel)' : 'transparent'}; cursor:pointer; font-size:0.75rem; color:${loopActive ? 'var(--accent-pastel)' : 'var(--text-muted)'}; display:inline-flex; align-items:center; gap:4px; padding:3px 8px; border-radius:6px; font-weight:${loopActive ? '600' : 'normal'};" title="Toggle audio loop">
+                  <span>🔁</span>
+                  <span>Loop: ${loopActive ? 'ON' : 'OFF'}</span>
+                </button>
+                <button type="button" onclick="deleteCustomSound('${sound.id}', event)" style="background:none; border:none; cursor:pointer; color:#ef4444; font-size:0.75rem; display:inline-flex; align-items:center; gap:4px; padding:3px 8px; border-radius:6px;" title="Delete this sound">
+                  <span>🗑️</span>
+                  <span>Delete</span>
+                </button>
+              </div>
+            </div>
+          `;
+        }).join('');
+      } catch (err) {
+        console.error("renderCustomSoundsUI error:", err);
+      }
+    }
+
     function playAuraSound(presetKey) {
       if (window.auraAudio) {
         window.auraAudio.playPreset(presetKey);
@@ -6299,6 +6645,9 @@
       const isPlaying = window.auraAudio.isPlaying;
       const preset = window.auraAudio.currentPreset;
       const isMuted = window.auraAudio.isMuted;
+      const isCustom = window.auraAudio.isCustom;
+      const customSoundName = window.auraAudio.customSoundName;
+      const customSoundId = window.auraAudio.customSoundId;
       const statusText = document.getElementById('ambient-status-text');
       const eqBars = document.getElementById('top-eq-bars');
       const title = document.getElementById('current-sound-title');
@@ -6306,12 +6655,25 @@
 
       // Update sound card styles
       document.querySelectorAll('.sound-card-item').forEach(el => el.classList.remove('active-sound'));
+      document.querySelectorAll('.custom-sound-play-btn').forEach(btn => btn.innerText = '▶');
+
       if (isPlaying && preset && !isMuted) {
         const activeCard = document.getElementById(`snd-card-${preset}`);
         if (activeCard) activeCard.classList.add('active-sound');
-        if (statusText) statusText.innerText = `🎵 ${preset.toUpperCase()}`;
+
+        if (isCustom && customSoundId) {
+          const customPlayBtn = document.getElementById(`custom-play-btn-${customSoundId}`);
+          if (customPlayBtn) customPlayBtn.innerText = '⏸';
+          const displayTitle = customSoundName || 'Custom Track';
+          if (statusText) statusText.innerText = `🎵 ${displayTitle}`;
+          if (title) title.innerText = `🎵 ${displayTitle}`;
+        } else {
+          const displayTitle = preset.toUpperCase().replace('_', ' ');
+          if (statusText) statusText.innerText = `🎵 ${displayTitle}`;
+          if (title) title.innerText = displayTitle;
+        }
+
         if (eqBars) eqBars.classList.add('playing');
-        if (title) title.innerText = preset.toUpperCase().replace('_', ' ');
         if (muteBtn) muteBtn.innerText = "🔇 Mute";
       } else {
         if (statusText) statusText.innerText = '🎵 Sounds: Off';
@@ -6362,6 +6724,12 @@
         if (sidebar) sidebar.classList.remove('hidden-on-dashboard');
       }
 
+            // Sync Mobile Bottom Navigation Active State
+      document.querySelectorAll('.mobile-nav-item').forEach(el => el.classList.remove('active'));
+      const mobNavKey = (tabId === 'soundscapes') ? 'sounds' : tabId;
+      const activeMobItem = document.getElementById('mob-nav-' + mobNavKey);
+      if (activeMobItem) activeMobItem.classList.add('active');
+
       const target = document.getElementById('tab-' + tabId);
       if (target) {
         target.classList.add('active');
@@ -6378,7 +6746,10 @@
           renderDailyThoughtUI();
         }
         if (tabId === 'companion' && window.auraCompanion) window.auraCompanion.render();
-        if (tabId === 'soundscapes') updateAudioUI();
+        if (tabId === 'soundscapes') {
+          if (typeof renderCustomSoundsUI === 'function') renderCustomSoundsUI();
+          updateAudioUI();
+        }
         if (tabId === 'tracker') loadActiveExamSyllabus();
         if (tabId === 'spaced-rep') renderSpacedRepetition();
         if (tabId === 'analytics') {
@@ -6949,7 +7320,6 @@
         navSpacedRep: "Spaced Repetition 👑",
         navAnalytics: "Study & Mock Analytics",
         navMistakeVault: "Mistake Vault & Fixer",
-        navQuiz: "AI Study Quiz Arena",
         navTodo: "Focus Checklist",
         navCalendar: "Dynamic Calendar",
         navTimer: "Stopwatch & Timer",
@@ -6960,10 +7330,6 @@
         navTrash: "Recycle Bin",
         navSettings: "Settings & Security",
         premiumPill: "Premium",
-        quizTitle: "AI Study Quiz Arena & Doubt Mentor 📝",
-        quizSubtitle: "Generate intelligent exam-level MCQs based on your chosen chapter. Submit to check marks and see 1-sentence explanations for mistakes!",
-        quizConfigTitle: "⚡ Configure & Generate AI Quiz",
-        generateQuizBtn: "Generate Real AI Quiz 🚀",
         goalsTitle: "Dreams, Visions & Success Wall 🎯",
         goalsSubtitle: "Write down your biggest visions and aspirations. When you conquer them, honor them on the Success Wall!",
         activeDreamsTitle: "✨ Active Dreams & Visions",
@@ -7005,7 +7371,6 @@
         navSpacedRep: "स्मृति दोहराव (SRS) 👑",
         navAnalytics: "स्टडी व मॉक टेस्ट एनालिटिक्स",
         navMistakeVault: "मिस्टेक वॉल्ट व सुधार",
-        navQuiz: "एआई स्टडी क्विज़ अखाड़ा",
         navTodo: "दैनिक फोकस चेकलिस्ट",
         navCalendar: "डायनामिक स्टडी कैलेंडर",
         navTimer: "स्टॉपवॉच व फोकस टाइमर",
@@ -7016,10 +7381,6 @@
         navTrash: "रीसायकल बिन",
         navSettings: "सेटिंग्स व सुरक्षा",
         premiumPill: "प्रीमियम",
-        quizTitle: "एआई स्टडी क्विज़ अखाड़ा व डाउट मेंटर 📝",
-        quizSubtitle: "अपने चुने गए विषय के महत्वपूर्ण वस्तुनिष्ठ प्रश्न हल करें और अपनी गलतियों की स्पष्ट व्याख्या देखें!",
-        quizConfigTitle: "⚡ एआई क्विज़ कॉन्फ़िगर और जनरेट करें",
-        generateQuizBtn: "वास्तविक एआई क्विज़ बनाएं 🚀",
         goalsTitle: "सपनों की उड़ान व सफलता की दीवार 🎯",
         goalsSubtitle: "अपने बड़े सपनों और लक्ष्यों को दर्ज करें। जब वे पूरे हों, तो उन्हें सफलता की दीवार पर हमेशा के लिए सजाएँ!",
         activeDreamsTitle: "✨ सक्रिय लक्ष्य व सपने",
@@ -7348,6 +7709,8 @@
       if (typeof ErrorMonitor !== 'undefined') window.auraErrorMonitor = new ErrorMonitor();
       if (typeof AuraCompanionEngine !== 'undefined') window.auraCompanion = new AuraCompanionEngine();
 
+      if (typeof renderCustomSoundsUI === 'function') renderCustomSoundsUI();
+
       checkAuthOnLoad();
       loadActiveExamSyllabus();
       renderAestheticTodos();
@@ -7394,5 +7757,31 @@
       }
     });
   </script>
+  <!-- =========================================================
+       NATIVE MOBILE BOTTOM NAVIGATION BAR
+       ========================================================= -->
+  <nav class="mobile-bottom-nav">
+    <button class="mobile-nav-item active" id="mob-nav-home" onclick="switchTab('home')">
+      <span class="mob-icon">&#127968;</span>
+      <span class="mob-label">Home</span>
+    </button>
+    <button class="mobile-nav-item" id="mob-nav-tracker" onclick="switchTab('tracker')">
+      <span class="mob-icon">&#128218;</span>
+      <span class="mob-label">Syllabus</span>
+    </button>
+    <button class="mobile-nav-item" id="mob-nav-timer" onclick="switchTab('timer')">
+      <span class="mob-icon">&#9201;&#65039;</span>
+      <span class="mob-label">Timer</span>
+    </button>
+    <button class="mobile-nav-item" id="mob-nav-sounds" onclick="switchTab('soundscapes')">
+      <span class="mob-icon">&#127911;</span>
+      <span class="mob-label">Sounds</span>
+    </button>
+    <button class="mobile-nav-item" onclick="toggleMobileSidebar()">
+      <span class="mob-icon">&#9776;</span>
+      <span class="mob-label">Menu</span>
+    </button>
+  </nav>
+
 </body>
 </html>

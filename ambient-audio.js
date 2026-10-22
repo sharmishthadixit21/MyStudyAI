@@ -14,6 +14,12 @@ class AmbientAudioEngine {
     this.volume = parseFloat(localStorage.getItem('aura_ambient_volume')) || 0.7;
     this.isMuted = localStorage.getItem('aura_ambient_muted') === 'true';
     this.intervals = [];
+    this.customAudio = null;
+    this.customAudioUrl = null;
+    this.customSoundId = null;
+    this.customSoundName = null;
+    this.isCustom = false;
+    this.isLooping = true;
   }
 
   initContext() {
@@ -43,6 +49,9 @@ class AmbientAudioEngine {
       this.masterGain.gain.cancelScheduledValues(this.ctx.currentTime);
       this.masterGain.gain.setValueAtTime(targetGain, this.ctx.currentTime);
     }
+    if (this.customAudio) {
+      this.customAudio.volume = this.isMuted ? 0 : this.volume;
+    }
   }
 
   mute() {
@@ -51,6 +60,9 @@ class AmbientAudioEngine {
     if (this.masterGain && this.ctx) {
       this.masterGain.gain.cancelScheduledValues(this.ctx.currentTime);
       this.masterGain.gain.setValueAtTime(0, this.ctx.currentTime);
+    }
+    if (this.customAudio) {
+      this.customAudio.volume = 0;
     }
     return true;
   }
@@ -61,6 +73,9 @@ class AmbientAudioEngine {
     if (this.masterGain && this.ctx) {
       this.masterGain.gain.cancelScheduledValues(this.ctx.currentTime);
       this.masterGain.gain.setValueAtTime(this.volume, this.ctx.currentTime);
+    }
+    if (this.customAudio) {
+      this.customAudio.volume = this.volume;
     }
     return false;
   }
@@ -73,6 +88,20 @@ class AmbientAudioEngine {
     // Clear all interval loops
     this.intervals.forEach(id => clearInterval(id));
     this.intervals = [];
+
+    // Stop and disconnect any playing custom audio cleanly
+    if (this.customAudio) {
+      try {
+        this.customAudio.pause();
+        this.customAudio.currentTime = 0;
+        this.customAudio.src = '';
+      } catch(e){}
+      this.customAudio = null;
+    }
+    if (this.customAudioUrl) {
+      try { URL.revokeObjectURL(this.customAudioUrl); } catch(e){}
+      this.customAudioUrl = null;
+    }
 
     // Stop and disconnect all active nodes cleanly
     Object.keys(this.activeNodes).forEach(key => {
@@ -105,13 +134,97 @@ class AmbientAudioEngine {
     this.activeNodes = {};
     this.isPlaying = false;
     this.currentPreset = null;
+    this.isCustom = false;
+    this.customSoundId = null;
+    this.customSoundName = null;
   }
 
   stop() {
     this.stopAll();
     this.isPlaying = false;
     this.currentPreset = null;
+    this.isCustom = false;
+    this.customSoundId = null;
+    this.customSoundName = null;
     localStorage.removeItem('aura_last_ambient_preset');
+  }
+
+  playCustomSound(id, name, blobOrUrl, loop = true) {
+    if (!id || !blobOrUrl) {
+      this.stop();
+      return;
+    }
+
+    // Mutual exclusion: stop any active Web Audio synths or previous custom audio
+    this.stopAll();
+
+    this.isCustom = true;
+    this.customSoundId = id;
+    this.customSoundName = name || 'Custom Sound';
+    this.currentPreset = 'custom_' + id;
+    this.isLooping = loop !== false;
+    this.isPlaying = true;
+
+    try {
+      let audioSrc = '';
+      if (typeof blobOrUrl === 'string') {
+        audioSrc = blobOrUrl;
+      } else if (blobOrUrl instanceof Blob || (typeof File !== 'undefined' && blobOrUrl instanceof File)) {
+        this.customAudioUrl = URL.createObjectURL(blobOrUrl);
+        audioSrc = this.customAudioUrl;
+      }
+
+      this.customAudio = new Audio(audioSrc);
+      this.customAudio.loop = this.isLooping;
+      this.customAudio.volume = this.isMuted ? 0 : this.volume;
+
+      this.customAudio.addEventListener('ended', () => {
+        if (!this.isLooping) {
+          this.isPlaying = false;
+          if (typeof window !== 'undefined' && typeof window.updateAudioUI === 'function') {
+            window.updateAudioUI();
+          }
+        }
+      });
+
+      this.customAudio.addEventListener('error', (err) => {
+        console.warn('AuraSpace Custom Audio Playback error:', err);
+        this.isPlaying = false;
+        if (typeof window !== 'undefined' && typeof window.updateAudioUI === 'function') {
+          window.updateAudioUI();
+        }
+      });
+
+      const playPromise = this.customAudio.play();
+      if (playPromise !== undefined) {
+        playPromise.catch(err => {
+          console.warn('AuraSpace Custom Audio play prevented or interrupted:', err);
+        });
+      }
+
+      localStorage.setItem('aura_last_ambient_preset', 'custom_' + id);
+      localStorage.setItem('aura_last_custom_sound_id', id);
+    } catch (e) {
+      console.error('Failed to initialize custom audio playback:', e);
+      this.isPlaying = false;
+    }
+  }
+
+  toggleCustomSound(id, name, blobOrUrl, loop = true) {
+    if (this.isPlaying && this.isCustom && this.customSoundId === id) {
+      this.stop();
+      return false;
+    } else {
+      this.playCustomSound(id, name, blobOrUrl, loop);
+      return true;
+    }
+  }
+
+  setCustomLoop(loopState) {
+    this.isLooping = !!loopState;
+    if (this.customAudio) {
+      this.customAudio.loop = this.isLooping;
+    }
   }
 
   togglePreset(presetId) {

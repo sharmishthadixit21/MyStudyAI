@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MyStudyAI Logo</title>
+  <link rel="icon" type="image/png" href="logo.png">
+  <link rel="apple-touch-icon" href="logo.png">
+
+  <!-- Google Analytics (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-9WD3M45Q7L"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-9WD3M45Q7L');
+  </script>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background: #0f0c1b;
+    }
+    .logo-container {
+      width: 500px;
+      max-width: 90vw;
+      height: 500px;
+      max-height: 90vw;
+      border-radius: 100px;
+      background: linear-gradient(135deg, #181528 0%, #2a1f45 50%, #1e1333 100%);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6), inset 0 0 2px rgba(255, 255, 255, 0.3);
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+    }
+    /* Glow effect */
+    .glow {
+      position: absolute;
+      width: 250px;
+      height: 250px;
+      background: radial-gradient(circle, rgba(192, 132, 252, 0.3) 0%, rgba(244, 114, 182, 0.15) 50%, transparent 70%);
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+    }
+    .logo-icon {
+      font-size: 110px;
+      font-family: 'Playfair Display', serif;
+      font-weight: bold;
+      background: linear-gradient(135deg, #c084fc, #f472b6, #f8fafc);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: -10px;
+      z-index: 2;
+      filter: drop-shadow(0 4px 15px rgba(192, 132, 252, 0.4));
+    }
+    .sparkle {
+      position: absolute;
+      color: #f472b6;
+      font-size: 24px;
+      z-index: 2;
+    }
+    .sparkle-1 { top: 130px; right: 140px; }
+    .sparkle-2 { bottom: 150px; left: 140px; font-size: 18px; color: #c084fc; }
+    
+    .brand-text {
+      font-family: 'Outfit', 'Segoe UI', sans-serif;
+      font-size: 32px;
+      font-weight: 500;
+      letter-spacing: 6px;
+      color: #f8fafc;
+      z-index: 2;
+      margin-top: 10px;
+    }
+    .sub-text {
+      font-family: 'Outfit', 'Segoe UI', sans-serif;
+      font-size: 12px;
+      letter-spacing: 4px;
+      color: #cbd5e1;
+      opacity: 0.7;
+      margin-top: 6px;
+      text-transform: uppercase;
+      z-index: 2;
+    }
+  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- 500x500 Aesthetic Canvas -->
+  <div class="logo-container">
+    <div class="glow"></div>
+    <span class="sparkle sparkle-1">✨</span>
+    <span class="sparkle sparkle-2">✦</span>
+    <div class="logo-icon">A</div>
+    <div class="brand-text">AURASPACE</div>
+    <div class="sub-text">Study Space</div>
+  </div>
+
+</body>
+</html>
